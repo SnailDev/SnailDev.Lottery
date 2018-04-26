@@ -1,0 +1,82 @@
+{
+	"manifest_version": 2,
+	"name": "lottery helper",
+	"version": "1.0",
+	"description": "a simple tool of lottery",
+	"icons": {
+		"32": "assets/images/icon32.png",
+		"48": "assets/images/icon48.png",
+		"72": "assets/images/icon72.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"32": "assets/images/icon32.png",
+			"48": "assets/images/icon48.png"
+		},
+		"default_title": "lottery helper",
+		"default_popup": "views/popup.html"
+	},
+	"background":
+	{
+		"scripts": ["assets/js/jquery-1.8.3.js","assets/js/background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://www.ry201.com/*",
+				"https://www.ry202.com/*",
+				"https://www.ry203.com/*",
+				"https://www.ry204.com/*",
+				"https://www.ry205.com/*",
+				"https://www.ry206.com/*",
+				"https://www.ry207.com/*",
+				"https://www.ry208.com/*",
+				"https://www.ry209.com/*",
+				"https://www.ry210.com/*",
+				"https://www.ry211.com/*",
+				"https://www.ry212.com/*",
+				"https://www.ry213.com/*",
+				"https://www.ry214.com/*",
+				"https://www.ry215.com/*",
+				"https://www.ry216.com/*",
+				"https://www.ry217.com/*",
+				"https://www.ry218.com/*",
+				"https://www.ry219.com/*",
+				"https://www.ry220.com/*",
+				"https://www.ry221.com/*",
+				"https://www.ry222.com/*",
+				"https://www.ry223.com/*",
+				"https://www.ry224.com/*",
+				"https://www.ry225.com/*",
+				"https://www.ry226.com/*",
+				"https://www.ry227.com/*",
+				"https://www.ry228.com/*",
+				"https://www.ry229.com/*",
+				"https://www.ry230.com/*"
+			], 
+			"js": [
+				"assets/js/jquery-1.8.3.js",
+				"assets/js/content_script.js"
+			],
+			// JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
+			"css": [
+				"assets/css/custom.css"
+			],
+			// 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
+			"run_at": "document_start"
+		}
+	],
+	"permissions": [
+		"tabs", // 标签
+		"notifications", // 通知
+		"webRequest", // web请求
+		"webRequestBlocking", // 阻塞式web请求
+		"storage", // 插件本地存储
+		"http://*/*", // 可以通过executeScript或者insertCSS访问的网站
+		"https://*/*" // 可以通过executeScript或者insertCSS访问的网站
+	],
+	// 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
+	"web_accessible_resources": [
+		"assets/js/inject.js"
+	]
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        .datepicker {
+            z-index: 9999999 !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <a href="/cqssc">
+                <%= title %>
+            </a>
+        </h1>
+        <!-- <div id="toolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="datetimepicker" type="text" class="form-control" style="width:120px;" value="<%= date %>" data-date-format="yyyy-mm-dd"
+                    />
+                    <span style="padding-left:5px;" id="show"></span>
+                </div>
+            </div>
+        </div> -->
+
+        <table id="table" data-toggle="table" data-show-export="true" data-height="850" data-toolbar="#toolbar" data-url="/api/getdata?date=<%= date %>&type=cqssc">
+            <thead>
+                <tr>
+                    <th data-field="_id">期号</th>
+                    <th data-field="num1">万</th>
+                    <th data-field="num2">千</th>
+                    <th data-field="num3">百</th>
+                    <th data-field="num4">十</th>
+                    <th data-field="num5">个</th>
+                    <th data-field="num5" data-formatter="resultFormatter1">形态</th>
+                    <th data-field="num5" data-formatter="resultFormatter2">奇偶</th>
+                    <th data-field="num5" data-formatter="resultFormatter3">大小</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="/javascripts/tableExport.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <script src="/javascripts/data.js"></script>
+    <script type="text/javascript">
+        var date = "<%= date %>";
+        var type = "cqssc";
+
+        function resultFormatter1(value, row, index) {
+            if (row.num3 == row.num4 && row.num4 == row.num5) return '<span class="label ' + 'label-warning' + '">' + '豹子' + '</span>';
+            if (row.num3 != row.num4 && row.num4 != row.num5 && row.num3 != row.num5) return '<span class="label ' + 'label-success' + '">' + '组六' + '</span>';
+
+            return '<span class="label ' + 'label-danger' + '">' + '组三' + '</span>';
+        }
+
+        var ji = [1, 3, 5, 7, 9];
+        function resultFormatter2(value, row, index) {
+            var result = '';
+            for (i = 3; i < 6; i++) {
+                if (ji.indexOf(row['num' + i]) > -1) result += '奇';
+                else result += '偶';
+            }
+
+            if (result == '奇奇奇' || result == '偶偶偶')
+                return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + result + '</span>';
+        }
+
+        function resultFormatter3(value, row, index) {
+            var result = '';
+            for (i = 3; i < 6; i++) {
+                if (row['num' + i] < 5) result += '小';
+                else result += '大';
+            }
+           
+            if (result == '小小小' || result == '大大大')
+                return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + result + '</span>';
+        }     
+    </script>
+</body>
+
+</html>

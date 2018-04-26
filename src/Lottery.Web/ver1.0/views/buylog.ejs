@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        .datepicker {
+            z-index: 9999999 !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <%= title %> <span style="padding-left:5px; color:crimson" id="money"></span>
+        </h1>
+        <div id="toolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="datetimepicker" type="text" class="form-control" style="width:120px;" value="<%= date %>" data-date-format="yyyy-mm-dd"
+                    />
+                    <span style="padding-left:5px;" id="show"></span>
+                </div>
+            </div>
+        </div>
+
+        <table id="table" data-toggle="table" data-show-export="true" data-height="850" data-toolbar="#toolbar" data-url="/api/buylog?date=<%= date %>">
+            <thead>
+                <tr>
+                    <th data-field="period">期数</th>
+                    <th data-field="channel">通道</th>
+                    <th data-field="sum">和</th>
+                    <th data-field="location">索引</th>
+                    <th data-field="rmoney">剩下的钱</th>
+                    <th data-field="desc">描述</th>
+                    <th data-field="time">下注时间</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="/javascripts/tableExport.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <script type="text/javascript">
+        var date = "<%= date %>";
+        var currentTime;
+        var stime;
+        var timediff;
+        $.get('/api/servertime?localtime=' + (+new Date()), function (res) {
+            timediff = res.diff;
+            getcurmoney();
+            var timer = setInterval(function () {    //开启定时器
+                currentTime = $('#table tbody tr td').eq(6).text();
+                stime = 305 - parseInt(((+new Date()) - (+new Date(currentTime.replace(/-/g, "/")))) / 1000 + timediff);
+                $('#show').html('<em style="color:red;">' + stime + "</em> 秒后下注，" + '<em style="color:red;">' + (stime - 25 < 0 ? stime : stime - 25) + "</em> 秒后刷新金额");
+                if (stime == 0 || stime == -20) {
+                    refreshData();
+                }
+                if (stime == 29) {
+                    getcurmoney();
+                }
+            }, 1000);
+            $("#datetimepicker").datepicker({
+                todayBtn: "linked",
+                todayHighlight: true,
+                toggleActive: true,
+                autoclose: true,
+                endDate: "<%= date %>"
+            }).on("changeDate", function (e) {
+                refreshData();
+            });
+
+            function refreshData() {
+                clearInterval(timer);
+
+                $('#table').bootstrapTable('showLoading');
+                $.get('/api/buylog?date=' + $('#datetimepicker').val() + '&t=' + Math.random(), function (res) {
+                    $('#table').bootstrapTable('load', res);
+                    $('#table').bootstrapTable('hideLoading');
+                    getcurmoney();
+
+                    currentTime = $('#table tbody tr td').eq(1).text();
+                    if ($('#datetimepicker').val() == date) {
+                        timer = setInterval(function () {    //开启定时器
+                            currentTime = $('#table tbody tr td').eq(6).text();
+                            stime = 305 - parseInt(((+new Date()) - (+new Date(currentTime.replace(/-/g, "/")))) / 1000 + timediff);
+                            $('#show').html('<em style="color:red;">' + stime + "</em> 秒后下注，" + '<em style="color:red;">' + (stime - 25 < 0 ? stime : stime - 25) + "</em> 秒后刷新金额");
+                            if (stime == 0 || stime == -20) {
+                                refreshData();
+                            }
+                            if (stime == 29) {
+                                getcurmoney();
+                            }
+                        }, 1000);
+                        $('#show').show();
+                    }
+                    else {
+                        console.log($('#datetimepicker').val());
+                        $('#show').hide();
+                    }
+                });
+            }
+
+            function getcurmoney() {
+                $.get('/api/getcurmoney?_=' + Math.random(), function (res) {
+                    $('#money').text(res.money);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

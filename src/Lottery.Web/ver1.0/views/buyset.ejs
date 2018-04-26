@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="//cdn.bootcss.com/bootstrap-datetimepicker/3.1.0/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+    <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <style>
+        .control-group {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body screen_capture_injected="true">
+    <div class="container">
+        <form class="form-horizontal">
+            <fieldset>
+                <div id="legend" class="">
+                    <legend class="">
+                        <%= title %>
+                    </legend>
+                </div>
+                <div class="control-group">
+                    <label for="url">网址</label>
+                    <input type="text" class="form-control" id="url" name="url" placeholder="请输入网址" required></input>
+                </div>
+                <div class="control-group">
+                    <label for="username">用户</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户" required></input>
+                </div>
+                <div class="control-group">
+                    <label for="password">密码</label>
+                    <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码" required></input>
+                </div>
+                <div class="control-group">
+                    <label for="vcode">验证码</label>
+                    <input type="text" class="form-control" id="vcode" name="vcode" placeholder="请输入验证码" required></input>
+
+                </div>
+                <div class="control-group" style="display:none;">
+                    <!-- Textarea -->
+                    <label for="cookie">Cookie</label>
+                    <textarea type="text" class="form-control" id="cookies" name="cookies" placeholder="请输入Cookie"></textarea>
+                </div>
+                <div class="control-group">
+                    <label for=""></label>
+                    <button id="getvcode" class="btn btn-success">获取验证码</button>
+                    <button id="login" class="btn btn-success">登录</button>
+                    <button id="test" class="btn btn-success">测试</button>
+                    <img id='haha' src="" alt="">
+                    <span id="msgtip" style="margin-bottom:20px;color:red; display:none;"></span>
+                </div>
+                <div id='options'>
+                    <div class="control-group" style="display:none;">
+                        <label for="money">金额</label>
+                        <input type="text" class="form-control" id="money" name="money"></input>
+                    </div>
+                    <div class="control-group">
+                        <label for="maxmoney">大于多少就停止</label>
+                        <input type="text" class="form-control" id="maxmoney" name="maxmoney" placeholder="金额上限" required></input>
+                    </div>
+                    <div class="control-group">
+                        <label for="minmoney">小于多少就停止</label>
+                        <input type="text" class="form-control" id="minmoney" name="minmoney" placeholder="金额下限" required></input>
+                    </div>
+                    <div class="control-group">
+                        <label for="starttime">开始时间</label>
+                        <input type="text" class="form-control datetimepicker" id="starttime" name="starttime" placeholder="开始时间" required></input>
+                    </div>
+                    <div class="control-group">
+                        <label for="endtime">结束时间</label>
+                        <input type="text" class="form-control datetimepicker" id="endtime" name="endtime" placeholder="结束时间" required></input>
+                    </div>
+                    <div class="control-group">
+                        <label for="unit">下注单位>5</label>
+                        <input type="text" class="form-control" id="unit" name="unit" placeholder="下注单位" value="5" required></input>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="channel">下注通道</label>
+                        <div class="checkbox">
+                            <label>
+                            <input type="radio" name="channel" checked value="1/10">1/10
+                            </label>
+                            <label>
+                            <input type="radio" name="channel" value="2/9">2/9
+                            </label>
+                            <label>
+                            <input type="radio" name="channel" value="3/8">3/8
+                            </label>
+                            <label>
+                            <input type="radio" name="channel" value="4/7">4/7
+                            </label>
+                            <label>
+                            <input type="radio" name="channel" value="5/6">5/6
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="status">下注开关</label>
+                        <div class="checkbox">
+                            <label>
+                            <input type="checkbox" id='status' name="status" value="true">是否开启
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for=""></label>
+                        <button id="save" class="btn btn-primary">保存</button>
+                        <span id="msgtip1" style="margin-bottom:20px;color:red; display:none;"></span>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<script src="//cdn.bootcss.com/moment.js/2.15.0/moment.min.js"></script>-->
+    <!--<script src="//cdn.bootcss.com/bootstrap-datetimepicker/3.1.0/js/bootstrap-datetimepicker.min.js"></script>-->
+    <script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <script type="text/javascript">
+        $('.datetimepicker').datetimepicker({
+            format: "hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            startView: 1,
+            pickerPosition: "bottom-left"
+        });
+        $('#getvcode').click(function () {
+            $('#msgtip').hide();
+            var url = $('#url').val();
+            if (url.trim() == '') {
+                return false;
+            }
+
+            var data = $('.form-horizontal').serializeObject();
+            data.action = 'getVcode';
+            $.ajax({
+                url: '/api/buyset',
+                type: 'post',
+                data: data,
+                success: function (data, status) {
+                    $('#msgtip').text(data.msg).show();
+                    if (data.status == 1) {
+                        $('#cookies').val(data.cookies);
+                        $('#haha').attr('src', data.data);
+                    }
+                    return false;
+                },
+                error: function (data, status) {
+                    return false;
+                }
+            });
+
+            return false;
+        });
+
+        $('#login').click(function () {
+            $('#msgtip').hide();
+            var url = $('#url').val();
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var vcode = $('#vcode').val();
+            var cookies = $('#cookies').val();
+            if (url.trim() == '' || username.trim() == '' || password.trim() == '' || vcode.trim() == '') {
+                return false;
+            }
+            if (url.trim() == '' || cookies.trim() == '') {
+                return false;
+            }
+
+            var data = $('.form-horizontal').serializeObject();
+            data.action = 'login';
+            $.ajax({
+                url: '/api/buyset',
+                type: 'post',
+                data: data,
+                success: function (data, status) {
+                    $('#msgtip').text(data.msg).show();
+                    if (data.status == 1) {
+                        var oldcookies = $('#cookies').val();
+                        $('#cookies').val(data.cookies + ";ASP.NET_SessionId=" + getCookie('ASP.NET_SessionId', oldcookies));
+                    }
+                    return false;
+                },
+                error: function (data, status) {
+                    return false;
+                }
+            });
+
+            return false;
+        });
+
+        $('#test').click(function () {
+            $('#msgtip').hide();
+            var url = $('#url').val();
+            var cookies = $('#cookies').val();
+            if (url.trim() == '' || cookies.trim() == '') {
+                return false;
+            }
+
+            var data = $('.form-horizontal').serializeObject();
+            data.action = 'test';
+            $.ajax({
+                url: '/api/buyset',
+                type: 'post',
+                data: data,
+                success: function (data, status) {
+                    $('#msgtip').text(data.msg).show();
+                    if (data.status == 1) {
+                        $('#money').val(data.money);
+                        $('#options').show();
+                    }
+                    return false;
+                },
+                error: function (data, status) {
+                    return false;
+                }
+            });
+
+            return false;
+        });
+
+        $('#save').click(function () {
+            $('#msgtip1').hide();
+            var url = $('#url').val();
+            var cookies = $('#cookies').val();
+            if (url.trim() == '' || cookies.trim() == '') {
+                return false;
+            }
+            var money = $('#money').val();
+            var maxmoney = $('#maxmoney').val();
+            var minmoney = $('#minmoney').val();
+            var unit = $('#unit').val();
+            var status = $('#status').val() == 'on' ? 1 : 0;
+            if (money.trim() == '' || maxmoney.trim() == '' || minmoney.trim() == '' || unit.trim() == '') {
+                alert('表单含有未填项.')
+                return false;
+            }
+
+            //var data = { "url": url, "cookies": cookies, money: money, maxmoney: maxmoney, minmoney: minmoney, unit: unit, status: status, "action": "save" };
+            var data = $('.form-horizontal').serializeObject();
+            data.action = 'save';
+            $.ajax({
+                url: '/api/buyset',
+                type: 'post',
+                data: data,
+                success: function (data, status) {
+                    $('#msgtip1').text(data.msg).show();
+                    return false;
+                },
+                error: function (data, status) {
+                    return false;
+                }
+            });
+
+            return false;
+        });
+    </script>
+</body>
+</head>
+
+</html>

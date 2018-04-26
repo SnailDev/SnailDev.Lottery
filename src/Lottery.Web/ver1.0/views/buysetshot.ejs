@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <style>
+        .datepicker {
+            z-index: 9999999 !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <%= title %>
+        </h1>
+        <div id="toolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <button id="openclose" class="btn">关</button>
+                    <span style="padding-left:5px;" id="show"></span>
+                </div>
+            </div>
+        </div>
+        <table id="table" data-toggle="table" data-show-export="true" data-toolbar="#toolbar" data-url="/api/buysetshot?date=<%= date %>">
+            <thead>
+                <tr>
+                    <th data-field="maxmoney">金额上限</th>
+                    <th data-field="minmoney">金额下限</th>
+                    <th data-field="stime">开始时间</th>
+                    <th data-field="etime">结束时间</th>
+                    <th data-field="unit">下注单位</th>
+                    <th data-field="channel">下注通道</th>
+                    <th data-field="status">下注状态</th>
+                </tr>
+            </thead>
+        </table>
+
+        <form class="form-horizontal">
+            <div id='options' style="margin-top:50px;">
+                <div class="control-group">
+                    <label for="maxmoney">大于多少就停止</label>
+                    <input type="text" class="form-control" id="maxmoney" name="maxmoney" placeholder="金额上限" required></input>
+                </div>
+                <div class="control-group" style="margin-top:15px;">
+                    <label for="minmoney">小于多少就停止</label>
+                    <input type="text" class="form-control" id="minmoney" name="minmoney" placeholder="金额下限" required></input>
+                </div>
+                <div class="control-group" style="display: none;">
+                    <label for="starttime">开始时间</label>
+                    <input type="text" class="form-control datetimepicker" id="starttime" name="starttime" placeholder="开始时间" required></input>
+                </div>
+                <div class="control-group" style="display: none;">
+                    <label for="endtime">结束时间</label>
+                    <input type="text" class="form-control datetimepicker" id="endtime" name="endtime" placeholder="结束时间" required></input>
+                </div>
+                <div class="control-group" style="margin-top:15px;">
+                    <label for="unit">下注单位>5</label>
+                    <input type="text" class="form-control" id="unit" name="unit" placeholder="下注单位" value="5" required></input>
+                </div>
+
+                <div class="control-group" style="margin-top:15px;">
+                    <label for="channel">下注通道</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="radio" name="channel" value="1/10">1/10
+                            </label>
+                        <label>
+                            <input type="radio" name="channel" value="2/9">2/9
+                            </label>
+                        <label>
+                            <input type="radio" name="channel" value="3/8">3/8
+                            </label>
+                        <label>
+                            <input type="radio" name="channel" value="4/7">4/7
+                            </label>
+                        <label>
+                            <input type="radio" name="channel" value="5/6">5/6
+                            </label>
+                    </div>
+                </div>
+
+                <div class="control-group" style="margin-top:15px;">
+                    <label for="status">下注开关</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id='status' name="status" value="true">是否开启
+                            </label>
+                    </div>
+                </div>
+
+                <div class="control-group" style="margin-top:15px;">
+                    <label for=""></label>
+                    <button id="save" class="btn btn-primary">保存</button>
+                    <span id="msgtip1" style="margin-bottom:20px;color:red; display:none;"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="/javascripts/tableExport.min.js"></script>
+    <script src="/javascripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <script>
+        var id;
+        var status;
+        var setdata;
+        $('.datetimepicker').datetimepicker({
+            format: "hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            startView: 1,
+            pickerPosition: "bottom-left"
+        });
+        $('#table').bootstrapTable({
+            onLoadSuccess: function (data) {
+                id = $('#table tbody tr').eq(0).prop("id");
+                status = $('#table tbody tr td').eq(6).text();
+                if (id == '') {
+                    $('#openclose').addClass('disabled').hide();
+                    $('#options').hide();
+                }
+                else {
+                    setdata = data[0];
+                    $('#maxmoney').val(setdata.maxmoney);
+                    $('#minmoney').val(setdata.minmoney);
+                    $('#starttime').val(setdata.stime);
+                    $('#endtime').val(setdata.etime);
+                    $('#unit').val(setdata.unit);
+
+                    var channelArr = setdata.channel.split(',');
+                    for (var i = 0; i < channelArr.length; i++) {
+                        $('input[value="' + channelArr[i] + '"]').attr('checked', 'checked');
+                    }
+                    if (setdata.status == 'true') $('#status').attr('checked', 'checked');
+                }
+
+                if (status === 'true') {
+                    $('#openclose').addClass('btn-danger').text('关');
+                }
+                else {
+                    $('#openclose').addClass('btn-success').text('开');
+                }
+            }
+        });
+
+        $('#openclose').click(function () {
+            if ($(this).hasClass('disabled')) return;
+            $.ajax({
+                url: '/api/openclose',
+                type: 'post',
+                data: { id: id, status: status === 'true' ? 'false' : 'true' },
+                success: function (data, status) {
+                    $('#show').text(data.msg).show();
+                    window.location = '/pk10/buysetshot';
+                    return false;
+                },
+                error: function (data, status) {
+                    return false;
+                }
+            });
+        });
+
+        $('#save').click(function () {
+            $('#msgtip1').hide();
+            var data = $('.form-horizontal').serializeObject();
+            setdata.maxmoney = data.maxmoney;
+            setdata.minmoney = data.minmoney;
+            setdata.stime = data.starttime;
+            setdata.etime = data.endtime;
+            setdata.unit = data.unit;
+            setdata.channel = data.channel;
+            setdata.status = data.status;
+
+            $.ajax({
+                url: '/api/buysetupdate',
+                type: 'post',
+                data: setdata,
+                success: function (data, status) {
+                    $('#msgtip1').text(data.msg).show();
+                    window.location = '/pk10/buysetshot';
+                    return false;
+                },
+                error: function (data, status) {
+                    return false;
+                }
+            });
+
+            return false;
+        });
+    </script>
+</body>
+
+</html>

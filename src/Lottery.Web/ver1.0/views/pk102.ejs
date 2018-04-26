@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        .datepicker {
+            z-index: 9999999 !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <a href="/pk10/pk103">
+                <%= title %>
+            </a>
+        </h1>
+        <div id="toolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="datetimepicker" type="text" class="form-control" style="width:120px;" value="<%= date %>" data-date-format="yyyy-mm-dd"
+                    />
+                    <span style="padding-left:5px;" id="show"></span>
+                </div>
+            </div>
+        </div>
+
+        <table id="table" data-toggle="table" data-show-export="true" data-height="850" data-toolbar="#toolbar" data-url="/api/pk101?date=<%= date %>&type=1/10">
+            <thead>
+                <tr>
+                    <th data-field="periods">P</th>
+                    <th data-field="time">T</th>
+                    <th data-field="numbers">N</th>
+                    <th data-field="Location0">L(1/10)</th>
+                    <th data-field="Label07" data-formatter="label7Formatter">L7(1/10)</th>
+                    <th data-field="Location1">L(2/9)</th>
+                    <th data-field="Label17" data-formatter="label7Formatter">L7(2/9)</th>
+                    <th data-field="Location2">L(3/8)</th>
+                    <th data-field="Label27" data-formatter="label7Formatter">L7(3/8)</th>
+                    <th data-field="Location3">L(4/7)</th>
+                    <th data-field="Label37" data-formatter="label7Formatter">L7(4/7)</th>
+                    <th data-field="Location4">L(5/6)</th>
+                    <th data-field="Label47" data-formatter="label7Formatter">L7(5/6)</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="/javascripts/tableExport.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <script src="/javascripts/pk10.js"></script>
+    <script type="text/javascript">
+        var date = "<%= date %>";
+        var type = "0";
+        function resultFormatter(value) {
+            var label = value == "大" ? 'label-success' : 'label-danger';
+
+            return '<span class="label ' + label + '">' + value + '</span>';
+        }
+
+        function status5Formatter(value) {
+            var label = value == -1 ? "右" : "左";
+
+            return '<span class="label label-default">' + label + '</span>';
+        }
+
+        function label7Formatter(value) {
+            var label = value == "不中" ? 'label-primary' : 'label-danger';
+
+            return '<span class="label ' + label + '">' + value + '</span>';
+        }
+    </script>
+</body>
+
+</html>

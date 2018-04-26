@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        .datepicker {
+            z-index: 9999999 !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <a href="/pk10/pk101">
+                <%= title %>
+            </a>
+        </h1>
+        <div id="toolbar">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="datetimepicker" type="text" class="form-control" style="width:120px;" value="<%= date %>" data-date-format="yyyy-mm-dd"
+                    />
+                    <span style="padding-left:5px;" id="show"></span>
+                </div>
+            </div>
+        </div>
+
+        <table id="table" data-toggle="table" data-show-export="true" data-height="850" data-toolbar="#toolbar" data-url="/api/pk101?date=<%= date %>">
+            <thead>
+                <tr>
+                    <th data-field="periods">P</th>
+                    <th data-field="time">T</th>
+                    <th data-field="numbers">N</th>
+                    <th data-field="Sum0">S(1/10)</th>
+                    <th data-field="Location0" data-formatter="resultFormatter">R(1/10)</th>
+                    <th data-field="Sum1">S(2/9)</th>
+                    <th data-field="Location1" data-formatter="resultFormatter">R(2/9)</th>
+                    <th data-field="Sum2">S(3/8)</th>
+                    <th data-field="Location2" data-formatter="resultFormatter">R(3/8)</th>
+                    <th data-field="Sum3">S(4/7)</th>
+                    <th data-field="Location3" data-formatter="resultFormatter">R(4/7)</th>
+                    <th data-field="Sum4">S(5/6)</th>
+                    <th data-field="Location4" data-formatter="resultFormatter">R(5/6)</th>
+                    <th data-field="numbers" data-formatter="resultFormatter1">S(后)</th>
+                    <th data-field="numbers" data-formatter="resultFormatter2">R(后)</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="/javascripts/tableExport.min.js"></script>
+    <script src="/javascripts/app.js"></script>
+    <script src="/javascripts/pk10.js"></script>
+    <script type="text/javascript">
+        var date = "<%= date %>";
+        var type = "0";
+        function resultFormatter(value) {
+            var valstr = value > 5 ? "大" : "小";
+            var label = valstr == "大" ? 'label-success' : 'label-danger';
+
+            return '<span class="label ' + label + '">' + valstr + '</span>';
+        }
+
+        function resultFormatter1(value) {
+            return value[5] + value[6] + value[7] + value[8] + value[9];
+        }
+
+        function resultFormatter2(value) {
+            var valueRes = value[5] + value[6] + value[7] + value[8] + value[9];
+            var valstr = valueRes % 2 == 0 ? "大" : "小";
+            var label = valstr == "大" ? 'label-success' : 'label-danger';
+
+            return '<span class="label ' + label + '">' + valstr + '</span>';
+        }
+    </script>
+</body>
+
+</html>
