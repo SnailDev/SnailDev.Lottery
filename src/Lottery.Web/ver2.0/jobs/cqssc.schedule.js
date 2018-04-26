@@ -10,19 +10,18 @@ var dbName = 'Lottery';
 var rule = new schedule.RecurrenceRule();
 rule.hour = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 rule.minute = [3, 13, 23, 33, 43, 53];
-rule.second = 30;
-schedule.scheduleJob(rule, dogetcqsscdata());
+rule.second = 40;
+schedule.scheduleJob(rule,  function () { dogetcqsscdata(); });
 
 
 var rule1 = new schedule.RecurrenceRule();
 rule1.hour = [1, 2, 3, 22, 23];
 rule1.minute = [3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58];
-rule1.second = 30;
-schedule.scheduleJob(rule1,  dogetcqsscdata());
+rule1.second = 40;
+schedule.scheduleJob(rule1, function () { dogetcqsscdata(); });
 
-function dogetcqsscdata()
-{
-	 // Connect using MongoClient
+function dogetcqsscdata() {
+    // Connect using MongoClient
     MongoClient.connect(mongourl, function (err, client) {
         // Create a collection we want to drop later
         const col = client.db(dbName).collection('CQSSC');
