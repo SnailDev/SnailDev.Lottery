@@ -46,8 +46,8 @@
                     <th data-field="num8" data-formatter="resultFormatter">08</th>
                     <th data-field="num9" data-formatter="resultFormatter">09</th>
                     <th data-field="num10" data-formatter="resultFormatter">10</th>
-<th data-field="num10" data-formatter="resultFormatter1">冠亚和</th>
-<th data-field="num10" data-formatter="resultFormatter2">首尾和</th>
+                    <th data-field="num10" data-formatter="resultFormatter1">冠亚和</th>
+                    <th data-field="num10" data-formatter="resultFormatter2">首尾和</th>
                 </tr>
             </thead>
         </table>
@@ -73,15 +73,29 @@
             else {
                 return value;
             }
-        }      
-function resultFormatter1(value,row,index) {
-           value = row.num1+row.num2;
-		return resultFormatter(value);
-        }      
-function resultFormatter2(value,row,index) {
-           value = row.num1+row.num10;
-	   return resultFormatter(value);
-        }      
+        }
+        var max = [3, 4, 18, 19];
+        var mid = [5, 6, 16, 17];
+        var min = [7, 8, 9, 10, 11, 12, 13, 14, 15];
+        function resultFormatter1(value, row, index) {
+            value = row.num1 + row.num2;
+
+            if (max.indexOf(value) > -1)
+                return '<span class="label ' + 'label-danger' + '">' + resultFormatter(value) + '</span>';
+            else if (mid.indexOf(value) > -1)
+                return '<span class="label ' + 'label-warning' + '">' + resultFormatter(value) + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + resultFormatter(value) + '</span>';
+        }
+        function resultFormatter2(value, row, index) {
+            value = row.num1 + row.num10;
+            if (max.indexOf(value) > -1)
+                return '<span class="label ' + 'label-danger' + '">' + resultFormatter(value) + '</span>';
+            else if (mid.indexOf(value) > -1)
+                return '<span class="label ' + 'label-warning' + '">' + resultFormatter(value) + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + resultFormatter(value) + '</span>';
+        }
 
     </script>
 </body>
