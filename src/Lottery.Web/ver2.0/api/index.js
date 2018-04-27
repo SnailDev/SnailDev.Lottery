@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var mongourl = 'mongodb://localhost:27017';
+var mongourl = 'mongodb://localhost:29018';
 var database = 'Lottery';
 
 exports.servertime = function (req, res, next) {
