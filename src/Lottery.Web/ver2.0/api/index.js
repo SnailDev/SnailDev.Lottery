@@ -54,7 +54,7 @@ function getcqsscdata(sdate, edate, callback) {
 
 function analysisdata(result) {
     var length = result.length;
-    for (i = length - 2; i >= 0; i--) {
+    for (i = length - 3; i >= 0; i--) {
         if (result[i].num4 == result[i + 1].num4 && result[i + 1].num4 == result[i + 2].num4) {
             result[i].xingtai_forecast = 'A组三';
             for (j = i - 1; j > i - 4; j--) {
@@ -70,38 +70,38 @@ function analysisdata(result) {
                 if (j == i - 3) result[i].xingtai_forecast += '(无效)';
             }
         }
-        // else if (result[i].num3 == result[i + 1].num3 && result[i + 1].num3 == result[i + 2].num3) {
-        //     //result[i].xingtai_forecast = '组六杀' + result[i].num3 + '' + (result[i].num3 - 1);
-        //     result[i].xingtai_forecast = 'B组三';
-        //     for (j = i - 1; j > i - 4; j--) {
-        //         if (j < 0) {
-        //             result[i].xingtai_forecast += '(待验证)';
-        //             break;
-        //         }
-        //         if (result[j].num3 == result[j].num4 || result[j].num3 == result[j].num5 || result[j].num4 == result[j].num5) {
-        //             result[i].xingtai_forecast += '(有效)';
-        //             break;
-        //         }
+        else if (result[i].num3 == result[i + 1].num3 && result[i + 1].num3 == result[i + 2].num3) {
+            //result[i].xingtai_forecast = '组六杀' + result[i].num3 + '' + (result[i].num3 - 1);
+            result[i].xingtai_forecast = 'B组三';
+            for (j = i - 1; j > i - 4; j--) {
+                if (j < 0) {
+                    result[i].xingtai_forecast += '(待验证)';
+                    break;
+                }
+                if (result[j].num3 == result[j].num4 || result[j].num3 == result[j].num5 || result[j].num4 == result[j].num5) {
+                    result[i].xingtai_forecast += '(有效)';
+                    break;
+                }
 
-        //         if (j == i - 3) result[i].xingtai_forecast += '(无效)';
-        //     }
-        // }
-        // else if (result[i].num5 == result[i + 1].num5 && result[i + 1].num5 == result[i + 2].num5) {
-        //     //result[i].xingtai_forecast = '组六杀' + result[i].num5 + '' + (result[i].num5 - 1);
-        //     result[i].xingtai_forecast = 'C组三';
-        //     for (j = i - 1; j > i - 4; j--) {
-        //         if (j < 0) {
-        //             result[i].xingtai_forecast += '(待验证)';
-        //             break;
-        //         }
-        //         if (result[j].num3 == result[j].num4 || result[j].num3 == result[j].num5 || result[j].num4 == result[j].num5) {
-        //             result[i].xingtai_forecast += '(有效)';
-        //             break;
-        //         }
+                if (j == i - 3) result[i].xingtai_forecast += '(无效)';
+            }
+        }
+        else if (result[i].num5 == result[i + 1].num5 && result[i + 1].num5 == result[i + 2].num5) {
+            //result[i].xingtai_forecast = '组六杀' + result[i].num5 + '' + (result[i].num5 - 1);
+            result[i].xingtai_forecast = 'C组三';
+            for (j = i - 1; j > i - 4; j--) {
+                if (j < 0) {
+                    result[i].xingtai_forecast += '(待验证)';
+                    break;
+                }
+                if (result[j].num3 == result[j].num4 || result[j].num3 == result[j].num5 || result[j].num4 == result[j].num5) {
+                    result[i].xingtai_forecast += '(有效)';
+                    break;
+                }
 
-        //         if (j == i - 3) result[i].xingtai_forecast += '(无效)';
-        //     }
-        // }
+                if (j == i - 3) result[i].xingtai_forecast += '(无效)';
+            }
+        }
     }
 
     return result;
