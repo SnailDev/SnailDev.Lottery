@@ -51,3 +51,39 @@ function getcqsscdata(sdate, edate, callback) {
         });
     });
 }
+
+exports.forecast= function (req, res, next) {
+    if (type == 'bjpk10') {
+        pk10forcast(function (resultData) { res.json(resultData); });
+    } else if (type == 'cqssc') {
+        cqsscforcast(function (resultData) { res.json(resultData); });
+    }
+};
+
+function pk10forcast(callback)
+{
+    callback({});
+}
+
+function cqsscforcast(callback)
+{
+    callback({});
+    // MongoClient.connect(mongourl, function (error, client) {
+    //     var col = client.db(database).collection('CQSSC');
+    //     col.find({}).sort({ '_id': -1 }).limit(80).toArray(function (err, result) {
+    //         if (!err) {
+    //             // callback(result);
+    //             // forcastlogic              
+    //             for (let index = 0; index < result.length; index++) {
+    //                 const element = array[index];
+                    
+    //             }
+    //         }
+    //         else {
+    //             callback({});
+    //         }
+
+    //         client.close();
+    //     });
+    // });
+}
