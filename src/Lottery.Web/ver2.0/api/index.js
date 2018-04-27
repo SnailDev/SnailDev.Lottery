@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var mongourl = 'mongodb://localhost:29018';
+var mongourl = 'mongodb://localhost:27017';
 var database = 'Lottery';
 
 exports.servertime = function (req, res, next) {
@@ -41,7 +41,7 @@ function getcqsscdata(sdate, edate, callback) {
         var col = client.db(database).collection('CQSSC');
         col.find({}).sort({ '_id': -1 }).limit(300).toArray(function (err, result) {
             if (!err) {
-                callback(result);
+                callback(analysisdata(result));
             }
             else {
                 callback({});
@@ -52,7 +52,30 @@ function getcqsscdata(sdate, edate, callback) {
     });
 }
 
-exports.forecast= function (req, res, next) {
+function analysisdata(result) {
+    var length = result.length;
+    for (i = length - 2; i >= 0; i--) {
+        if (result[i].num3 == result[i + 1].num3 || result[i].num4 == result[i + 1].num4 || result[i].num4 == result[i + 1].num4) {
+            result[i].xingtai_forecast = '组三';
+            for (j = i - 1; j > i - 4; j--) {
+                if (j < 0) {
+                    result[i].xingtai_forecast += '(待验证)';
+                    break;
+                }
+                if (result[j].num3 == result[j].num4 || result[j].num3 == result[j].num5 || result[j].num4 == result[j].num5) {
+                    result[i].xingtai_forecast += '(有效)';
+                    break;
+                }
+
+                if (j == i - 3) result[i].xingtai_forecast += '(无效)';
+            }
+        }
+    }
+
+    return result;
+}
+
+exports.forecast = function (req, res, next) {
     if (type == 'bjpk10') {
         pk10forcast(function (resultData) { res.json(resultData); });
     } else if (type == 'cqssc') {
@@ -60,13 +83,11 @@ exports.forecast= function (req, res, next) {
     }
 };
 
-function pk10forcast(callback)
-{
+function pk10forcast(callback) {
     callback({});
 }
 
-function cqsscforcast(callback)
-{
+function cqsscforcast(callback) {
     callback({});
     // MongoClient.connect(mongourl, function (error, client) {
     //     var col = client.db(database).collection('CQSSC');
@@ -76,7 +97,7 @@ function cqsscforcast(callback)
     //             // forcastlogic              
     //             for (let index = 0; index < result.length; index++) {
     //                 const element = array[index];
-                    
+
     //             }
     //         }
     //         else {
