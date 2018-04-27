@@ -15,7 +15,7 @@ schedule.scheduleJob(rule,  function () { dogetcqsscdata(); });
 
 
 var rule1 = new schedule.RecurrenceRule();
-rule1.hour = [1, 2, 3, 22, 23];
+rule1.hour = [1, 22, 23];
 rule1.minute = [3, 8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58];
 rule1.second = 40;
 schedule.scheduleJob(rule1, function () { dogetcqsscdata(); });
