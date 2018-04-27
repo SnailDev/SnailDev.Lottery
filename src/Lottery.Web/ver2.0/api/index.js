@@ -55,7 +55,7 @@ function getcqsscdata(sdate, edate, callback) {
 function analysisdata(result) {
     var length = result.length;
     for (i = length - 2; i >= 0; i--) {
-        if (result[i].num3 == result[i + 1].num3 || result[i].num4 == result[i + 1].num4 || result[i].num4 == result[i + 1].num4) {
+        if (/*result[i].num3 == result[i + 1].num3 || */result[i].num4 == result[i + 1].num4/* || result[i].num4 == result[i + 1].num4*/) {
             result[i].xingtai_forecast = '组三';
             for (j = i - 1; j > i - 4; j--) {
                 if (j < 0) {
