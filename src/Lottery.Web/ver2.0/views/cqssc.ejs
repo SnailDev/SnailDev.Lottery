@@ -41,10 +41,23 @@
                     <th data-field="num3">百</th>
                     <th data-field="num4">十</th>
                     <th data-field="num5">个</th>
+                    <th colspan="4">前三</th>
+                    <th colspan="4">中三</th>
+                    <th colspan="4">后三</th>
+                </tr>
+                <tr>
                     <th data-field="num5" data-formatter="resultFormatter1">形态</th>
-                    <th data-field="xingtai_forecast">形态预测</th>
+                    <th data-field="xingtai_forecast1">形态预测</th>
                     <th data-field="num5" data-formatter="resultFormatter2">奇偶</th>
                     <th data-field="num5" data-formatter="resultFormatter3">大小</th>
+                    <th data-field="num5" data-formatter="resultFormatter4">形态</th>
+                    <th data-field="xingtai_forecast2">形态预测</th>
+                    <th data-field="num5" data-formatter="resultFormatter5">奇偶</th>
+                    <th data-field="num5" data-formatter="resultFormatter6">大小</th>
+                    <th data-field="num5" data-formatter="resultFormatter7">形态</th>
+                    <th data-field="xingtai_forecast3">形态预测</th>
+                    <th data-field="num5" data-formatter="resultFormatter8">奇偶</th>
+                    <th data-field="num5" data-formatter="resultFormatter9">大小</th>
                 </tr>
             </thead>
         </table>
@@ -63,17 +76,17 @@
         var date = "<%= date %>";
         var type = "cqssc";
 
+        var ji = [1, 3, 5, 7, 9];
         function resultFormatter1(value, row, index) {
-            if (row.num3 == row.num4 && row.num4 == row.num5) return '<span class="label ' + 'label-warning' + '">' + '豹子' + '</span>';
-            if (row.num3 != row.num4 && row.num4 != row.num5 && row.num3 != row.num5) return '<span class="label ' + 'label-success' + '">' + '组六' + '</span>';
+            if (row.num1 == row.num2 && row.num2 == row.num3) return '<span class="label ' + 'label-warning' + '">' + '豹子' + '</span>';
+            if (row.num1 != row.num2 && row.num1 != row.num3 && row.num2 != row.num3) return '<span class="label ' + 'label-success' + '">' + '组六' + '</span>';
 
             return '<span class="label ' + 'label-danger' + '">' + '组三' + '</span>';
         }
 
-        var ji = [1, 3, 5, 7, 9];
         function resultFormatter2(value, row, index) {
             var result = '';
-            for (i = 3; i < 6; i++) {
+            for (i = 1; i < 4; i++) {
                 if (ji.indexOf(row['num' + i]) > -1) result += '奇';
                 else result += '偶';
             }
@@ -86,11 +99,77 @@
 
         function resultFormatter3(value, row, index) {
             var result = '';
+            for (i = 1; i < 4; i++) {
+                if (row['num' + i] < 5) result += '小';
+                else result += '大';
+            }
+
+            if (result == '小小小' || result == '大大大')
+                return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + result + '</span>';
+        }
+
+        function resultFormatter4(value, row, index) {
+            if (row.num2 == row.num3 && row.num3 == row.num4) return '<span class="label ' + 'label-warning' + '">' + '豹子' + '</span>';
+            if (row.num2 != row.num3 && row.num2 != row.num4 && row.num3 != row.num4) return '<span class="label ' + 'label-success' + '">' + '组六' + '</span>';
+
+            return '<span class="label ' + 'label-danger' + '">' + '组三' + '</span>';
+        }
+
+        function resultFormatter5(value, row, index) {
+            var result = '';
+            for (i = 2; i < 5; i++) {
+                if (ji.indexOf(row['num' + i]) > -1) result += '奇';
+                else result += '偶';
+            }
+
+            if (result == '奇奇奇' || result == '偶偶偶')
+                return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + result + '</span>';
+        }
+
+        function resultFormatter6(value, row, index) {
+            var result = '';
+            for (i = 2; i < 5; i++) {
+                if (row['num' + i] < 5) result += '小';
+                else result += '大';
+            }
+
+            if (result == '小小小' || result == '大大大')
+                return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + result + '</span>';
+        }
+
+        function resultFormatter7(value, row, index) {
+            if (row.num3 == row.num4 && row.num4 == row.num5) return '<span class="label ' + 'label-warning' + '">' + '豹子' + '</span>';
+            if (row.num3 != row.num4 && row.num4 != row.num5 && row.num3 != row.num5) return '<span class="label ' + 'label-success' + '">' + '组六' + '</span>';
+
+            return '<span class="label ' + 'label-danger' + '">' + '组三' + '</span>';
+        }
+
+        function resultFormatter8(value, row, index) {
+            var result = '';
+            for (i = 3; i < 6; i++) {
+                if (ji.indexOf(row['num' + i]) > -1) result += '奇';
+                else result += '偶';
+            }
+
+            if (result == '奇奇奇' || result == '偶偶偶')
+                return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
+            else
+                return '<span class="label ' + 'label-success' + '">' + result + '</span>';
+        }
+
+        function resultFormatter9(value, row, index) {
+            var result = '';
             for (i = 3; i < 6; i++) {
                 if (row['num' + i] < 5) result += '小';
                 else result += '大';
             }
-           
+
             if (result == '小小小' || result == '大大大')
                 return '<span class="label ' + 'label-danger' + '">' + result + '</span>';
             else
