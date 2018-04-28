@@ -39,7 +39,7 @@ function getpk10data(sdate, edate, callback) {
 function getcqsscdata(sdate, edate, callback) {
     MongoClient.connect(mongourl, function (error, client) {
         var col = client.db(database).collection('CQSSC');
-        col.find({}).sort({ '_id': -1 }).limit(300).toArray(function (err, result) {
+        col.find({}).sort({ '_id': -1 }).limit(600).toArray(function (err, result) {
             if (!err) {
                 callback(analysisdata(result));
             }
