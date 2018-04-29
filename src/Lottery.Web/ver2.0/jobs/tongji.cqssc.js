@@ -2,8 +2,8 @@ var MongoClient = require('mongodb').MongoClient;
 var mongourl = 'mongodb://localhost:29018';
 var database = 'Lottery';
 
-var count = parseInt(process.argv.splice(2));
-var qishu = parseInt(process.argv.splice(3));
+var count = parseInt(process.argv[2]);
+var qishu = parseInt(process.argv[3]);
 
 MongoClient.connect(mongourl, function (error, client) {
     var col = client.db(database).collection('CQSSC');
