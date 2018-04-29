@@ -32,7 +32,7 @@ function analysisdata(result) {
                     continue;
 
                 //result[i]['xingtai_forecast' + k] = 'A';
-                for (j = i - 1; j > i - 4; j--) {
+                for (j = i - 1; j > i - 6; j--) {
                     if (j < 0) {
                         // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
@@ -44,13 +44,13 @@ function analysisdata(result) {
                         break;
                     }
 
-                    if (j == i - 3) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - 5) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
                 }
             }
             else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
                 // result[i]['xingtai_forecast'+k] = '组六杀' + result[i]['num'+k] + '' + (result[i]['num'+k] - 1);
                 // result[i]['xingtai_forecast' + k] = 'B';
-                for (j = i - 1; j > i - 4; j--) {
+                for (j = i - 1; j > i - 6; j--) {
                     if (j < 0) {
                         // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
@@ -62,13 +62,13 @@ function analysisdata(result) {
                         break;
                     }
 
-                    if (j == i - 3) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - 5) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
                 }
             }
             else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
                 // result[i]['xingtai_forecast'+k] = '组六杀' + result[i]['num'+(k+2)] + '' + (result[i]['num'+(k+2)] - 1);
                 // result[i]['xingtai_forecast' + k] = 'C';
-                for (j = i - 1; j > i - 4; j--) {
+                for (j = i - 1; j > i - 6; j--) {
                     if (j < 0) {
                         // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
@@ -80,7 +80,7 @@ function analysisdata(result) {
                         break;
                     }
 
-                    if (j == i - 3) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - 5) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
                 }
             }
         }
