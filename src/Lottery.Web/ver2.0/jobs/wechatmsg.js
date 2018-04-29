@@ -1,8 +1,8 @@
 var Q = require('q');
 var request = require('request');
 
-var APPID = '';
-var APPSECRET = '';
+var APPID = 'wx4f5bc3cd7c5325ec';
+var APPSECRET = 'fb6000cc761d16e5e1107a546262816c';
 
 var accesstoken = '';
 var accesstoken_date;
@@ -182,8 +182,8 @@ function done(err, result) {
 //     console.log(result);
 // })
 
-// sendTemplateMessage(function (err, result) {
-//     console.log(result);
-// })
+sendTemplateMessage(function (err, result) {
+    console.log(result);
+})
 
-module.exports.sendTemplateMessage = sendTemplateMessage;
+//module.exports.sendTemplateMessage = sendTemplateMessage;
