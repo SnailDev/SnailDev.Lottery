@@ -1,5 +1,6 @@
 var url = 'http://data.917500.cn/cqssc_1000.txt';
 
+var Q = require('q');
 var request = require('request');
 var schedule = require("node-schedule");
 var MongoClient = require('mongodb').MongoClient;
@@ -11,7 +12,7 @@ var rule = new schedule.RecurrenceRule();
 rule.hour = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 rule.minute = [3, 13, 23, 33, 43, 53];
 rule.second = 40;
-schedule.scheduleJob(rule,  function () { dogetcqsscdata(); });
+schedule.scheduleJob(rule, function () { dogetcqsscdata(); });
 
 
 var rule1 = new schedule.RecurrenceRule();
@@ -53,9 +54,140 @@ function dogetcqsscdata() {
 
                         client.close();
                     });
+
+                    var analysisdataArr = [];
+                    for (j = elements.length - 1; j > elements.length - 5; j--) {
+                        var infos = elements[j].split(' ');
+                        var period = infos[0];
+
+                        var data = {};
+                        data._id = period;
+                        for (i = 1; i < infos.length; i++) {
+                            data['num' + i] = Number(infos[i]);
+                        }
+                        analysisdataArr.push(data);
+                    };
+                    
+                    analysisdata(analysisdataArr);
                 }
             })
 
         });
     });
+}
+
+function analysisdata(result) {
+    var length = result.length;
+    for (k = 1; k < 4; k++) {
+        for (i = length - 4; i >= 0; i--) {
+            if (result[i]['num' + (k + 1)] == result[i + 1]['num' + (k + 1)] && result[i + 1]['num' + (k + 1)] == result[i + 2]['num' + (k + 1)]) {
+                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+                    continue;
+
+                sendTemplateMessage(function (err, result) {
+                    console.log(result);
+                })
+            }
+        }
+    }
+}
+
+var APPID = 'wx4f5bc3cd7c5325ec';
+var APPSECRET = 'fb6000cc761d16e5e1107a546262816c';
+
+var accesstoken = '';
+var accesstoken_date;
+var expiretime = 0;
+
+function sendTemplateMessage(cb) {
+
+    var today = new Date();
+    var current = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var myopenid = 'oPJSX1QL9Z3H1qpYsZxxR0vwatAg';
+    var msg = GetJSON(myopenid);
+    getAccessToken(function (token) {
+        var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + token;
+        getWebContent(url, 'POST', msg, cb);
+
+    });
+}
+
+function getAccessToken(cb) {
+
+    var uri = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + APPID + '&secret=' + APPSECRET;
+
+    var date = new Date();
+    if (!accesstoken || (date - accesstoken_date) / 1000 >= expiretime + 1) {
+        console.log('-----------no valid token');
+        //无accesstoken或者超时  
+        getWebContent(uri, 'POST', null).then(function (result) {
+            accesstoken = result.access_token;
+            accesstoken_date = new Date();
+            expiretime = result.expires_in;
+            cb(accesstoken);
+        }).catch(function (err) {
+            cb(null);
+        })
+    } else {
+        cb(accesstoken)
+    }
+
+}
+
+function GetJSON(openid) {
+    return {
+        "touser": openid, "template_id": "NFwdwJLD1Iuhp1qlS1WVonGNKELBDkxnUEYxLuZEMmc",
+        "url": 'http://lottery.develophelper.com/cqssc',
+        "data": {
+            "result": {
+                "value": "已达到投注标准，请至网站下注",
+                "color": "#000"
+            },
+            "totalWinMoney": {
+                "value": "组三/组六",
+                "color": "#173177"
+            },
+            "issueInfo": {
+                "value": '重庆时时彩',
+                "color": "#173177"
+            },
+            "fee": {
+                "value": '0元',
+                "color": "#173177"
+            },
+            "betTime": {
+                "value": '待投注',
+                "color": "#173177"
+            },
+            "remark": {
+            }
+        }
+    };
+}
+
+var getWebContent = function (uri, method, data, callback) {
+    method = method || "POST";
+    var defer = Q.defer();
+    var requestdata = {
+        "method": method,
+        "uri": uri,
+        "json": true
+    };
+    if (data) {
+        requestdata['body'] = data;
+        requestdata['qs'] = data;
+
+    }
+    request(requestdata,
+        function (error, response, body) {
+            if (error) {
+                console.log(error);
+                defer.reject(error);
+            } else {
+                //console.log(body);
+                defer.resolve(body);
+            }
+        }
+    );
+    return defer.promise.nodeify(callback);
 }
