@@ -3,6 +3,7 @@ var mongourl = 'mongodb://localhost:29018';
 var database = 'Lottery';
 
 var count = parseInt(process.argv.splice(2));
+var qishu = parseInt(process.argv.splice(3));
 
 MongoClient.connect(mongourl, function (error, client) {
     var col = client.db(database).collection('CQSSC');
@@ -32,7 +33,7 @@ function analysisdata(result) {
                     continue;
 
                 //result[i]['xingtai_forecast' + k] = 'A';
-                for (j = i - 1; j > i - 6; j--) {
+                for (j = i - 1; j > i - (qishu + 1); j--) {
                     if (j < 0) {
                         // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
@@ -44,13 +45,14 @@ function analysisdata(result) {
                         break;
                     }
 
-                    if (j == i - 5) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - qishu) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
                 }
             }
             else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
-                // result[i]['xingtai_forecast'+k] = '组六杀' + result[i]['num'+k] + '' + (result[i]['num'+k] - 1);
+                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+                    continue;
                 // result[i]['xingtai_forecast' + k] = 'B';
-                for (j = i - 1; j > i - 6; j--) {
+                for (j = i - 1; j > i - (qishu + 1); j--) {
                     if (j < 0) {
                         // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
@@ -62,13 +64,14 @@ function analysisdata(result) {
                         break;
                     }
 
-                    if (j == i - 5) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - qishu) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
                 }
             }
             else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
-                // result[i]['xingtai_forecast'+k] = '组六杀' + result[i]['num'+(k+2)] + '' + (result[i]['num'+(k+2)] - 1);
+                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+                    continue;
                 // result[i]['xingtai_forecast' + k] = 'C';
-                for (j = i - 1; j > i - 6; j--) {
+                for (j = i - 1; j > i - (qishu + 1); j--) {
                     if (j < 0) {
                         // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
@@ -80,7 +83,7 @@ function analysisdata(result) {
                         break;
                     }
 
-                    if (j == i - 5) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - qishu) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
                 }
             }
         }
