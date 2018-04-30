@@ -56,9 +56,11 @@ function dogetcqsscdata() {
                     });
 
                     var analysisdataArr = [];
-                    for (j = elements.length - 1; j > elements.length - 5; j--) {
+                    for (j = elements.length - 1; j > elements.length - 6; j--) {
                         var infos = elements[j].split(' ');
                         var period = infos[0];
+
+                        if (!period) continue;
 
                         var data = {};
                         data._id = period;
@@ -67,7 +69,7 @@ function dogetcqsscdata() {
                         }
                         analysisdataArr.push(data);
                     };
-                    
+
                     analysisdata(analysisdataArr);
                 }
             })
