@@ -58,40 +58,40 @@ function analysisdata(result) {
                     }
                 }
             }
-            else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
-                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                    continue;
+            // else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
+            //     if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+            //         continue;
 
-                for (j = i - 1; j > i - (qishu + 1); j--) {
-                    if (j < 0) {
-                        _conut0++;
-                        break;
-                    }
-                    if (iszusan(result[j], k)) {
-                        _conut1++;
-                        break;
-                    }
+            //     for (j = i - 1; j > i - (qishu + 1); j--) {
+            //         if (j < 0) {
+            //             _conut0++;
+            //             break;
+            //         }
+            //         if (iszusan(result[j], k)) {
+            //             _conut1++;
+            //             break;
+            //         }
 
-                    if (j == i - qishu) _conut2++;
-                }
-            }
-            else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
-                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                    continue;
+            //         if (j == i - qishu) _conut2++;
+            //     }
+            // }
+            // else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
+            //     if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+            //         continue;
 
-                for (j = i - 1; j > i - (qishu + 1); j--) {
-                    if (j < 0) {
-                        _conut0++;
-                        break;
-                    }
-                    if (iszusan(result[j], k)) {
-                        _conut1++;
-                        break;
-                    }
+            //     for (j = i - 1; j > i - (qishu + 1); j--) {
+            //         if (j < 0) {
+            //             _conut0++;
+            //             break;
+            //         }
+            //         if (iszusan(result[j], k)) {
+            //             _conut1++;
+            //             break;
+            //         }
 
-                    if (j == i - qishu) _conut2++;
-                }
-            }
+            //         if (j == i - qishu) _conut2++;
+            //     }
+            // }
         }
     }
 
