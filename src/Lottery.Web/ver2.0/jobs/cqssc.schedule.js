@@ -98,7 +98,9 @@ function analysisdata(result) {
             if (result[i]['xingtai_forecast' + k]) {
                 sendTemplateMessage(function (err, result) {
                     console.log(result);
-                })
+                });
+
+                return;
             }
         }
     }
