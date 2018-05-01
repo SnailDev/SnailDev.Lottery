@@ -22,15 +22,18 @@
                 <%= title %>
             </a>
         </h1>
-        <!-- <div id="toolbar">
+        <div id="toolbar">
             <div class="form-inline" role="form">
                 <div class="form-group">
-                    <input id="datetimepicker" type="text" class="form-control" style="width:120px;" value="<%= date %>" data-date-format="yyyy-mm-dd"
-                    />
-                    <span style="padding-left:5px;" id="show"></span>
+                    <!-- <input id="datetimepicker" type="text" class="form-control" style="width:120px;" value="<%= date %>" data-date-format="yyyy-mm-dd"
+                    /> -->
+                    <!-- <span style="padding-left:5px;" id="show"></span> -->
+                    <span class="label label-danger">A</span>
+                    <span class="label label-warning">B</span>
+                    <span class="label label-success">C</span>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <table id="table" data-toggle="table" data-show-export="true" data-toolbar="#toolbar" data-url="/api/getdata?date=<%= date %>&type=cqssc">
             <thead>
