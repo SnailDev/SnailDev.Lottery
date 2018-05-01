@@ -57,19 +57,22 @@ function analysisdata(result) {
     for (k = 1; k < 4; k++) {
         for (i = length - 4; i >= 0; i--) {
             if (result[i]['num' + (k + 1)] == result[i + 1]['num' + (k + 1)] && result[i + 1]['num' + (k + 1)] == result[i + 2]['num' + (k + 1)]) {
+                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+                    continue;
                 result[i]['xingtai_forecast' + k] = 'A';
             }
             else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
+                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+                    continue;
                 result[i]['xingtai_forecast' + k] = 'C';
             }
             else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
+                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+                    continue;
                 result[i]['xingtai_forecast' + k] = 'B';
             }
 
             if (result[i]['xingtai_forecast' + k]) {
-                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                continue;
-
                 for (j = i - 1; j > i - 4; j--) {
                     if (j < 0) {
                         result[i]['xingtai_forecast' + k] += '(0)';
