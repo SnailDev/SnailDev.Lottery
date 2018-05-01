@@ -32,50 +32,16 @@ function analysisdata(result) {
     for (k = 1; k < 4; k++) {
         for (i = length - 4; i >= 0; i--) {
             if (result[i]['num' + (k + 1)] == result[i + 1]['num' + (k + 1)] && result[i + 1]['num' + (k + 1)] == result[i + 2]['num' + (k + 1)]) {
-                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                    continue;
-
-                for (j = i - 1; j > i - (qishu + 1); j--) {
-                    if (j < 0) {
-                        _conut0++;
-                        break;
-                    }
-                    if (iszusan(result[j], k)) {
-                        _conut1++;
-                        // _lianzhong++;
-
-                        // console.log(_lianbuzhong);
-                        // _lianbuzhong = -1;
-                        break;
-                    }
-
-                    if (j == i - qishu) {
-                        _conut2++;
-                        // _lianbuzhong++;
-
-                        // console.log(_lianzhong);
-                        // _lianzhong = -1;
-                    }
-                }
+                result[i]['xingtai_forecast' + k] = 'A';
             }
             else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
-                if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                    continue;
-
-                for (j = i - 1; j > i - (qishu + 1); j--) {
-                    if (j < 0) {
-                        _conut0++;
-                        break;
-                    }
-                    if (iszusan(result[j], k)) {
-                        _conut1++;
-                        break;
-                    }
-
-                    if (j == i - qishu) _conut2++;
-                }
+                result[i]['xingtai_forecast' + k] = 'C';
             }
             else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
+                result[i]['xingtai_forecast' + k] = 'B';
+            }
+
+            if (result[i]['xingtai_forecast' + k]) {
                 if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
                     continue;
 
