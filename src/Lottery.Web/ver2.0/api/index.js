@@ -77,7 +77,7 @@ function analysisdata(result) {
             }
             else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
                 if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                continue;
+                    continue;
 
                 result[i]['xingtai_forecast' + k] = 'B';
                 // for (j = i - 1; j > i - 4; j--) {
@@ -95,8 +95,8 @@ function analysisdata(result) {
             }
             else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
                 if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-                continue;
-                
+                    continue;
+
                 result[i]['xingtai_forecast' + k] = 'C';
                 // for (j = i - 1; j > i - 4; j--) {
                 //     if (j < 0) {
@@ -112,18 +112,19 @@ function analysisdata(result) {
                 // }
             }
 
-            for (j = i - 1; j > i - 4; j--) {
-                if (j < 0) {
-                    result[i]['xingtai_forecast' + k] += '(0)';
-                    break;
-                }
-                //if (result[j]['num' + k] == result[j]['num' + (k + 1)] || result[j]['num' + k] == result[j]['num' + (k + 2)] || result[j]['num' + (k + 1)] == result[j]['num' + (k + 2)]) {
-                if (iszusan(result[j], k)) {
-                    result[i]['xingtai_forecast' + k] += '(1)';
-                    break;
-                }
+            if (result[i]['xingtai_forecast' + k]) {
+                for (j = i - 1; j > i - 4; j--) {
+                    if (j < 0) {
+                        result[i]['xingtai_forecast' + k] += '(0)';
+                        break;
+                    }
+                    if (iszusan(result[j], k)) {
+                        result[i]['xingtai_forecast' + k] += '(1)';
+                        break;
+                    }
 
-                if (j == i - 3) result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - 3) result[i]['xingtai_forecast' + k] += '(-1)';
+                }
             }
         }
     }
