@@ -26,64 +26,70 @@ function analysisdata(result) {
     var _conut1 = 0;
     var _conut2 = 0;
 
+    // var _lianzhong = -1;
+    // var _lianbuzhong = -1;
+
     for (k = 1; k < 4; k++) {
         for (i = length - 4; i >= 0; i--) {
             if (result[i]['num' + (k + 1)] == result[i + 1]['num' + (k + 1)] && result[i + 1]['num' + (k + 1)] == result[i + 2]['num' + (k + 1)]) {
                 if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
                     continue;
 
-                //result[i]['xingtai_forecast' + k] = 'A';
                 for (j = i - 1; j > i - (qishu + 1); j--) {
                     if (j < 0) {
-                        // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
                         break;
                     }
                     if (iszusan(result[j], k)) {
-                        // result[i]['xingtai_forecast' + k] += '(1)';
                         _conut1++;
+                        // _lianzhong++;
+
+                        // console.log(_lianbuzhong);
+                        // _lianbuzhong = -1;
                         break;
                     }
 
-                    if (j == i - qishu) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - qishu) {
+                        _conut2++;
+                        // _lianbuzhong++;
+
+                        // console.log(_lianzhong);
+                        // _lianzhong = -1;
+                    }
                 }
             }
             else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
                 if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
                     continue;
-                // result[i]['xingtai_forecast' + k] = 'B';
+
                 for (j = i - 1; j > i - (qishu + 1); j--) {
                     if (j < 0) {
-                        // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
                         break;
                     }
                     if (iszusan(result[j], k)) {
-                        // result[i]['xingtai_forecast' + k] += '(1)';
                         _conut1++;
                         break;
                     }
 
-                    if (j == i - qishu) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - qishu) _conut2++;
                 }
             }
             else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
                 if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
                     continue;
-                // result[i]['xingtai_forecast' + k] = 'C';
+
                 for (j = i - 1; j > i - (qishu + 1); j--) {
                     if (j < 0) {
-                        // result[i]['xingtai_forecast' + k] += '(0)';
                         _conut0++;
                         break;
                     }
                     if (iszusan(result[j], k)) {
-                        // result[i]['xingtai_forecast' + k] += '(1)';
                         _conut1++;
                         break;
                     }
 
-                    if (j == i - qishu) _conut2++; //result[i]['xingtai_forecast' + k] += '(-1)';
+                    if (j == i - qishu) _conut2++;
                 }
             }
         }

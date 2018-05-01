@@ -94,6 +94,10 @@ function analysisdata(result) {
     }
 }
 
+function iszusan(obj, index) {
+    return (obj['num' + index] == obj['num' + (index + 1)] || obj['num' + index] == obj['num' + (index + 2)] || obj['num' + (index + 1)] == obj['num' + (index + 2)]);
+}
+
 var APPID = 'wx4f5bc3cd7c5325ec';
 var APPSECRET = 'fb6000cc761d16e5e1107a546262816c';
 
