@@ -118,16 +118,17 @@ var accesstoken_date;
 var expiretime = 0;
 
 function sendTemplateMessage(cb) {
-
     var today = new Date();
     var current = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var myopenid = 'oPJSX1QL9Z3H1qpYsZxxR0vwatAg';
-    var msg = GetJSON(myopenid);
-    getAccessToken(function (token) {
-        var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + token;
-        getWebContent(url, 'POST', msg, cb);
+    var openids = ['oPJSX1QL9Z3H1qpYsZxxR0vwatAg', 'oPJSX1Rfsp4x5BxyCndKFw3pxPGo'];
+    for (i = 0; i < openids.length; i++) {
+        var msg = GetJSON(openids[i]);
+        getAccessToken(function (token) {
+            var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + token;
+            getWebContent(url, 'POST', msg, cb);
 
-    });
+        });
+    }
 }
 
 function getAccessToken(cb) {
@@ -158,11 +159,11 @@ function GetJSON(openid) {
         "url": 'http://lottery.develophelper.com/cqssc',
         "data": {
             "result": {
-                "value": "已达到投注标准，请至网站下注",
+                "value": "已达到投注标准，请准备下注",
                 "color": "#000"
             },
             "totalWinMoney": {
-                "value": "组三/组六",
+                "value": "组三三期~组三五期",
                 "color": "#173177"
             },
             "issueInfo": {
@@ -170,7 +171,7 @@ function GetJSON(openid) {
                 "color": "#173177"
             },
             "fee": {
-                "value": '0元',
+                "value": '72元~296元',
                 "color": "#173177"
             },
             "betTime": {
@@ -178,6 +179,8 @@ function GetJSON(openid) {
                 "color": "#173177"
             },
             "remark": {
+                "value": '购彩有风险，投资需谨慎！',
+                "color": "#173177"
             }
         }
     };
