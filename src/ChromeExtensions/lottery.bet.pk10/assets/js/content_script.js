@@ -1,3 +1,10 @@
+var lotteryId = 4;
+var currentMoney = 0;
+var previssue = '';
+var curissue = '';
+var ids = [];
+var lines = [];
+
 // 向页面注入JS
 function injectCustomJs(jsPath) {
     jsPath = jsPath || 'assets/js/inject.js';
@@ -12,15 +19,45 @@ function injectCustomJs(jsPath) {
     };
     document.head.appendChild(temp);
 
-
-    switchs("<div class='info'><input id='autobuyswitch' type='checkbox' value='false' /> &nbsp 购买开关</div>");
     setInterval(function () {
-        var moneytemp = $("#cpmoney").html();
-        console.log(moneytemp);
-        if (parseFloat(moneytemp) != NaN)
-            currentmoney = moneytemp;
-    }, 5000);
+        var lotteryMoney = $('#j-balance').text().substr(1);
+        console.log('获取到当前金额为：' + lotteryMoney);
+        if (parseFloat(lotteryMoney) != NaN)
+            currentMoney = lotteryMoney;
+
+        ids = [];
+        lines = [];
+        for (i = 3; i < 5; i++) {
+            $('#j-n' + i + ' .j-betting tbody').each(function (i, e) {
+                var id = [];
+                var line = [];
+                $(e).find('tr').each(function (i, e) {
+                    if (i > 9) return true;
+                    id.push($(e).attr('data-id'));
+                    line.push($(e).attr('data-odds'));
+                })
+
+                ids.push(id);
+                lines.push(line);
+            });
+        }
+
+        previssue = $('#prev-issue').text();
+        curissue = $('#current-issue').text();
+        // console.log(ids);
+        // console.log(lines);
+    }, 10000);
 }
+
+// bet: function(t, e) {
+//     return i.ajax({
+//         url: "/bet/bet",
+//         data: JSON.stringify({
+//             lotteryId: t,
+//             betParameters: e
+//         })
+//     }, u.bet.loading)
+// },
 
 function initCustomEventListen() {
     var hiddenDiv = document.getElementById('myCustomEventDiv');
@@ -94,5 +131,5 @@ function sendMessageToBackground(title, message) {
 document.addEventListener('DOMContentLoaded', function () {
     // 注入自定义JS
     injectCustomJs();
-    initCustomEventListen();
+    //initCustomEventListen();
 });

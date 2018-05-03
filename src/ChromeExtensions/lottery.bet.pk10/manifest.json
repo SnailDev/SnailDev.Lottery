@@ -25,7 +25,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://www.ry201.com/*"
+				"https://lot.myb205.com/Pk10"
 			],
 			"js": [
 				"assets/js/jquery-1.8.3.js",
