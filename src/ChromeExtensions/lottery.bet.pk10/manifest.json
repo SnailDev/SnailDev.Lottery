@@ -38,16 +38,15 @@
 		}
 	],
 	"permissions": [
-		"tabs", 
+		"tabs",
 		"notifications",
-		"webRequest", 
-		"webRequestBlocking", 
-		"storage", 
-		"http://*/*", 
-		"https://*/*" 
+		"webRequest",
+		"webRequestBlocking",
+		"storage",
+		"http://*/*",
+		"https://*/*"
 	],
-
-    "web_accessible_resources": [
+	"web_accessible_resources": [
 		"assets/js/inject.js"
 	]
 }

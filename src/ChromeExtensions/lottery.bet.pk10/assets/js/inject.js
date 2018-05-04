@@ -3,6 +3,16 @@ console.log("注入成功");
 // customEvent.initEvent('myCustomEvent', true, true);
 // var hiddenDiv = document.getElementById('myCustomEventDiv');
 
+
+// bet: function(t, e) {
+//     return i.ajax({
+//         url: "/bet/bet",
+//         data: JSON.stringify({
+//             lotteryId: t,
+//             betParameters: e
+//         })
+//     }, u.bet.loading)
+// },
 (function () {
     function autobuy(data) {
         //console.log(data);

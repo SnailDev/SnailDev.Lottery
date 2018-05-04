@@ -9,69 +9,131 @@
 
 <body>
 	<div class="container">
-		<table>
-			<tr>
-				<td>位置1:</td>
-				<td>
-					<select id='loc1'>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>位置2:</td>
-				<td>
-					<select id='loc2'>
-						<option value="2">2</option>
-						<option value="1">1</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>杀码:</td>
-				<td>
-					<select id='num'>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<span style="color: red;" id="msg"></span>
-				</td>
-				<td>
-					<input type="button" id="saveBtn" value="保存" />
-				</td>
+		<form>
+			<table>
+				<tr>
+					<td>单位投注:</td>
+					<td>
+						<select id='buyunit' name='buyunit'>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+							<option value="17">17</option>
+							<option value="18">18</option>
+							<option value="19">19</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+							<option value="23">23</option>
+							<option value="24">24</option>
+							<option value="25">25</option>
+							<option value="26">26</option>
+							<option value="27">27</option>
+							<option value="28">28</option>
+							<option value="29">29</option>
+							<option value="30">30</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>位置1:</td>
+					<td>
+						<select id='loc1' name='loc1'>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>位置2:</td>
+					<td>
+						<select id='loc2' name='loc2'>
+							<option value="2">2</option>
+							<option value="1">1</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>压码:</td>
+					<td>
+						<select id='num' name='num'>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>第三步:</td>
+					<td>
+						<select id='step3' name='step3'>
+							<option value="0">关</option>
+							<option value="1">开</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>第四步:</td>
+					<td>
+						<select id='step4' name='step4'>
+							<option value="0">关</option>
+							<option value="1">开</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<span style="color: red;" id="msg"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" id="switch" name="switch" value="0" hidden />
+						<input type="button" id="runBtn" value="运行" />
+					</td>
+					<td>
+						<input type="button" id="saveBtn" value="保存" />
+					</td>
 
-			</tr>
-		</table>
+				</tr>
 
+			</table>
+		</form>
 	</div>
 	<script src="../assets/js/jquery-1.8.3.js"></script>
 	<script src="../assets/js/popup.js"></script>
