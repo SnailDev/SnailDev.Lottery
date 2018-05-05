@@ -44,7 +44,7 @@ function starttimedtask() {
                         console.log('当前可用金额为：' + lotteryMoney);
 
                         if (currentMoney != 0) {
-                            if (currentMoney >= lotteryMoney) {
+                            if (currentMoney >= parseFloat(lotteryMoney)) {
                                 step = 0;
                             }
                             else {
@@ -55,12 +55,12 @@ function starttimedtask() {
                             }
                         }
 
-                        currentMoney = lotteryMoney;
-                        if (currentMoney <= betoptions.minmoney) {
+                        currentMoney = parseFloat(lotteryMoney);
+                        if (currentMoney <= parseFloat(betoptions.minmoney)) {
                             console.log('当前可用金额小等于' + betoptions.minmoney + '元,不再进行投注.');
                             return;
                         }
-                        if (currentMoney >= betoptions.maxmoney) {
+                        if (currentMoney >= parseFloat(betoptions.maxmoney)) {
                             console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
                             return;
                         }
@@ -104,7 +104,7 @@ function starttimedtask() {
                             };
 
                             var numbet = parseInt(betoptions.num);
-                            console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3);
+                            console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
 
                             // 可能要对ids和lines的length做验证 测试稳定性后再谈
                             for (var i = 1; i < 11; i++) {
@@ -132,8 +132,12 @@ function starttimedtask() {
                                 timeout: 30000,
                                 data: JSON.stringify(postdata),
                                 success: function (r_data) {
-                                    //var data1 = $.parseJSON(r_data);
-                                    console.log(r_data);
+                                    if (r_data.result == 1) {
+                                        console.log('下注状态：成功')
+                                    }
+                                    else {
+                                        console.log('下注状态：失败，原因：' + r_data.msg);
+                                    }
                                 }
                             });
                         }
