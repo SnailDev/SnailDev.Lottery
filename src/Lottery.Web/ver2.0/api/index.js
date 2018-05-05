@@ -59,15 +59,24 @@ function analysisdata(result) {
             if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
                 continue;
 
+
+            var numArr = [result[i]['num' + k], result[i]['num' + (k + 1)], result[i]['num' + (k + 2)]];
+            numArr.sort(function (a, b) { return a - b });
+
+            if ((numArr[2] - numArr[1] == 1) && (numArr[1] - numArr[0] == 1)) {
+                result[i]['xingtai_forecast' + k] = 'X';
+            }
+
             if (result[i]['num' + (k + 1)] == result[i + 1]['num' + (k + 1)] && result[i + 1]['num' + (k + 1)] == result[i + 2]['num' + (k + 1)]) {
-                result[i]['xingtai_forecast' + k] = 'A';
+                result[i]['xingtai_forecast' + k] = (result[i]['xingtai_forecast' + k] || '') + 'A';
             }
-            else if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
-                result[i]['xingtai_forecast' + k] = 'C';
+            if (result[i]['num' + k] == result[i + 1]['num' + k] && result[i + 1]['num' + k] == result[i + 2]['num' + k]) {
+                result[i]['xingtai_forecast' + k] = (result[i]['xingtai_forecast' + k] || '') + 'C';
             }
-            else if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
-                result[i]['xingtai_forecast' + k] = 'B';
+            if (result[i]['num' + (k + 2)] == result[i + 1]['num' + (k + 2)] && result[i + 1]['num' + (k + 2)] == result[i + 2]['num' + (k + 2)]) {
+                result[i]['xingtai_forecast' + k] = (result[i]['xingtai_forecast' + k] || '') + 'B';
             }
+
 
             if (result[i]['xingtai_forecast' + k]) {
                 for (j = i - 1; j > i - 4; j--) {

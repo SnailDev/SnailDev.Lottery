@@ -33,7 +33,7 @@ function starttimedtask() {
 
             console.log('任务开关状态：' + (betoptions.switch == '1' ? '已开启' : '已停止'));
             if (betoptions.switch == 1) {
-                if (previssue != $('#prev-issue').text()) {
+                if (previssue != $('#prev-issue').text() && $('#j-orders').text().substr(1) == '0.00') {
                     previssue = $('#prev-issue').text();
                     curissue = $('#current-issue').text();
 
@@ -44,7 +44,7 @@ function starttimedtask() {
                         console.log('当前可用金额为：' + lotteryMoney);
 
                         if (currentMoney != 0) {
-                            if (currentMoney > lotteryMoney) {
+                            if (currentMoney >= lotteryMoney) {
                                 step = 0;
                             }
                             else {
@@ -56,6 +56,16 @@ function starttimedtask() {
                         }
 
                         currentMoney = lotteryMoney;
+                        if (currentMoney <= betoptions.minmoney) {
+                            console.log('当前可用金额小等于' + betoptions.minmoney + '元,不再进行投注.');
+                            return;
+                        }
+                        if (currentMoney >= betoptions.maxmoney) {
+                            console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
+                            return;
+                        }
+
+
                         var betmoney = Math.floor(parseInt(betoptions.buyunit) * steprates[step]);
                         var needmoney = betmoney * 7;
                         console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);

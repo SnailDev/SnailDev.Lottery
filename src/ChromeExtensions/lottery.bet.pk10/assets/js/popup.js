@@ -57,6 +57,8 @@ $(function () {
 		$('#step4').val(betoptions.step4);
 		$('#switch').val(betoptions.switch);
 		$('#buyunit').val(betoptions.buyunit);
+		$('#minmoney').val(betoptions.minmoney);
+		$('#maxmoney').val(betoptions.maxmoney);
 
 		$('#runBtn').val(betoptions.switch == '0' ? '运行' : '停止');
 

@@ -26,34 +26,30 @@ function analysisdata(result) {
     var _conut1 = 0;
     var _conut2 = 0;
 
-    // var _lianzhong = -1;
-    // var _lianbuzhong = -1;
 
-    for (k = 1; k < 4; k++) {
-        for (i = length - 4; i >= 0; i--) {
-            // if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
-            //     continue;
+    for (i = length - 4; i >= 0; i--) {
+        // if (!iszusan(result[i + 1], k) && !iszusan(result[i + 2], k) && !iszusan(result[i + 3], k))
+        //     continue;
 
-            var numArr = [result[i]['num' + k], result[i]['num' + (k + 1)], result[i]['num' + (k + 2)]];
-            numArr.sort(function (a, b) { return a - b });
+        var numArr = [result[i]['num1'], result[i]['num2'], result[i]['num3'], result[i]['num4'], result[i]['num5']];
+        numArr.sort(function (a, b) { return a - b });
 
-            if ((numArr[2] - numArr[1] == 1) && (numArr[1] - numArr[0] == 1)) {
-                result[i]['xingtai_forecast' + k] = 'X';
-            }
+        if ((numArr[4] - numArr[3] == 1) && (numArr[3] - numArr[2] == 1) && (numArr[2] - numArr[1] == 1) && (numArr[1] - numArr[0] == 1)) {
+            result[i]['xingtai_forecast'] = 'BZ';
+        }
 
-            if (result[i]['xingtai_forecast' + k]) {
-                for (j = i - 1; j > i - (qishu + 1); j--) {
-                    if (j < 0) {
-                        _conut0++;
-                        break;
-                    }
-                    if (iszusan(result[j], k)) {
-                        _conut1++;
-                        break;
-                    }
-
-                    if (j == i - qishu) _conut2++;
+        if (result[i]['xingtai_forecast']) {
+            for (j = i - 1; j > i - (qishu + 1); j--) {
+                if (j < 0) {
+                    _conut0++;
+                    break;
                 }
+                if (isbaozi(result[j])) {
+                    _conut1++;
+                    break;
+                }
+
+                if (j == i - qishu) _conut2++;
             }
         }
     }
@@ -68,4 +64,10 @@ function analysisdata(result) {
 
 function iszusan(obj, index) {
     return (obj['num' + index] == obj['num' + (index + 1)] || obj['num' + index] == obj['num' + (index + 2)] || obj['num' + (index + 1)] == obj['num' + (index + 2)]);
+}
+
+function isbaozi(obj) {
+    return (obj['num1'] == obj['num2'] && obj['num2'] == obj['num3']) ||
+        (obj['num2'] == obj['num3'] && obj['num3'] == obj['num4']) ||
+        (obj['num3'] == obj['num4'] && obj['num4'] == obj['num5']);
 }

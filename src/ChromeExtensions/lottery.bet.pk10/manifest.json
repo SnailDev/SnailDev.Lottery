@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "彩票下注助手",
-	"version": "1.0",
+	"version": "1.1",
 	"description": "a simple tool of lottery",
 	"icons": {
 		"32": "assets/images/icon32.png",
