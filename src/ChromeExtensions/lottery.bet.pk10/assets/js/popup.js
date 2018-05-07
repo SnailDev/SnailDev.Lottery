@@ -59,6 +59,7 @@ $(function () {
 		$('#buyunit').val(betoptions.buyunit);
 		$('#minmoney').val(betoptions.minmoney);
 		$('#maxmoney').val(betoptions.maxmoney);
+		$('#delaybet').val(betoptions.delaybet);
 
 		$('#runBtn').val(betoptions.switch == '0' ? '运行' : '停止');
 

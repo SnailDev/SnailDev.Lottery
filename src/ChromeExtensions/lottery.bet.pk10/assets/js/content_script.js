@@ -1,13 +1,16 @@
 var lotteryId = 4;
+var betContext = '5';
 var betoptions = {};
 var currentMoney = 0;
 var previssue = '';
 var curissue = '';
 var ids = [];
 var lines = [];
+var historys = [];
 
 var steprates = [1, 1.5, 2, 4];
 var step = 0;
+var delaybet = false;
 
 // 向页面注入JS
 function injectCustomJs(jsPath) {
@@ -22,6 +25,35 @@ function injectCustomJs(jsPath) {
         this.parentNode.removeChild(this);
     };
     document.head.appendChild(temp);
+}
+
+function gethistroy() {
+    ///home/History?lotteryId=4
+    console.log('正在获取开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: "/home/History?lotteryId=" + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            //console.log(r_data);
+            var trs = $(r_data).find('#history_detail tbody tr');
+            for (var i = 0; i < trs.length; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.期数 = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            console.table(historys);
+        }
+    });
 }
 
 function starttimedtask() {
@@ -46,12 +78,16 @@ function starttimedtask() {
                         if (currentMoney != 0) {
                             if (currentMoney >= parseFloat(lotteryMoney)) {
                                 step = 0;
+                                
+                                delaybet = false;
                             }
                             else {
                                 step++;
                                 if (step > 3) step = 0;
                                 if (step == 2 && betoptions.step3 == 0) step = 0;
                                 if (step == 3 && betoptions.step4 == 0) step = 0;
+
+                                delaybet = true;
                             }
                         }
 
@@ -61,8 +97,16 @@ function starttimedtask() {
                             return;
                         }
                         if (currentMoney >= parseFloat(betoptions.maxmoney)) {
-                            console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
-                            return;
+                            if (betoptions.delaybet == 0) {
+                                console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
+                                return;
+                            }
+                            else {
+                                if (!((betoptions.delaybet == 1) && delaybet)) {
+                                    console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
+                                    return;
+                                }
+                            }
                         }
 
 
@@ -115,7 +159,7 @@ function starttimedtask() {
                                 // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
                                 postdata.betParameters.push({
                                     id: ids[i - 1][numbet - 1],
-                                    BetContext: '5',
+                                    BetContext: betContext,
                                     Lines: lines[i - 1][numbet - 1],
                                     BetType: 1,
                                     Money: betmoney.toFixed(2),
@@ -162,6 +206,9 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('注入成功.');
     // // 注入自定义JS(暂时不用)
     // injectCustomJs();
+
+    // // 获取历史开奖
+    // gethistroy();
 
     // 开启定时任务
     starttimedtask();
