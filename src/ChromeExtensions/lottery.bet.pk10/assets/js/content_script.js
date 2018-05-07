@@ -6,11 +6,11 @@ var previssue = '';
 var curissue = '';
 var ids = [];
 var lines = [];
-var historys = [];
 
 var steprates = [1, 1.5, 2, 4];
 var step = 0;
 var delaybet = false;
+var selectNumAI = false;
 
 // 向页面注入JS
 function injectCustomJs(jsPath) {
@@ -27,7 +27,7 @@ function injectCustomJs(jsPath) {
     document.head.appendChild(temp);
 }
 
-function gethistroy() {
+function gethistroy(callback) {
     ///home/History?lotteryId=4
     console.log('正在获取开奖记录...')
     $.ajax({
@@ -36,8 +36,10 @@ function gethistroy() {
         timeout: 30000,
         success: function (r_data) {
             //console.log(r_data);
+            var historys = [];
             var trs = $(r_data).find('#history_detail tbody tr');
-            for (var i = 0; i < trs.length; i++) {
+            var trslength = trs.length > 18 ? 18 : trs.length;
+            for (var i = 0; i < trslength; i++) {
                 var that = $(trs[i]);
                 var history = {};
 
@@ -52,7 +54,45 @@ function gethistroy() {
 
             console.log('获取成功.');
             console.table(historys);
+
+            if (callback) callback(historys);
         }
+    });
+}
+
+function getbuyloc(betnum, callback) {
+    gethistroy(function (historys) {
+        var dataArrs = [[], [], [], [], [], [], [], [], [], []];
+        // //var datalength = historys.length > 10 ? 10 : historys.length;
+        // for (var i = 0; i < historys.length; i++) {
+        //     for (var j = 0; j < dataArrs.length; j++) {
+        //         dataArrs[j].push(historys[i]['number' + (j + 1)]);
+        //     }
+        // }
+
+        // console.log(dataArrs);
+
+        // // 出现次数统计
+        // for (var i = 0; i < dataArrs.length; i++) {
+        //     var tongjiObj = {};
+        //     for (var j = 0; j < dataArrs[i].length; j++) {
+        //         !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
+        //     }
+
+        //     console.log(Object.values(tongjiObj).sort());
+        //     console.log(tongjiObj);
+        // }
+
+        // 出现位置统计
+        for (var j = 0; j < dataArrs.length; j++) {
+            for (var i = historys.length - 1; i > -1; i--) {
+                dataArrs[j].push(Object.values(historys[i]).indexOf(j + 1));
+            }
+        }
+
+        console.log(dataArrs[betnum - 1]);
+
+        if (callback) callback(dataArrs[betnum - 1]);
     });
 }
 
@@ -78,7 +118,7 @@ function starttimedtask() {
                         if (currentMoney != 0) {
                             if (currentMoney >= parseFloat(lotteryMoney)) {
                                 step = 0;
-                                
+
                                 delaybet = false;
                             }
                             else {
@@ -111,7 +151,7 @@ function starttimedtask() {
 
 
                         var betmoney = Math.floor(parseInt(betoptions.buyunit) * steprates[step]);
-                        var needmoney = betmoney * 7;
+                        var needmoney = selectNumAI ? betmoney * 5 : betmoney * 7;
                         console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);
 
                         if (currentMoney < needmoney) {
@@ -136,53 +176,95 @@ function starttimedtask() {
                             }
                             // console.log(ids);
                             // console.log(lines);
-
-                            var loc3 = Math.floor(Math.random() * 10 + 1);
-                            while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
-                                loc3 = Math.floor(Math.random() * 10 + 1);
-                            }
-
-                            var postdata = {
-                                lotteryId: lotteryId,
-                                betParameters: []
-                            };
-
                             var numbet = parseInt(betoptions.num);
-                            console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
+                            getbuyloc(numbet, function (reslocs) {
+                                var postdata = {
+                                    lotteryId: lotteryId,
+                                    betParameters: []
+                                };
 
-                            // 可能要对ids和lines的length做验证 测试稳定性后再谈
-                            for (var i = 1; i < 11; i++) {
-                                if (i == betoptions.loc1 ||
-                                    i == betoptions.loc2 ||
-                                    i == loc3) continue;
+                                if (!selectNumAI) {
+                                    var loc3 = Math.floor(Math.random() * 10 + 1);
+                                    while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
+                                        loc3 = Math.floor(Math.random() * 10 + 1);
+                                    }
+                                    console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
 
-                                // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
-                                postdata.betParameters.push({
-                                    id: ids[i - 1][numbet - 1],
-                                    BetContext: betContext,
-                                    Lines: lines[i - 1][numbet - 1],
-                                    BetType: 1,
-                                    Money: betmoney.toFixed(2),
-                                    IsTeMa: false,
-                                    IsForNumber: false
-                                });
-                            }
+                                    // 可能要对ids和lines的length做验证 测试稳定性后再谈
+                                    for (var i = 1; i < 11; i++) {
+                                        if (i == betoptions.loc1 ||
+                                            i == betoptions.loc2 ||
+                                            i == loc3) continue;
 
-                            // console.log(postdata);
-                            $.ajax({
-                                type: 'POST',
-                                url: "/bet/bet",
-                                contentType: "application/json",
-                                timeout: 30000,
-                                data: JSON.stringify(postdata),
-                                success: function (r_data) {
-                                    if (r_data.result == 1) {
-                                        console.log('下注状态：成功')
+                                        // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
+                                        postdata.betParameters.push({
+                                            id: ids[i - 1][numbet - 1],
+                                            BetContext: betContext,
+                                            Lines: lines[i - 1][numbet - 1],
+                                            BetType: 1,
+                                            Money: betmoney.toFixed(2),
+                                            IsTeMa: false,
+                                            IsForNumber: false
+                                        });
+                                    }
+                                } else {
+                                    var entropy = reslocs[reslocs.length - 1] - reslocs[reslocs.length - 2];
+                                    var start = 1;
+                                    var end = 10;
+                                    // if (entropy > -4 && entropy < 1) {
+                                    //     start = 1; end = 5;
+                                    // }
+                                    // else if (entropy > 0 && entropy < 5) {
+                                    //     start = 6; end = 10;
+                                    // } else if (entropy < -3) {
+                                    //     start = 6; end = 10;
+                                    // }
+                                    // else {
+                                    //     start = 1; end = 5;
+                                    // }
+
+                                    if (entropy < -5) {
+                                        start = 6; end = 10;
+                                    }
+                                    else if (entropy > 5) {
+                                        start = 1; end = 5;
                                     }
                                     else {
-                                        console.log('下注状态：失败，原因：' + r_data.msg);
+                                        console.log('未达到下注标准，不投注');
+                                        return;
+                                    }
+
+                                    // 可能要对ids和lines的length做验证 测试稳定性后再谈
+                                    for (var i = start; i < end + 1; i++) {
+                                        // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
+                                        postdata.betParameters.push({
+                                            id: ids[i - 1][numbet - 1],
+                                            BetContext: betContext,
+                                            Lines: lines[i - 1][numbet - 1],
+                                            BetType: 1,
+                                            Money: betmoney.toFixed(2),
+                                            IsTeMa: false,
+                                            IsForNumber: false
+                                        });
                                     }
                                 }
+
+                                // console.log(postdata);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "/bet/bet",
+                                    contentType: "application/json",
+                                    timeout: 30000,
+                                    data: JSON.stringify(postdata),
+                                    success: function (r_data) {
+                                        if (r_data.result == 1) {
+                                            console.log('下注状态：成功')
+                                        }
+                                        else {
+                                            console.log('下注状态：失败，原因：' + r_data.msg);
+                                        }
+                                    }
+                                });
                             });
                         }
                     }
@@ -209,6 +291,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // // 获取历史开奖
     // gethistroy();
+
+    // // 获取下注位置
+    // getbuyloc(1);
 
     // 开启定时任务
     starttimedtask();
