@@ -116,21 +116,36 @@ function starttimedtask() {
                         console.log('当前可用金额为：' + lotteryMoney);
 
                         if (currentMoney != 0) {
-                            if (currentMoney >= parseFloat(lotteryMoney)) {
-                                step = 0;
+                            if (!selectNumAI) {
+                                if (currentMoney >= parseFloat(lotteryMoney)) {
+                                    step = 0;
 
-                                if (betoptions.delaybet == 1)
-                                    delaybet = false;
+                                    if (betoptions.delaybet == 1)
+                                        delaybet = false;
+                                }
+                                else {
+                                    step++;
+                                    if (step > 3) step = 0;
+                                    if (step == 2 && betoptions.step3 == 0) step = 0;
+                                    if (step == 3 && betoptions.step4 == 0) step = 0;
+                                }
                             }
                             else {
-                                step++;
-                                if (step > 3) step = 0;
-                                if (step == 2 && betoptions.step3 == 0) step = 0;
-                                if (step == 3 && betoptions.step4 == 0) step = 0;
+                                if (currentMoney >= parseFloat(lotteryMoney)) {
+                                    step++;
+
+                                    if (betoptions.delaybet == 1)
+                                        delaybet = false;
+                                }
+                                else {
+                                    step = 0;
+                                    if (step > 2) step = 0;
+                                }
                             }
 
                             if (betoptions.delaybet == 0)
                                 delaybet = true;
+
                         }
 
                         currentMoney = parseFloat(lotteryMoney);
