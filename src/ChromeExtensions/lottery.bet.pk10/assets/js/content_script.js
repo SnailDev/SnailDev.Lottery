@@ -140,19 +140,12 @@ function starttimedtask() {
                                 console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
                                 return;
                             }
-                            else {
-                                if ((betoptions.delaybet == 1) && !delaybet) {
-                                    console.log('已进行过延长投注,不再进行投注.');
-                                    return;
-                                }
-                            }
                         }
-                        else {
-                            if ((betoptions.delaybet == 1) && !delaybet) {
-                                console.log('已进行过延长投注,不再进行投注.');
-                                return;
-                            }
+                        if ((betoptions.delaybet == 1) && !delaybet) {
+                            console.log('已进行过延长投注,不再进行投注.');
+                            return;
                         }
+
 
 
                         var betmoney = Math.floor(parseInt(betoptions.buyunit) * steprates[step]);
