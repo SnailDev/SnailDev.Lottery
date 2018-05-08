@@ -153,14 +153,14 @@ exports.getpk10 = function (req, res, next) {
                     }
                 }
 
-                var html = '当前开奖期号：' + result[0]._id + '\r\n';
+                var html = '统计样本：' + count + '<br />当前开奖期号：' + result[0]._id + '<br />';
                 for (var i = 0; i < dataArrs.length; i++) {
                     var tongjiObj = {};
                     for (var j = 0; j < dataArrs[i].length; j++) {
                         !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
                     }
 
-                    html += (i + 1) + '在位置' + (i + 1) + '出现的次数为：' + tongjiObj['' + (i + 1)] + '次 \r\n';
+                    html += (i + 1) + '在位置' + (i + 1) + '出现的次数为：' + tongjiObj['' + (i + 1)] + '次 <br />';
                 }
 
                 res.send(html);
