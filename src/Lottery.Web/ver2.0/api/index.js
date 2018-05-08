@@ -1,4 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
+var _ = require('lodash');
 var mongourl = 'mongodb://localhost:29018';
 var database = 'Lottery';
 
@@ -138,5 +139,35 @@ function cqsscforcast(callback) {
 
 
 exports.getpk10 = function (req, res, next) {
+    var count = req.query.count || 100;
+    MongoClient.connect(mongourl, function (error, client) {
+        var col = client.db(database).collection('Pk10');
+        col.find({}).sort({ '_id': -1 }).limit(count).toArray(function (err, result) {
+            if (!err) {
+                //analysisdata(result);
+                var dataArrs = [[], [], [], [], [], [], [], [], [], []];
+                // 出现位置统计
+                for (var j = 0; j < dataArrs.length; j++) {
+                    for (var i = result.length - 1; i > -1; i--) {
+                        dataArrs[j].push(_.values(result[i]).indexOf(j + 1));
+                    }
+                }
 
+                var html = '当前开奖期号：' + result[0]._id + '\r\n';
+                for (var i = 0; i < dataArrs.length; i++) {
+                    var tongjiObj = {};
+                    for (var j = 0; j < dataArrs[i].length; j++) {
+                        !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
+                    }
+
+                    html += (i + 1) + '在位置' + (i + 1) + '出现的次数为：' + tongjiObj['' + (i + 1)] + '次 \r\n';
+                }
+            }
+            else {
+                res.send(err);
+            }
+
+            client.close();
+        });
+    });
 };
