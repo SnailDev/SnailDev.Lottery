@@ -135,3 +135,8 @@ function cqsscforcast(callback) {
     //     });
     // });
 }
+
+
+exports.getpk10 = function (req, res, next) {
+
+};
