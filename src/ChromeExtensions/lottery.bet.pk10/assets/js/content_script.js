@@ -396,3 +396,8 @@ function tj(date) {
         }
     });
 }
+
+function openAI() {
+    selectNumAI = true;
+    steprates = [1, 2, 4];
+}
