@@ -162,6 +162,8 @@ exports.getpk10 = function (req, res, next) {
 
                     html += (i + 1) + '在位置' + (i + 1) + '出现的次数为：' + tongjiObj['' + (i + 1)] + '次 \r\n';
                 }
+
+                res.send(html);
             }
             else {
                 res.send(err);
