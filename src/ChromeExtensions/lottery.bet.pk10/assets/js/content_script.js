@@ -128,6 +128,9 @@ function starttimedtask() {
                                 if (step == 2 && betoptions.step3 == 0) step = 0;
                                 if (step == 3 && betoptions.step4 == 0) step = 0;
                             }
+
+                            if (betoptions.delaybet == 0)
+                                delaybet = true;
                         }
 
                         currentMoney = parseFloat(lotteryMoney);
