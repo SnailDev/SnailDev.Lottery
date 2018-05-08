@@ -139,7 +139,7 @@ function cqsscforcast(callback) {
 
 
 exports.getpk10 = function (req, res, next) {
-    var count = req.query.count || 100;
+    var count = parseInt(req.query.count || '100');
     MongoClient.connect(mongourl, function (error, client) {
         var col = client.db(database).collection('Pk10');
         col.find({}).sort({ '_id': -1 }).limit(count).toArray(function (err, result) {
