@@ -9,7 +9,7 @@ var lines = [];
 
 var steprates = [1, 1.5, 2, 4];
 var step = 0;
-var delaybet = false;
+var delaybet = true;
 var selectNumAI = false;
 
 // 向页面注入JS
@@ -119,15 +119,14 @@ function starttimedtask() {
                             if (currentMoney >= parseFloat(lotteryMoney)) {
                                 step = 0;
 
-                                delaybet = false;
+                                if (betoptions.delaybet == 1)
+                                    delaybet = false;
                             }
                             else {
                                 step++;
                                 if (step > 3) step = 0;
                                 if (step == 2 && betoptions.step3 == 0) step = 0;
                                 if (step == 3 && betoptions.step4 == 0) step = 0;
-
-                                delaybet = true;
                             }
                         }
 
@@ -142,10 +141,16 @@ function starttimedtask() {
                                 return;
                             }
                             else {
-                                if (!((betoptions.delaybet == 1) && delaybet)) {
-                                    console.log('当前可用金额大等于' + betoptions.maxmoney + '元,不再进行投注.');
+                                if ((betoptions.delaybet == 1) && !delaybet) {
+                                    console.log('已进行过延长投注,不再进行投注.');
                                     return;
                                 }
+                            }
+                        }
+                        else {
+                            if ((betoptions.delaybet == 1) && !delaybet) {
+                                console.log('已进行过延长投注,不再进行投注.');
+                                return;
                             }
                         }
 
@@ -301,5 +306,68 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function sendMessageToBackground(title, message) {
     chrome.runtime.sendMessage({ cmd: 'notify', title: title || '恭喜恭喜', message: message || '笑死小明了' }, function (response) {
+    });
+}
+
+function tj(date) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            //console.table(historys);
+
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+            var dataArrs = [[], [], [], [], [], [], [], [], [], []];
+            // 出现位置统计
+            for (var j = 0; j < dataArrs.length; j++) {
+                for (var i = historys.length - 1; i > -1; i--) {
+                    dataArrs[j].push(Object.values(historys[i]).indexOf(j + 1));
+                }
+            }
+
+            var tongjiObjArr = [];
+            for (var i = 0; i < dataArrs.length; i++) {
+                var tongjiObj = {};
+                for (var j = 0; j < dataArrs[i].length; j++) {
+                    !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
+                }
+                tongjiObjArr.push(tongjiObj);
+            }
+
+            var resObjArr = [];
+            for (var i = 0; i < 10; i++) {
+                var resObj = { 数字: (i + 1) };
+                if (i % 2 == 0) {
+                    resObj.前 = tongjiObjArr[i]['' + (i + 1)];
+                    resObj.后 = tongjiObjArr[i + 1]['' + (i + 1)];
+                } else {
+                    resObj.前 = tongjiObjArr[i - 1]['' + (i + 1)];
+                    resObj.后 = tongjiObjArr[i]['' + (i + 1)];
+                }
+                resObjArr.push(resObj);
+            }
+
+            console.table(resObjArr);
+        }
     });
 }
