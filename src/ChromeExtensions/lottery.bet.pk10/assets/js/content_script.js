@@ -27,7 +27,7 @@ function injectCustomJs(jsPath) {
     document.head.appendChild(temp);
 }
 
-function gethistroy(callback) {
+function gethistroy(count, callback) {
     ///home/History?lotteryId=4
     console.log('正在获取开奖记录...')
     $.ajax({
@@ -38,7 +38,7 @@ function gethistroy(callback) {
             //console.log(r_data);
             var historys = [];
             var trs = $(r_data).find('#history_detail tbody tr');
-            var trslength = trs.length > 18 ? 18 : trs.length;
+            var trslength = trs.length > count ? count : trs.length;
             for (var i = 0; i < trslength; i++) {
                 var that = $(trs[i]);
                 var history = {};
@@ -53,7 +53,7 @@ function gethistroy(callback) {
             }
 
             console.log('获取成功.');
-            console.table(historys);
+            // console.table(historys);
 
             if (callback) callback(historys);
         }
@@ -61,7 +61,7 @@ function gethistroy(callback) {
 }
 
 function getbuyloc(betnum, callback) {
-    gethistroy(function (historys) {
+    gethistroy(18, function (historys) {
         var dataArrs = [[], [], [], [], [], [], [], [], [], []];
         // //var datalength = historys.length > 10 ? 10 : historys.length;
         // for (var i = 0; i < historys.length; i++) {
@@ -178,7 +178,7 @@ function starttimedtask() {
                             // console.log(ids);
                             // console.log(lines);
                             var numbet = parseInt(betoptions.num);
-                            getbuyloc(numbet, function (reslocs) {
+                            gethistroy(5, function (historys) {
                                 var postdata = {
                                     lotteryId: lotteryId,
                                     betParameters: []
@@ -209,31 +209,45 @@ function starttimedtask() {
                                         });
                                     }
                                 } else {
-                                    var entropy = reslocs[reslocs.length - 1] - reslocs[reslocs.length - 2];
-                                    var start = 1;
+                                    var start = 6;
                                     var end = 10;
-                                    // if (entropy > -4 && entropy < 1) {
-                                    //     start = 1; end = 5;
-                                    // }
-                                    // else if (entropy > 0 && entropy < 5) {
-                                    //     start = 6; end = 10;
-                                    // } else if (entropy < -3) {
-                                    //     start = 6; end = 10;
-                                    // }
-                                    // else {
-                                    //     start = 1; end = 5;
-                                    // }
 
-                                    if (entropy < -5) {
-                                        start = 6; end = 10;
+                                    var dataArrs = [[], []];
+                                    for (var i = 0; i < historys.length; i++) {
+                                        for (var j = 1; j < 11; j++) {
+                                            if (j < 6)
+                                                dataArrs[0].push(historys[i]['number' + j]);
+                                            else
+                                                dataArrs[1].push(historys[i]['number' + j]);
+                                        }
                                     }
-                                    else if (entropy > 5) {
-                                        start = 1; end = 5;
+
+                                    var tongjiObjArr = [];
+                                    for (var i = 0; i < dataArrs.length; i++) {
+                                        var tongjiObj = {};
+                                        for (var j = 0; j < dataArrs[i].length; j++) {
+                                            !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
+                                        }
+                                        tongjiObjArr.push(tongjiObj);
                                     }
-                                    else {
-                                        console.log('未达到下注标准，不投注');
-                                        return;
+
+                                    console.log(tongjiObjArr);
+
+                                    var count = 0;
+                                    for (var i = 0; i < tongjiObjArr.length; i++) {
+                                        var tempArr = Object.values(tongjiObjArr[i]);
+                                        if (tempArr.slice(0).sort()[tempArr.length - 1] > count) {
+                                            count = tempArr.slice(0).sort()[tempArr.length - 1];
+                                            var tempIndex = tempArr.indexOf(count);
+                                            numbet = Object.keys(tongjiObjArr[i])[tempIndex];
+                                            if (i > 0) {
+                                                start = 1;
+                                                end = 5;
+                                            }
+                                        }
                                     }
+
+                                    console.log(numbet + ';' + start + ';' + end);
 
                                     // 可能要对ids和lines的length做验证 测试稳定性后再谈
                                     for (var i = start; i < end + 1; i++) {
