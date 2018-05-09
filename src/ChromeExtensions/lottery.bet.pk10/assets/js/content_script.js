@@ -125,7 +125,7 @@ function starttimedtask() {
                                 }
                                 else {
                                     step++;
-                                    if (step > 3) step = 0;
+                                    if (step >= steprates.length) step = 0;
                                     if (step == 2 && betoptions.step3 == 0) step = 0;
                                     if (step == 3 && betoptions.step4 == 0) step = 0;
                                 }
@@ -133,19 +133,18 @@ function starttimedtask() {
                             else {
                                 if (currentMoney >= parseFloat(lotteryMoney)) {
                                     step++;
+                                    if (step >= steprates.length) step = 0;
 
                                     if (betoptions.delaybet == 1)
                                         delaybet = false;
                                 }
                                 else {
                                     step = 0;
-                                    if (step > 2) step = 0;
                                 }
                             }
 
                             if (betoptions.delaybet == 0)
                                 delaybet = true;
-
                         }
 
                         currentMoney = parseFloat(lotteryMoney);
@@ -397,7 +396,7 @@ function tj(date) {
     });
 }
 
-function openAI() {
+function openAI(s) {
     selectNumAI = true;
-    steprates = [1, 2, 4];
+    steprates = s;
 }
