@@ -165,7 +165,7 @@ function starttimedtask() {
 
 
 
-                        var betmoney = Math.floor(parseInt(betoptions.buyunit) * steprates[step]);
+                        var betmoney = Math.ceil(parseInt(betoptions.buyunit) * steprates[step]);
                         var needmoney = selectNumAI ? betmoney * 5 : betmoney * 7;
                         console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);
 
@@ -199,9 +199,12 @@ function starttimedtask() {
                                 };
 
                                 if (!selectNumAI) {
-                                    var loc3 = Math.floor(Math.random() * 10 + 1);
+                                    var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
+                                    //var loc3 = Math.floor(Math.random() * 10 + 1);
                                     while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
                                         loc3 = Math.floor(Math.random() * 10 + 1);
+                                        loc3++;
+                                        loc3 = loc3 > 10 ? loc3 % 10 : loc3;
                                     }
                                     console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
 
