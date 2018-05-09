@@ -55,22 +55,22 @@ function dogetcqsscdata() {
                         client.close();
                     });
 
-                    var analysisdataArr = [];
-                    for (j = elements.length - 1; j > elements.length - 6; j--) {
-                        var infos = elements[j].split(' ');
-                        var period = infos[0];
+                    // var analysisdataArr = [];
+                    // for (j = elements.length - 1; j > elements.length - 6; j--) {
+                    //     var infos = elements[j].split(' ');
+                    //     var period = infos[0];
 
-                        if (!period) continue;
+                    //     if (!period) continue;
 
-                        var data = {};
-                        data._id = period;
-                        for (i = 1; i < infos.length; i++) {
-                            data['num' + i] = Number(infos[i]);
-                        }
-                        analysisdataArr.push(data);
-                    };
+                    //     var data = {};
+                    //     data._id = period;
+                    //     for (i = 1; i < infos.length; i++) {
+                    //         data['num' + i] = Number(infos[i]);
+                    //     }
+                    //     analysisdataArr.push(data);
+                    // };
 
-                    analysisdata(analysisdataArr);
+                    // analysisdata(analysisdataArr);
                 }
             })
 
