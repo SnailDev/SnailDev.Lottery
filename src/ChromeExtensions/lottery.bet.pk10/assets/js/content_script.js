@@ -57,7 +57,7 @@ function gethistroy(count, callback) {
             }
 
             console.log('获取成功.');
-            // console.table(historys);
+            console.table(historys);
 
             if (callback) callback(historys);
         }
