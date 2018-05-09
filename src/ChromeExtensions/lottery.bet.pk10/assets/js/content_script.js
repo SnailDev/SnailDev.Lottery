@@ -12,6 +12,10 @@ var step = 0;
 var delaybet = true;
 var selectNumAI = false;
 
+var numbet = 1;
+var start = 6;
+var end = 10;
+
 // 向页面注入JS
 function injectCustomJs(jsPath) {
     jsPath = jsPath || 'assets/js/inject.js';
@@ -191,7 +195,6 @@ function starttimedtask() {
                             }
                             // console.log(ids);
                             // console.log(lines);
-                            var numbet = parseInt(betoptions.num);
                             gethistroy(5, function (historys) {
                                 var postdata = {
                                     lotteryId: lotteryId,
@@ -199,6 +202,7 @@ function starttimedtask() {
                                 };
 
                                 if (!selectNumAI) {
+                                    numbet = parseInt(betoptions.num);
                                     var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
                                     //var loc3 = Math.floor(Math.random() * 10 + 1);
                                     while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
@@ -226,42 +230,58 @@ function starttimedtask() {
                                         });
                                     }
                                 } else {
-                                    var start = 6;
-                                    var end = 10;
-
-                                    var dataArrs = [[], []];
-                                    for (var i = 0; i < historys.length; i++) {
-                                        for (var j = 1; j < 11; j++) {
-                                            if (j < 6)
-                                                dataArrs[0].push(historys[i]['number' + j]);
-                                            else
-                                                dataArrs[1].push(historys[i]['number' + j]);
-                                        }
-                                    }
-
-                                    var tongjiObjArr = [];
-                                    for (var i = 0; i < dataArrs.length; i++) {
-                                        var tongjiObj = {};
-                                        for (var j = 0; j < dataArrs[i].length; j++) {
-                                            !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
-                                        }
-                                        tongjiObjArr.push(tongjiObj);
-                                    }
-
-                                    console.log(tongjiObjArr);
-
-                                    var count = 0;
-                                    for (var i = 0; i < tongjiObjArr.length; i++) {
-                                        var tempArr = Object.values(tongjiObjArr[i]);
-                                        if (tempArr.slice(0).sort()[tempArr.length - 1] > count) {
-                                            count = tempArr.slice(0).sort()[tempArr.length - 1];
-                                            var tempIndex = tempArr.indexOf(count);
-                                            numbet = Object.keys(tongjiObjArr[i])[tempIndex];
-                                            if (i > 0) {
-                                                start = 1;
-                                                end = 5;
+                                    if (step == 0) {
+                                        var dataArrs = [[], []];
+                                        for (var i = 0; i < historys.length; i++) {
+                                            for (var j = 1; j < 11; j++) {
+                                                if (j < 6)
+                                                    dataArrs[0].push(historys[i]['number' + j]);
+                                                else
+                                                    dataArrs[1].push(historys[i]['number' + j]);
                                             }
                                         }
+
+                                        var tongjiObjArr = [];
+                                        for (var i = 0; i < dataArrs.length; i++) {
+                                            var tongjiObj = {};
+                                            for (var j = 0; j < dataArrs[i].length; j++) {
+                                                !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
+                                            }
+                                            tongjiObjArr.push(tongjiObj);
+                                        }
+
+                                        console.log(tongjiObjArr);
+
+                                        var count = 0;
+                                        for (var i = 0; i < tongjiObjArr.length; i++) {
+                                            //console.log(i);
+                                            var tempArr = Object.values(tongjiObjArr[i]);
+                                            if (tempArr.slice(0).sort()[tempArr.length - 1] > count) {
+                                                count = tempArr.slice(0).sort()[tempArr.length - 1];
+                                                var tempIndex = tempArr.indexOf(count);
+                                                numbet = Object.keys(tongjiObjArr[i])[tempIndex];
+
+                                                // console.log(numbet);
+                                                // console.log(tongjiObjArr[i][numbet]);
+                                                // 排除变态码
+                                                while (tongjiObjArr[i][numbet] && tongjiObjArr[i][numbet] >= count) {
+                                                    numbet++;
+                                                    if (numbet > 10) numbet = numbet % 10;
+                                                }
+                                                // console.log(numbet);
+
+                                                if (i > 0) {
+                                                    start = 1;
+                                                    end = 5;
+                                                }
+                                                else {
+                                                    start = 6;
+                                                    end = 10;
+                                                }
+                                            }
+                                        }
+
+                                        // console.log(count);
                                     }
 
                                     console.log(numbet + ';' + start + ';' + end);
