@@ -168,7 +168,6 @@ function starttimedtask() {
                         }
 
 
-
                         var betmoney = Math.ceil(parseInt(betoptions.buyunit) * steprates[step]);
                         var needmoney = selectNumAI ? betmoney * 5 : betmoney * 7;
                         console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);
@@ -475,11 +474,14 @@ function tjAI(date) {
                 end = 10;
             }
 
-            //var intimes = { times: 0 };
-            var outtimes = { numbet: numbet, start: start, end: end, times: 0 };
-            //var intimesArr = [];
+            var outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 0 };
             var outtimesArr = [];
             for (var i = historys.length - 2; i > -1; i--) {
+                if (outtimes.times == 0) {
+                    outtimes.starttime = historys[i].time;
+                    outtimes.period = historys[i].periods
+                }
+
                 if (Object.values(historys[i]).indexOf(numbet) >= start && Object.values(historys[i]).indexOf(numbet) <= end) {
                     numbet = historys[i].number1 + historys[i].number10;
                     if (numbet > 10) numbet = numbet % 10;
@@ -493,29 +495,48 @@ function tjAI(date) {
                         end = 10;
                     }
 
-                    //intimes.times++;
-                    if (outtimes.times > 0) {
-                        outtimesArr.push(outtimes);
-                        outtimes = { numbet: numbet, start: start, end: end, times: 0 };
-                    }
+                    outtimesArr.push(outtimes);
+                    outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 0 };
                 }
                 else {
-                    //intimes = { times: 0 };
-                    if (outtimes.times == 0) {
-                        outtimes.starttime = historys[i].time;
-                        outtimes.period = historys[i].periods
-                    }
+
                     outtimes.times++;
+
+                    // if (outtimes.times == 4) {
+                    //     //     numbet = historys[i].number1 + historys[i].number10;
+                    //     //     if (numbet > 10) numbet = numbet % 10;
+
+                    //     if (numbet > 5) {
+                    //         start = 1;
+                    //         end = 5;
+                    //     }
+                    //     else {
+                    //         start = 6;
+                    //         end = 10;
+                    //     }
+
+                    //     //     outtimesArr.push(outtimes);
+                    //     //     outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 1 };
+                    // }
                 }
             }
 
-            outtimesArr.sort(function (a, b) { return a.times - b.times });
+            outtimesArr.sort(function (a, b) { return a.period - b.period });
             console.log(outtimesArr);
 
-            console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
-            console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
-            console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
-            console.log('最大连续不中购买情况：' + outtimesArr[outtimesArr.length - 1].numbet + ':' + outtimesArr[outtimesArr.length - 1].start + ':' + outtimesArr[outtimesArr.length - 1].end);
+            for (var j = 0; j < outtimesArr.length - 1; j++) {
+                if (outtimesArr[j].times > 2 && outtimesArr[j + 1].times > 2) {
+                    console.log('验证不通过.' + outtimesArr[j].starttime);
+                    break;
+                }
+            }
+
+            console.log('结束.')
+
+            // console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
+            // console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
+            // console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
+            // console.log('最大连续不中购买情况：' + outtimesArr[outtimesArr.length - 1].numbet + ':' + outtimesArr[outtimesArr.length - 1].start + ':' + outtimesArr[outtimesArr.length - 1].end);
         }
     });
 }
