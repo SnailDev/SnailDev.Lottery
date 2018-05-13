@@ -547,6 +547,136 @@ function tjAI(date, firststep, laststep) {
     });
 }
 
+function tjAIFL(date, numbet, locs) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            //console.table(historys);
+
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            var outtimes = { numbet: numbet, times: 0, type: 0 };
+            var outtimesArr = [];
+            for (var i = historys.length - 2; i > -1; i--) {
+                if (outtimes.times == 0) {
+                    outtimes.starttime = historys[i].time;
+                    outtimes.period = historys[i].periods
+                }
+
+                if (locs.indexOf(Object.values(historys[i]).indexOf(numbet)) > -1) {
+                    outtimesArr.push(outtimes);
+                    outtimes = { numbet: numbet, times: 0, type: 0 };
+                }
+                else {
+                    outtimes.times++;
+                }
+            }
+
+            console.log(outtimesArr);
+            outtimesArr.sort(function (a, b) { return a.times - b.times });
+
+            console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
+            console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
+            console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
+
+
+
+            console.log('结束.');
+        }
+    });
+}
+
+function tjAISW(date, nolocs) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            //console.table(historys);
+
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            var numbet = historys[historys.length - 1].number1 + historys[historys.length - 1].number10;
+            if (numbet > 10) numbet = numbet % 10;
+            
+
+            var outtimes = { numbet: numbet, times: 0, type: 0 };
+            var outtimesArr = [];
+            for (var i = historys.length - 2; i > -1; i--) {
+                
+
+                if (outtimes.times == 0) {
+                    outtimes.starttime = historys[i].time;
+                    outtimes.period = historys[i].periods
+                }
+
+                if (locs.indexOf(Object.values(historys[i]).indexOf(numbet)) > -1) {
+                    outtimesArr.push(outtimes);
+                    outtimes = { numbet: numbet, times: 0, type: 0 };
+                }
+                else {
+                    outtimes.times++;
+                }
+            }
+
+            console.log(outtimesArr);
+            outtimesArr.sort(function (a, b) { return a.times - b.times });
+
+            console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
+            console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
+            console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
+
+
+
+            console.log('结束.');
+        }
+    });
+}
+
 function tjAINoWait(date, firststep) {
     if (date.length != 10) { console.log('日期格式有误.'); return; }
     console.log('正在获取' + date + '开奖记录...')
@@ -655,6 +785,179 @@ function tjAINoWait(date, firststep) {
                 console.log('验证通过.');
             }
 
+
+            console.log('结束.')
+        }
+    });
+}
+
+function tjAISpec(date) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            //console.table(historys);
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            if (historys.length < 5) {
+                console.log('样本数小于5，无法统计.');
+                return;
+            }
+            for (var k = historys.length - 5; k > 0; k--) {
+                var locs;
+                var numbet;
+                var dataArrs = [[], []];
+
+                for (var i = 0; i < 5; i++) {
+                    for (var j = 1; j < 11; j++) {
+                        if (j < 6)
+                            dataArrs[0].push(historys[k + i]['number' + j]);
+                        else
+                            dataArrs[1].push(historys[k + i]['number' + j]);
+                    }
+                }
+
+                var tongjiObjArr = [];
+                for (var i = 0; i < dataArrs.length; i++) {
+                    var tongjiObj = {};
+                    for (var j = 0; j < dataArrs[i].length; j++) {
+                        !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
+                    }
+                    tongjiObjArr.push(tongjiObj);
+                }
+
+                console.log(tongjiObjArr);
+
+                var count = 0;
+                for (var i = 0; i < tongjiObjArr.length; i++) {
+                    var tempArr = Object.values(tongjiObjArr[i]);
+                    if (tempArr.slice(0).sort()[tempArr.length - 1] > count) {
+                        count = tempArr.slice(0).sort()[tempArr.length - 1];
+                        var tempIndex = tempArr.indexOf(count);
+                        numbet = Number(Object.keys(tongjiObjArr[i])[tempIndex]);
+
+                        // // 排除变态码
+                        // while (tongjiObjArr[i][numbet] && tongjiObjArr[i][numbet] >= count) {
+                        //     numbet++;
+                        //     if (numbet > 10) numbet = numbet % 10;
+                        // }
+
+                        if (i > 0) {
+                            locs = [1, 2, 3, 7, 8, 9, 10];
+                        }
+                        else {
+                            locs = [1, 2, 3, 4, 8, 9, 10]
+                        }
+                    }
+                }
+
+                if (locs.indexOf(Object.values(historys[k - 1]).indexOf(numbet)) > -1) {
+                    console.error(historys[k - 1].periods + ':' + numbet + ':' + start + ':' + end + ':' + '中中中');
+                }
+                else {
+                    console.warn(historys[k - 1].periods + ':' + numbet + ':' + start + ':' + end + ':' + '否否否');
+                }
+            }
+
+
+            console.log('结束.')
+        }
+    });
+}
+
+function tjAISpecJG(date, numbet) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            //console.table(historys);
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            if (historys.length < 5) {
+                console.log('样本数小于5，无法统计.');
+                return;
+            }
+            for (var k = historys.length - 10; k > 0; k--) {
+                var dataArrs = [[], [], [], [], [], [], [], [], [], []];
+
+                for (var i = 0; i < 10; i++) {
+                    for (var j = 1; j < 11; j++) {
+                        dataArrs[j - 1].push(historys[k + i]['number' + j]);
+                    }
+                }
+
+                var tongjiObjArr = [];
+                for (var i = 1; i < 11; i++) {
+                    var tongjiObj = {};
+                    for (var j = 0; j < 10; j++) {
+                        tongjiObj[j + 1] = dataArrs[j].indexOf(i);
+
+                        if (tongjiObj[j + 1] == -1) tongjiObj[j + 1] = 10;
+                    }
+                    tongjiObjArr.push(tongjiObj);
+                }
+
+                //console.table(tongjiObjArr);
+                var jgs = Object.values(tongjiObjArr[numbet - 1]);
+                var jgstemp = jgs.slice(0).sort(function (a, b) { return a - b; });
+                var locs = [];
+                for (var i = 0; i < jgstemp.length - 3; i++) {
+                    locs.push(Number(Object.keys(tongjiObjArr[numbet - 1])[jgs.indexOf(jgstemp[i])]));
+                }
+
+                //console.log(locs);
+
+                if (locs.indexOf(Object.values(historys[k - 1]).indexOf(numbet)) > -1) {
+                    console.error(historys[k - 1].periods + ':' + numbet + ':' + locs.join('^') + ':' + '中中中');
+                }
+                else {
+                    console.warn(historys[k - 1].periods + ':' + numbet + ':' + locs.join('^') + ':' + '否否否');
+                }
+            }
 
             console.log('结束.')
         }
