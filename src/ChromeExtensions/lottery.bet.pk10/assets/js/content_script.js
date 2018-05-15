@@ -642,12 +642,12 @@ function tjAISW(date, nolocs) {
 
             var numbet = historys[historys.length - 1].number1 + historys[historys.length - 1].number10;
             if (numbet > 10) numbet = numbet % 10;
-            
+
 
             var outtimes = { numbet: numbet, times: 0, type: 0 };
             var outtimesArr = [];
             for (var i = historys.length - 2; i > -1; i--) {
-                
+
 
                 if (outtimes.times == 0) {
                     outtimes.starttime = historys[i].time;
@@ -959,6 +959,70 @@ function tjAISpecJG(date, numbet) {
                 }
             }
 
+            console.log('结束.')
+        }
+    });
+}
+
+function tjAI9(date, moneyunit) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            //console.table(historys);
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            var from = 1;
+            var end = 2;
+
+            var successtimes = 0;
+            var successtimesArr = [];
+            var successtimeTotal = 0;
+            for (var i = historys.length - 1; i > 0; i--) {
+                var num = historys[i]['number' + from] + historys[i]['number' + end];
+                if (num > 10) num = num % 10;
+
+                if (Object.values(historys[i - 1]).indexOf(num) != num) {
+                    successtimes++;
+                }
+                else {
+                    successtimesArr.push(successtimes);
+                    successtimeTotal = successtimeTotal + successtimes;
+                    successtimes = 0;
+                }
+
+                from++;
+                end++;
+                if (from > 10) from = 1;
+                if (end > 10) end = 1;
+            }
+
+            console.log(successtimesArr);
+            console.log('累计收入:' + successtimeTotal * (moneyunit * 0.85));
+            console.log('亏损金额：' + successtimesArr.length * moneyunit * 9);
+            console.log('净：' + (successtimeTotal * (moneyunit * 0.85) - successtimesArr.length * moneyunit * 9));
             console.log('结束.')
         }
     });
