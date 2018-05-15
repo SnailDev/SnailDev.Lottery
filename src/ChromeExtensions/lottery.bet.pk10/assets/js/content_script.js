@@ -547,7 +547,7 @@ function tjAI(date, firststep, laststep) {
     });
 }
 
-function tjAIFL(date, numbet, locs) {
+function tjAIFL(date, loc, numbets) {
     if (date.length != 10) { console.log('日期格式有误.'); return; }
     console.log('正在获取' + date + '开奖记录...')
     $.ajax({
@@ -578,7 +578,7 @@ function tjAIFL(date, numbet, locs) {
 
             console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
 
-            var outtimes = { numbet: numbet, times: 0, type: 0 };
+            var outtimes = { times: 0 };
             var outtimesArr = [];
             for (var i = historys.length - 2; i > -1; i--) {
                 if (outtimes.times == 0) {
@@ -586,9 +586,9 @@ function tjAIFL(date, numbet, locs) {
                     outtimes.period = historys[i].periods
                 }
 
-                if (locs.indexOf(Object.values(historys[i]).indexOf(numbet)) > -1) {
+                if (numbets.indexOf(Object.values(historys[i])[loc]) > -1) {
                     outtimesArr.push(outtimes);
-                    outtimes = { numbet: numbet, times: 0, type: 0 };
+                    outtimes = {times: 0 };
                 }
                 else {
                     outtimes.times++;
