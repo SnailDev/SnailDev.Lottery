@@ -1102,45 +1102,58 @@ function tjqs(date) {
 
             var start;
             var end;
+            var numbet = 0;
 
-            var numbet = getnumbet(historys[historys.length - 2], historys[historys.length - 1]);
-            var numbetindex = getnumbetindex(historys[historys.length - 1], numbet);
+            var numbetobj = getnumbet(historys[historys.length - 1], historys[historys.length - 2]);
 
-            if (numbetindex < 6) {
-                start = 6;
-                end = 10;
-            }
-            else {
-                start = 1;
-                end = 5;
-            }
+            if (numbetobj.jg < 2) {
+                numbet = numbetobj.num;
+                var numbetindex = getnumbetindex(historys[historys.length - 2], numbet);
 
-            var outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 0 };
-            var outtimesArr = [];
-            for (var i = historys.length - 3; i > 0; i--) {
-                if (outtimes.times == 0) {
-                    outtimes.starttime = historys[i].time;
-                    outtimes.period = historys[i].periods
-                }
-
-                if (Object.values(historys[i]).indexOf(numbet) >= start && Object.values(historys[i]).indexOf(numbet) <= end) {
-                    numbet = getnumbet(historys[i - 1], historys[i]);
-                    numbetindex = getnumbetindex(historys[i], numbet);
-
-                    if (numbetindex < 6) {
-                        start = 6;
-                        end = 10;
-                    }
-                    else {
-                        start = 1;
-                        end = 5;
-                    }
-
-                    outtimesArr.push(outtimes);
-                    outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 0 };
+                if (numbetindex < 6) {
+                    start = 1;
+                    end = 5;
                 }
                 else {
-                    outtimes.times++;
+                    start = 6;
+                    end = 10;
+                }
+            }
+
+            var outtimes = { times: 0 };
+            var outtimesArr = [];
+            for (var i = historys.length - 2; i > -1; i--) {
+                if (numbet > 0) {
+                    if (outtimes.times == 0) {
+                        outtimes.starttime = historys[i].time;
+                        outtimes.period = historys[i].periods
+                    }
+
+                    if (Object.values(historys[i]).indexOf(numbet) >= start && Object.values(historys[i]).indexOf(numbet) <= end) {
+                        numbet = 0;
+                        outtimesArr.push(outtimes);
+                        outtimes = { times: 0 };
+                    }
+                    else {
+                        outtimes.times++;
+                    }
+                }
+
+                if (numbet == 0) {
+                    var numbetobj = getnumbet(historys[historys.length - 1], historys[historys.length - 2]);
+                    if (numbetobj.jg < 2) {
+                        numbet = numbetobj.num;
+                        var numbetindex = getnumbetindex(historys[historys.length - 2], numbet);
+
+                        if (numbetindex < 6) {
+                            start = 1;
+                            end = 5;
+                        }
+                        else {
+                            start = 6;
+                            end = 10;
+                        }
+                    }
                 }
             }
 
@@ -1169,7 +1182,7 @@ function getnumbet(predata, curdata) {
 
     objArr.sort(function (a, b) { return a.jg - b.jg });
 
-    return objArr[objArr.length - 1].num;
+    return objArr[0];
 }
 
 function getnumbetindex(curdata, numbet) {
