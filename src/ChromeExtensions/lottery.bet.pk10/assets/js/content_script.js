@@ -194,139 +194,88 @@ function starttimedtask() {
                             }
                             // console.log(ids);
                             // console.log(lines);
-                            //    gethistroy(5, function (historys) {
-                            var postdata = {
-                                lotteryId: lotteryId,
-                                betParameters: []
-                            };
+                            gethistroy(2, function (historys) {
+                                var postdata = {
+                                    lotteryId: lotteryId,
+                                    betParameters: []
+                                };
 
-                            if (!selectNumAI) {
-                                numbet = parseInt(betoptions.num);
-                                var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
-                                //var loc3 = Math.floor(Math.random() * 10 + 1);
-                                while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
-                                    loc3 = Math.floor(Math.random() * 10 + 1);
-                                    loc3++;
-                                    loc3 = loc3 > 10 ? loc3 % 10 : loc3;
-                                }
-                                console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
-
-                                // 可能要对ids和lines的length做验证 测试稳定性后再谈
-                                for (var i = 1; i < 11; i++) {
-                                    if (i == betoptions.loc1 ||
-                                        i == betoptions.loc2 ||
-                                        i == loc3) continue;
-
-                                    // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
-                                    postdata.betParameters.push({
-                                        id: ids[i - 1][numbet - 1],
-                                        BetContext: betContext,
-                                        Lines: lines[i - 1][numbet - 1],
-                                        BetType: 1,
-                                        Money: betmoney.toFixed(2),
-                                        IsTeMa: false,
-                                        IsForNumber: false
-                                    });
-                                }
-                            } else {
-                                if (step == 0) {
-                                    // var dataArrs = [[], []];
-                                    // for (var i = 0; i < historys.length; i++) {
-                                    //     for (var j = 1; j < 11; j++) {
-                                    //         if (j < 6)
-                                    //             dataArrs[0].push(historys[i]['number' + j]);
-                                    //         else
-                                    //             dataArrs[1].push(historys[i]['number' + j]);
-                                    //     }
-                                    // }
-
-                                    // var tongjiObjArr = [];
-                                    // for (var i = 0; i < dataArrs.length; i++) {
-                                    //     var tongjiObj = {};
-                                    //     for (var j = 0; j < dataArrs[i].length; j++) {
-                                    //         !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
-                                    //     }
-                                    //     tongjiObjArr.push(tongjiObj);
-                                    // }
-
-                                    // console.log(tongjiObjArr);
-
-                                    // var count = 0;
-                                    // for (var i = 0; i < tongjiObjArr.length; i++) {
-                                    //     var tempArr = Object.values(tongjiObjArr[i]);
-                                    //     if (tempArr.slice(0).sort()[tempArr.length - 1] > count) {
-                                    //         count = tempArr.slice(0).sort()[tempArr.length - 1];
-                                    //         var tempIndex = tempArr.indexOf(count);
-                                    //         numbet = Object.keys(tongjiObjArr[i])[tempIndex];
-
-                                    //         // 排除变态码
-                                    //         while (tongjiObjArr[i][numbet] && tongjiObjArr[i][numbet] >= count) {
-                                    //             numbet++;
-                                    //             if (numbet > 10) numbet = numbet % 10;
-                                    //         }
-
-                                    //         if (i > 0) {
-                                    //             start = 1;
-                                    //             end = 5;
-                                    //         }
-                                    //         else {
-                                    //             start = 6;
-                                    //             end = 10;
-                                    //         }
-                                    //     }
-                                    // }
-                                    var history = {};
-                                    $('#prev-bs i').each(function (index, numberItem) {
-                                        history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
-                                    });
-
-                                    console.log(history);
-                                    numbet = history.number1 + history.number10;
-                                    if (numbet > 10) numbet = numbet % 10;
-                                    if (numbet < 6) {
-                                        start = 1;
-                                        end = 5;
+                                if (!selectNumAI) {
+                                    numbet = parseInt(betoptions.num);
+                                    var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
+                                    //var loc3 = Math.floor(Math.random() * 10 + 1);
+                                    while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
+                                        loc3 = Math.floor(Math.random() * 10 + 1);
+                                        loc3++;
+                                        loc3 = loc3 > 10 ? loc3 % 10 : loc3;
                                     }
-                                    else {
-                                        start = 6;
-                                        end = 10;
+                                    console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
+
+                                    // 可能要对ids和lines的length做验证 测试稳定性后再谈
+                                    for (var i = 1; i < 11; i++) {
+                                        if (i == betoptions.loc1 ||
+                                            i == betoptions.loc2 ||
+                                            i == loc3) continue;
+
+                                        // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
+                                        postdata.betParameters.push({
+                                            id: ids[i - 1][numbet - 1],
+                                            BetContext: betContext,
+                                            Lines: lines[i - 1][numbet - 1],
+                                            BetType: 1,
+                                            Money: betmoney.toFixed(2),
+                                            IsTeMa: false,
+                                            IsForNumber: false
+                                        });
+                                    }
+                                } else {
+                                    if (step == 0) {
+                                        numbet = getnumbet(historys[historys.length - 2], historys[historys.length - 1]);
+                                        var numbetindex = getnumbetindex(historys[historys.length - 1], numbet);
+                                        if (numbetindex < 6) {
+                                            start = 6;
+                                            end = 10;
+                                        }
+                                        else {
+                                            start = 1;
+                                            end = 5;
+                                        }
+                                    }
+
+                                    console.log(numbet + ';' + start + ';' + end);
+
+                                    // 可能要对ids和lines的length做验证 测试稳定性后再谈
+                                    for (var i = start; i < end + 1; i++) {
+                                        // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
+                                        postdata.betParameters.push({
+                                            id: ids[i - 1][numbet - 1],
+                                            BetContext: betContext,
+                                            Lines: lines[i - 1][numbet - 1],
+                                            BetType: 1,
+                                            Money: betmoney.toFixed(2),
+                                            IsTeMa: false,
+                                            IsForNumber: false
+                                        });
                                     }
                                 }
 
-                                console.log(numbet + ';' + start + ';' + end);
-
-                                // 可能要对ids和lines的length做验证 测试稳定性后再谈
-                                for (var i = start; i < end + 1; i++) {
-                                    // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
-                                    postdata.betParameters.push({
-                                        id: ids[i - 1][numbet - 1],
-                                        BetContext: betContext,
-                                        Lines: lines[i - 1][numbet - 1],
-                                        BetType: 1,
-                                        Money: betmoney.toFixed(2),
-                                        IsTeMa: false,
-                                        IsForNumber: false
-                                    });
-                                }
-                            }
-
-                            // console.log(postdata);
-                            $.ajax({
-                                type: 'POST',
-                                url: "/bet/bet",
-                                contentType: "application/json",
-                                timeout: 30000,
-                                data: JSON.stringify(postdata),
-                                success: function (r_data) {
-                                    if (r_data.result == 1) {
-                                        console.log('下注状态：成功')
+                                // console.log(postdata);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "/bet/bet",
+                                    contentType: "application/json",
+                                    timeout: 30000,
+                                    data: JSON.stringify(postdata),
+                                    success: function (r_data) {
+                                        if (r_data.result == 1) {
+                                            console.log('下注状态：成功')
+                                        }
+                                        else {
+                                            console.log('下注状态：失败，原因：' + r_data.msg);
+                                        }
                                     }
-                                    else {
-                                        console.log('下注状态：失败，原因：' + r_data.msg);
-                                    }
-                                }
+                                });
                             });
-                            //    });
                         }
                     }
                     else {
@@ -547,7 +496,7 @@ function tjAI(date, firststep, laststep) {
     });
 }
 
-function tjAIFL(date, loc, numbets) {
+function tjAIFL(date, loc, numbets, callback) {
     if (date.length != 10) { console.log('日期格式有误.'); return; }
     console.log('正在获取' + date + '开奖记录...')
     $.ajax({
@@ -588,7 +537,7 @@ function tjAIFL(date, loc, numbets) {
 
                 if (numbets.indexOf(Object.values(historys[i])[loc]) > -1) {
                     outtimesArr.push(outtimes);
-                    outtimes = {times: 0 };
+                    outtimes = { times: 0 };
                 }
                 else {
                     outtimes.times++;
@@ -598,13 +547,12 @@ function tjAIFL(date, loc, numbets) {
             console.log(outtimesArr);
             outtimesArr.sort(function (a, b) { return a.times - b.times });
 
-            console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
-            console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
-            console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
+            // console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
+            // console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
+            // console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
+            if (callback) callback(outtimesArr[outtimesArr.length - 1].times);
 
-
-
-            console.log('结束.');
+            // console.log('结束.');
         }
     });
 }
@@ -1032,4 +980,198 @@ function openAI(s) {
     selectNumAI = true;
     steprates = s;
     console.log('AI开启成功.');
+}
+
+function getNumbets(date, callback) {
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            var tongjiArr = [];
+            var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            for (var k = 0; k < nums.length; k++) {
+                var outtimes = { num: nums[k], times: 0 };
+                var outtimesArr = [];
+                for (var i = historys.length - 2; i > -1; i--) {
+                    if (outtimes.times == 0) {
+                        outtimes.starttime = historys[i].time;
+                        outtimes.period = historys[i].periods
+                    }
+
+                    if (nums[k] == Object.values(historys[i])[1]) {
+                        outtimesArr.push(outtimes);
+                        outtimes = { num: nums[k], times: 0 };
+                    }
+                    else {
+                        outtimes.times++;
+                    }
+                }
+
+                outtimesArr.sort(function (a, b) { return a.times - b.times });
+                //console.log(outtimesArr);
+                tongjiArr.push(outtimesArr[outtimesArr.length - 1]);
+            }
+
+            tongjiArr.sort(function (a, b) { return a.times - b.times });
+            //console.log(tongjiArr);
+
+            if (callback) callback([tongjiArr[tongjiArr.length - 1].num, tongjiArr[tongjiArr.length - 2].num, tongjiArr[tongjiArr.length - 3].num, tongjiArr[tongjiArr.length - 4].num]);
+        }
+    });
+}
+
+function tjTB(date) {
+    var lastdate = new Date(date);//获取当前时间  
+    lastdate.setDate(lastdate.getDate() - 1);//设置天数 -1 天  
+    var time = lastdate.Format("yyyy-MM-dd");
+    //console.log(time);
+    getNumbets(time, function (numbets) {
+        console.log(numbets);
+        //console.log(date);
+        tjAIFL(date, 1, numbets, function (data) {
+            console.log(data);
+        });
+    });
+}
+
+
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份   
+        "d+": this.getDate(), //日   
+        "h+": this.getHours(), //小时   
+        "m+": this.getMinutes(), //分   
+        "s+": this.getSeconds(), //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds() //毫秒   
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+
+function tjqs(date) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            var start;
+            var end;
+
+            var numbet = getnumbet(historys[historys.length - 2], historys[historys.length - 1]);
+            var numbetindex = getnumbetindex(historys[historys.length - 1], numbet);
+
+            if (numbetindex < 6) {
+                start = 6;
+                end = 10;
+            }
+            else {
+                start = 1;
+                end = 5;
+            }
+
+            var outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 0 };
+            var outtimesArr = [];
+            for (var i = historys.length - 3; i > 0; i--) {
+                if (outtimes.times == 0) {
+                    outtimes.starttime = historys[i].time;
+                    outtimes.period = historys[i].periods
+                }
+
+                if (Object.values(historys[i]).indexOf(numbet) >= start && Object.values(historys[i]).indexOf(numbet) <= end) {
+                    numbet = getnumbet(historys[i - 1], historys[i]);
+                    numbetindex = getnumbetindex(historys[i], numbet);
+
+                    if (numbetindex < 6) {
+                        start = 6;
+                        end = 10;
+                    }
+                    else {
+                        start = 1;
+                        end = 5;
+                    }
+
+                    outtimesArr.push(outtimes);
+                    outtimes = { numbet: numbet, start: start, end: end, times: 0, type: 0 };
+                }
+                else {
+                    outtimes.times++;
+                }
+            }
+
+            outtimesArr.sort(function (a, b) { return a.times - b.times });
+            console.log(outtimesArr);
+
+            console.log('最大连续不中次数：' + outtimesArr[outtimesArr.length - 1].times);
+            console.log('最大连续不中开始期号：' + outtimesArr[outtimesArr.length - 1].period);
+            console.log('最大连续不中开始时间：' + outtimesArr[outtimesArr.length - 1].starttime);
+            console.log('最大连续不中购买情况：' + outtimesArr[outtimesArr.length - 1].numbet + ':' + outtimesArr[outtimesArr.length - 1].start + ':' + outtimesArr[outtimesArr.length - 1].end);
+        }
+    });
+}
+
+function getnumbet(predata, curdata) {
+    var predatavalues = Object.values(predata);
+    var curdatavalues = Object.values(curdata);
+
+    var objArr = [];
+    for (var i = 1; i < 11; i++) {
+        objArr.push({
+            num: predatavalues[i],
+            jg: Math.abs(curdatavalues.indexOf(predatavalues[i]) - i)
+        });
+    }
+
+    objArr.sort(function (a, b) { return a.jg - b.jg });
+
+    return objArr[objArr.length - 1].num;
+}
+
+function getnumbetindex(curdata, numbet) {
+    return Object.values(curdata).indexOf(numbet);
 }
