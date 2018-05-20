@@ -1,0 +1,36 @@
+Request URL: https://lot.myb205.com/bet/bet
+Request Method: POST
+Status Code: 200 
+Remote Address: 104.17.171.227:443
+Referrer Policy: no-referrer-when-downgrade
+:authority: lot.myb205.com
+:method: POST
+:path: /bet/bet
+:scheme: https
+accept: */*
+accept-encoding: gzip, deflate, br
+accept-language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+content-length: 568
+content-type: application/json
+cookie: __cfduid=d22b35a0cb501f87e4e2f608a02fd4bf41525266974; _T=5cc7a46a70207911; ry_language=zh_cn; PageStyle=tan; soundAbility=true; lotteryNoticeIdList=%22702%22; hfc_QuickMode=true; _LW=1525267201
+origin: https://lot.myb205.com
+referer: https://lot.myb205.com/Pk10
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+x-requested-with: XMLHttpRequest
+{lotteryId: 4,…}
+betParameters
+:
+[{id: 1133, BetContext: "5", Lines: "9.85", BetType: 1, Money: "10.00", IsTeMa: false,…},…]
+lotteryId
+:
+4
+
+
+{"lotteryId":4,"betParameters":[
+    {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false},
+    {"id":1143,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false},
+    {"id":1153,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false},
+    {"id":1163,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false},
+    {"id":1173,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
+    ]
+}
