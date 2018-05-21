@@ -321,24 +321,24 @@ function starttimedtask() {
                                         IsForNumber: false
                                     });
                                 }
-
-                                // console.log(postdata);
-                                $.ajax({
-                                    type: 'POST',
-                                    url: "/bet/bet",
-                                    contentType: "application/json",
-                                    timeout: 30000,
-                                    data: JSON.stringify(postdata),
-                                    success: function (r_data) {
-                                        if (r_data.result == 1) {
-                                            console.log('下注状态：成功')
-                                        }
-                                        else {
-                                            console.log('下注状态：失败，原因：' + r_data.msg);
-                                        }
+                            }
+                            // console.log(postdata);
+                            $.ajax({
+                                type: 'POST',
+                                url: "/bet/bet",
+                                contentType: "application/json",
+                                timeout: 30000,
+                                data: JSON.stringify(postdata),
+                                success: function (r_data) {
+                                    if (r_data.result == 1) {
+                                        console.log('下注状态：成功')
                                     }
-                                });
+                                    else {
+                                        console.log('下注状态：失败，原因：' + r_data.msg);
+                                    }
+                                }
                             });
+                            //  });
                         }
                     }
                     else {
