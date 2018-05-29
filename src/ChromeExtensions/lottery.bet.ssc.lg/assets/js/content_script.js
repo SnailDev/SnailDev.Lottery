@@ -19,7 +19,7 @@ var nextissue;
 var jihua;
 var step = 0;
 var multiple = 1;
-var maxMoney = 150;
+var maxMoney = 1500;
 var buySwitch = false;
 var isSupport = false;
 
@@ -63,6 +63,12 @@ function starttimedtask() {
                 setcqbuy();
                 touzhuNum = docqbusiness(_doc);
             }
+            if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_6.png') > -1) {
+                console.log('彩种：蓝冠分分彩.');
+
+                setlgffbuy();
+                touzhuNum = docqbusiness(_doc);
+            }
             else if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_12.png') > -1) {
                 console.log('彩种：上海11选5.');
 
@@ -85,6 +91,12 @@ function starttimedtask() {
                 console.log('彩种：山东11选5.');
 
                 setsd11x5buy();
+                touzhuNum = do11x5business(_doc);
+            }
+            else if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_14.png') > -1) {
+                console.log('彩种：蓝冠分分11选5.');
+
+                setlgff11x5buy();
                 touzhuNum = do11x5business(_doc);
             }
             else if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_38.png') > -1) {
@@ -149,6 +161,11 @@ function setcqbuy() {
     gametype = 103;
 }
 
+function setlgffbuy() {
+    gameid = 6;
+    gametype = 103;
+}
+
 // 上海
 function setsh11x5buy() {
     gameid = 12;
@@ -203,6 +220,12 @@ function sethlj11x5buy() {
     gametype = 1049;
 }
 
+// 蓝冠分分11x5
+function setlgff11x5buy() {
+    gameid = 14;
+    gametype = 1045;
+}
+
 function docqbusiness(_doc) {
     var nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -228,7 +251,7 @@ function docqbusiness(_doc) {
             console.log('中奖号为：' + zhong.join(',') + '，未中奖');
             step++;
 
-            if (step > 24) step = 0;
+            if (step > unitArr.length) step = 0;
         }
     }
 
@@ -261,13 +284,13 @@ function do11x5business(_doc) {
         else {
             //console.log('中奖号为：' + zhong.join(',') + '，' + (zhong.length == 3 ? '已中奖' : '未中奖'));
             console.log('中奖号为：' + zhong.join(',') + '，未中奖');
-            step++;
+            //step++;
 
-            if (step > 24) step = 0;
+            if (step > unitArr.length) step = 0;
         }
     }
 
-    jihua = getRandomArrayElements(nums, 7).sort();
+    jihua = getRandomArrayElements(nums, 5).sort();
     console.log(nextissue + '计划：' + jihua.join(','));
 
     return jihua.join(' ');
@@ -282,7 +305,7 @@ function autobuy(period, number, tgid, unit) {
             "BetTypeName": "",
             "Number": number,
             "Position": "",
-            "Unit": 1,
+            "Unit": 0.1,
             "Multiple": unit * multiple,
             "ReturnRate": 0,
             "IsCompressed": false,
@@ -347,7 +370,7 @@ function sendMessageToBackground(title, message) {
     });
 }
 
-function setBuySetings(mult = 1, st = 1, maxmoney = 150) {
+function setBuySetings(mult = 1, st = 1, maxmoney = 1500) {
     if (mult > 20) {
         console.log('设置失败，倍数不能大于20.');
         return;
