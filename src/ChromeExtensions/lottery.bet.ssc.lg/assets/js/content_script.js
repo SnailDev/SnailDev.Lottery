@@ -359,7 +359,7 @@ function setBuySetings(mult = 1, st = 1, maxmoney = 150) {
 
     multiple = mult;
     step = st - 1;
-    maxmoney = maxMoney;
+    maxMoney = maxmoney;
 
     console.log('设置成功，倍数：' + multiple + '，起始步数：' + st + '，金额上限：' + maxMoney);
 }
