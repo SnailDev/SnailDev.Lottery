@@ -130,7 +130,7 @@ function starttimedtask() {
                     buySwitch = false;
                 }
                 else if (money > unitArr[step]) {
-                    autobuy(Number(lastissue) + 1 + '', touzhuNum, GenerateGuid(), unitArr[step]);
+                    autobuy(nextissue.split(' ')[1], touzhuNum, GenerateGuid(), unitArr[step]);
                 }
                 else {
                     console.log('当前金额小于：' + unitArr[step] + '，自动下注将自动关闭.');
