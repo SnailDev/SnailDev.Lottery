@@ -1187,3 +1187,61 @@ function getnumbet(predata, curdata) {
 function getnumbetindex(curdata, numbet) {
     return Object.values(curdata).indexOf(numbet);
 }
+
+function tj7ball(date, ball, locs) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = that.find('.td-hd').text();
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                history.time = that.find('td').eq(1).text().replace('\r\n', '').trim();
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+
+            for (var i = historys.length - 1; i > 0; i--) {
+                var historyperiodsnum = historys[i].periods.split('').map(function (data) {
+                    return +data;
+                });
+
+                var lastloc;
+                for (var j = historyperiodsnum.length - 1; j > -1; j--) {
+                    if (locs.indexOf(historyperiodsnum[j]) == -1) {
+                        lastloc = historyperiodsnum[j];
+                        if (lastloc == 0) lastloc = 10;
+                        break;
+                    }
+                }
+
+                var buyloc = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(v => !locs.includes(v));
+                buyloc = buyloc.filter(v => v != lastloc);
+
+                if (buyloc.indexOf(Object.values(historys[i - 1]).indexOf(ball)) > -1) {
+                    console.error('期号：' + historys[i - 1].periods + '，购买位置：' + buyloc.join(',') + '，已中奖');
+                }
+                else {
+                    console.log('期号：' + historys[i - 1].periods + '，购买位置：' + buyloc.join(',') + '，未中奖');
+                }
+            }
+        }
+    });
+}
