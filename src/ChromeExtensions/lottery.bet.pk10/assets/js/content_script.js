@@ -1,5 +1,5 @@
 var lotteryId = 4;
-var betContext = '5';
+var betContext = '1';
 var betoptions = {};
 var currentMoney = 0;
 var previssue = '';
@@ -116,36 +116,23 @@ function starttimedtask() {
                     console.log(curissue + '进行投注计划');
 
                     var lotteryMoney = $('#j-balance').text().substr(1);
-                    if (parseFloat(lotteryMoney) != NaN) {
+                    if (!isNaN(parseFloat(lotteryMoney))) {
                         console.log('当前可用金额为：' + lotteryMoney);
 
                         if (currentMoney != 0) {
-                            if (!selectNumAI) {
-                                if (currentMoney >= parseFloat(lotteryMoney)) {
-                                    step = 0;
+                            if (currentMoney >= parseFloat(lotteryMoney)) {
+                                step = 0;
 
-                                    if (betoptions.delaybet == 1)
-                                        delaybet = false;
-                                }
-                                else {
-                                    step++;
-                                    if (step >= steprates.length) step = 0;
-                                    if (step == 2 && betoptions.step3 == 0) step = 0;
-                                    if (step == 3 && betoptions.step4 == 0) step = 0;
-                                }
+                                if (betoptions.delaybet == 1)
+                                    delaybet = false;
                             }
                             else {
-                                if (currentMoney >= parseFloat(lotteryMoney)) {
-                                    step++;
-                                    if (step >= steprates.length) step = 0;
-
-                                    if (betoptions.delaybet == 1)
-                                        delaybet = false;
-                                }
-                                else {
-                                    step = 0;
-                                }
+                                step++;
+                                if (step >= steprates.length) step = 0;
+                                if (step == 2 && betoptions.step3 == 0) step = 0;
+                                if (step == 3 && betoptions.step4 == 0) step = 0;
                             }
+
 
                             if (betoptions.delaybet == 0)
                                 delaybet = true;
@@ -169,7 +156,7 @@ function starttimedtask() {
 
 
                         var betmoney = Math.ceil(parseInt(betoptions.buyunit) * steprates[step]);
-                        var needmoney = selectNumAI ? betmoney * 4 : betmoney * 7;
+                        var needmoney = betmoney * 7;
 
                         if (currentMoney < needmoney) {
                             console.log('当前可用金额小于' + needmoney + '元,不再进行投注.')
@@ -194,145 +181,45 @@ function starttimedtask() {
                             // console.log(ids);
                             // console.log(lines);
 
-                            //    gethistroy(5, function (historys) {
                             var postdata = {
                                 lotteryId: lotteryId,
                                 betParameters: []
                             };
 
-                            if (!selectNumAI) {
-                                console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);
-                                numbet = parseInt(betoptions.num);
-                                // var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
-                                // //var loc3 = Math.floor(Math.random() * 10 + 1);
-                                // while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
-                                //     loc3 = Math.floor(Math.random() * 10 + 1);
-                                //     loc3++;
-                                //     loc3 = loc3 > 10 ? loc3 % 10 : loc3;
-                                // }
-                                var loc3;
-                                var historyperiodsnum = previssue.split('');
-                                for (var j = historyperiodsnum.length - 1; j > -1; j--) {
-                                    loc3 = historyperiodsnum[j];
-                                    if (loc3 == 0) loc3 = 10;
+                            console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);
+                            numbet = parseInt(betoptions.num);
 
-                                    if (loc3 != betoptions.loc1 && loc3 != betoptions.loc2) {
-                                        break;
-                                    }
-                                }
+                            var loc3;
+                            var historyperiodsnum = previssue.split('');
+                            for (var j = historyperiodsnum.length - 1; j > -1; j--) {
+                                loc3 = historyperiodsnum[j];
+                                if (loc3 == 0) loc3 = 10;
 
-                                console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
-
-                                // 可能要对ids和lines的length做验证 测试稳定性后再谈
-                                for (var i = 1; i < 11; i++) {
-                                    if (i == betoptions.loc1 ||
-                                        i == betoptions.loc2 ||
-                                        i == loc3) continue;
-
-                                    // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
-                                    postdata.betParameters.push({
-                                        id: ids[i - 1][numbet - 1],
-                                        BetContext: betContext,
-                                        Lines: lines[i - 1][numbet - 1],
-                                        BetType: 1,
-                                        Money: betmoney.toFixed(2),
-                                        IsTeMa: false,
-                                        IsForNumber: false
-                                    });
-                                }
-                            } else {
-                                //if (step == 0) {
-                                // var dataArrs = [[], []];
-                                // for (var i = 0; i < historys.length; i++) {
-                                //     for (var j = 1; j < 11; j++) {
-                                //         if (j < 6)
-                                //             dataArrs[0].push(historys[i]['number' + j]);
-                                //         else
-                                //             dataArrs[1].push(historys[i]['number' + j]);
-                                //     }
-                                // }
-
-                                // var tongjiObjArr = [];
-                                // for (var i = 0; i < dataArrs.length; i++) {
-                                //     var tongjiObj = {};
-                                //     for (var j = 0; j < dataArrs[i].length; j++) {
-                                //         !tongjiObj[dataArrs[i][j]] ? tongjiObj[dataArrs[i][j]] = 1 : tongjiObj[dataArrs[i][j]] += 1;
-                                //     }
-                                //     tongjiObjArr.push(tongjiObj);
-                                // }
-
-                                // console.log(tongjiObjArr);
-
-                                // var count = 0;
-                                // for (var i = 0; i < tongjiObjArr.length; i++) {
-                                //     var tempArr = Object.values(tongjiObjArr[i]);
-                                //     if (tempArr.slice(0).sort()[tempArr.length - 1] > count) {
-                                //         count = tempArr.slice(0).sort()[tempArr.length - 1];
-                                //         var tempIndex = tempArr.indexOf(count);
-                                //         numbet = Object.keys(tongjiObjArr[i])[tempIndex];
-
-                                //         // 排除变态码
-                                //         while (tongjiObjArr[i][numbet] && tongjiObjArr[i][numbet] >= count) {
-                                //             numbet++;
-                                //             if (numbet > 10) numbet = numbet % 10;
-                                //         }
-
-                                //         if (i > 0) {
-                                //             start = 1;
-                                //             end = 5;
-                                //         }
-                                //         else {
-                                //             start = 6;
-                                //             end = 10;
-                                //         }
-                                //     }
-                                // }
-                                var history = {};
-                                $('#prev-bs i').each(function (index, numberItem) {
-                                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
-                                });
-
-                                var _locs = [1, 10];
-                                //console.log(history);
-                                numbet = history.number1 + history.number10;
-                                if (numbet > 10) numbet = numbet % 10;
-
-                                if (_locs.indexOf(numbet) == -1)
-                                    _locs.push(numbet);
-
-                                var _curloc = Object.values(history).indexOf(numbet) + 1;
-                                if (_locs.indexOf(_curloc) == -1)
-                                    _locs.push(_curloc);
-
-                                betmoney = Math.ceil(betmoney * 4 / _locs.length);
-                                console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + (betmoney * _locs.length));
-                                // if (numbet < 6) {
-                                //     start = 1;
-                                //     end = 5;
-                                // }
-                                // else {
-                                //     start = 6;
-                                //     end = 10;
-                                // }
-                                //}
-                                _locs.sort(function (a, b) { return a - b });
-                                console.log(numbet + ';[' + _locs.join(',') + ']');
-
-                                // 可能要对ids和lines的length做验证 测试稳定性后再谈
-                                // for (var i = start; i < end + 1; i++) {
-                                for (var i = 0; i < _locs.length; i++) {
-                                    // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
-                                    postdata.betParameters.push({
-                                        id: ids[_locs[i] - 1][numbet - 1],
-                                        BetContext: betContext,
-                                        Lines: lines[_locs[i] - 1][numbet - 1],
-                                        BetType: 1,
-                                        Money: betmoney.toFixed(2),
-                                        IsTeMa: false,
-                                        IsForNumber: false
-                                    });
+                                if (loc3 != betoptions.loc1 && loc3 != betoptions.loc2) {
+                                    break;
                                 }
                             }
+
+                            console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
+
+                            // 可能要对ids和lines的length做验证 测试稳定性后再谈
+                            for (var i = 1; i < 11; i++) {
+                                if (i == betoptions.loc1 ||
+                                    i == betoptions.loc2 ||
+                                    i == loc3) continue;
+
+                                // {"id":1133,"BetContext":"5","Lines":"9.85","BetType":1,"Money":"10.00","IsTeMa":false,"IsForNumber":false}
+                                postdata.betParameters.push({
+                                    id: ids[i - 1][numbet - 1],
+                                    BetContext: betContext,
+                                    Lines: lines[i - 1][numbet - 1],
+                                    BetType: 1,
+                                    Money: betmoney.toFixed(2),
+                                    IsTeMa: false,
+                                    IsForNumber: false
+                                });
+                            }
+
                             // console.log(postdata);
                             $.ajax({
                                 type: 'POST',
@@ -342,14 +229,13 @@ function starttimedtask() {
                                 data: JSON.stringify(postdata),
                                 success: function (r_data) {
                                     if (r_data.result == 1) {
-                                        console.log('下注状态：成功')
+                                        console.log('下注状态：成功');
                                     }
                                     else {
                                         console.log('下注状态：失败，原因：' + r_data.msg);
                                     }
                                 }
                             });
-                            //  });
                         }
                     }
                     else {
