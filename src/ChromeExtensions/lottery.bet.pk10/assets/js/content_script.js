@@ -203,13 +203,24 @@ function starttimedtask() {
                             if (!selectNumAI) {
                                 console.log("步骤：" + (step + 1) + ',单个位置投注金额：' + betmoney + ',总投注金额：' + needmoney);
                                 numbet = parseInt(betoptions.num);
-                                var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
-                                //var loc3 = Math.floor(Math.random() * 10 + 1);
-                                while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
-                                    loc3 = Math.floor(Math.random() * 10 + 1);
-                                    loc3++;
-                                    loc3 = loc3 > 10 ? loc3 % 10 : loc3;
+                                // var loc3 = Number(previssue.substr(previssue.length - 1, 1)) + 1;
+                                // //var loc3 = Math.floor(Math.random() * 10 + 1);
+                                // while (loc3 == betoptions.loc1 || loc3 == betoptions.loc2) {
+                                //     loc3 = Math.floor(Math.random() * 10 + 1);
+                                //     loc3++;
+                                //     loc3 = loc3 > 10 ? loc3 % 10 : loc3;
+                                // }
+                                var loc3;
+                                var historyperiodsnum = previssue.split('');
+                                for (var j = historyperiodsnum.length - 1; j > -1; j--) {
+                                    loc3 = historyperiodsnum[j];
+                                    if (loc3 == 0) loc3 = 10;
+
+                                    if (loc3 != betoptions.loc1 && loc3 != betoptions.loc2) {
+                                        break;
+                                    }
                                 }
+
                                 console.log('杀掉位置：' + betoptions.loc1 + ',' + betoptions.loc2 + ',' + loc3 + '  压码：' + numbet);
 
                                 // 可能要对ids和lines的length做验证 测试稳定性后再谈
@@ -1218,6 +1229,7 @@ function tj7ball(date, ball, locs) {
             console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
 
 
+            var value = 0;
             for (var i = historys.length - 1; i > 0; i--) {
                 var historyperiodsnum = historys[i].periods.split('').map(function (data) {
                     return +data;
@@ -1236,10 +1248,12 @@ function tj7ball(date, ball, locs) {
                 buyloc = buyloc.filter(v => v != lastloc);
 
                 if (buyloc.indexOf(Object.values(historys[i - 1]).indexOf(ball)) > -1) {
-                    console.error('期号：' + historys[i - 1].periods + '，购买位置：' + buyloc.join(',') + '，已中奖');
+                    value = value + 0.5;
+                    console.error('期号：' + historys[i - 1].periods + '，购买位置：' + buyloc.join(',') + '，已中奖，值：' + value);
                 }
                 else {
-                    console.log('期号：' + historys[i - 1].periods + '，购买位置：' + buyloc.join(',') + '，未中奖');
+                    value = value % 1 == 0 ? value - 1 : value - 1.5;
+                    console.log('期号：' + historys[i - 1].periods + '，购买位置：' + buyloc.join(',') + '，未中奖，值：' + value);
                 }
             }
         }
