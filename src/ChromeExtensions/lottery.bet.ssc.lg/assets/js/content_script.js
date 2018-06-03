@@ -19,13 +19,15 @@ var nextissue;
 var jihua;
 var step = 0;
 var multiple = 1;
+var _unit = 0.1;
 var maxMoney = 1500;
 var buySwitch = false;
 var isSupport = false;
 
 var gameid, gametype;
 
-var unitArr = [1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 7, 7, 7, 7];
+//var unitArr = [1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 7, 7, 7, 7];
+var unitArr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 10, 11, 12, 13, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 26];
 
 function getRandomArrayElements(arr, count) {
     var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
@@ -63,11 +65,11 @@ function starttimedtask() {
                 setcqbuy();
                 touzhuNum = docqbusiness(_doc);
             }
-            if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_6.png') > -1) {
+            else if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_6.png') > -1) {
                 console.log('彩种：蓝冠分分彩.');
 
                 setlgffbuy();
-                touzhuNum = docqbusiness(_doc);
+                touzhuNum = dolgsscbusiness(_doc);
             }
             else if (_doc.find('#gameLogoImg').attr('src').indexOf('czlogo_12.png') > -1) {
                 console.log('彩种：上海11选5.');
@@ -141,11 +143,11 @@ function starttimedtask() {
                     console.log('当前金额大于：' + maxMoney + '，自动下注将自动关闭.');
                     buySwitch = false;
                 }
-                else if (money > unitArr[step]) {
+                else if (money > unitArr[step] * _unit) {
                     autobuy(nextissue.split(' ')[1], touzhuNum, GenerateGuid(), unitArr[step]);
                 }
                 else {
-                    console.log('当前金额小于：' + unitArr[step] + '，自动下注将自动关闭.');
+                    console.log('当前金额小于：' + unitArr[step] * _unit + '，自动下注将自动关闭.');
                     buySwitch = false;
                 }
             }
@@ -163,7 +165,7 @@ function setcqbuy() {
 
 function setlgffbuy() {
     gameid = 6;
-    gametype = 103;
+    gametype = 102;//103;
 }
 
 // 上海
@@ -255,10 +257,71 @@ function docqbusiness(_doc) {
         }
     }
 
-    jihua = getRandomArrayElements(nums, 3).sort();
+    //jihua = getRandomArrayElements(nums, 3).sort();
+    jihua = sscnumtimetj(_doc).sort();
     console.log(nextissue + '计划：' + jihua.join(','));
 
     return jihua.join('');
+}
+
+function dolgsscbusiness(_doc) {
+    var nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    var kaijiang = [
+        Number(_doc.find('#lastdigit1').text()),
+        Number(_doc.find('#lastdigit2').text()),
+        Number(_doc.find('#lastdigit3').text()),
+        Number(_doc.find('#lastdigit4').text()),
+        Number(_doc.find('#lastdigit5').text())
+    ];
+    console.log('当前开奖号码：' + kaijiang.join(','));
+
+    if (jihua) {
+        console.log('本期计划为:' + jihua.join(','));
+        var zhong = jihua.filter(v => kaijiang.includes(v));
+
+        if (zhong.length == 3) {
+            console.error('中奖号为：' + zhong.join(',') + '，已中奖');
+            step = 0;
+        }
+        else {
+            //console.log('中奖号为：' + zhong.join(',') + '，' + (zhong.length == 3 ? '已中奖' : '未中奖'));
+            console.log('中奖号为：' + zhong.join(',') + '，未中奖');
+
+            //step++;
+            step = 0;
+
+            if (step > unitArr.length) step = 0;
+        }
+    }
+
+    // sscnumtimetj(_doc);
+    // jihua = getRandomArrayElements(nums, 3).sort();
+    jihua = sscnumtimetj(_doc).sort();
+    console.log(nextissue + '计划：' + jihua.join(','));
+
+    return jihua.join('');
+}
+
+function sscnumtimetj(_doc) {
+    var dataArrs = _doc.find('.mtop-lss-i2').text().split('');//.filter(function (num) { return +num });
+    var tongjiObj = {};
+    for (var j = 0; j < dataArrs.length; j++) {
+        !tongjiObj[dataArrs[j]] ? tongjiObj[dataArrs[j]] = 1 : tongjiObj[dataArrs[j]] += 1;
+    }
+
+    var keys = Object.keys(tongjiObj);
+    var values = Object.values(tongjiObj);
+
+    var tongjiArr = [];
+    for (var i = 0; i < keys.length; i++) {
+        tongjiArr.push({ 'key': Number(keys[i]), 'times': values[i] })
+    }
+
+    tongjiArr.sort(function (a, b) { return a.times - b.times });
+    console.log(tongjiArr);
+
+    return [tongjiArr[4].key, tongjiArr[tongjiArr.length - 3].key, tongjiArr[tongjiArr.length - 2].key];
 }
 
 function do11x5business(_doc) {
@@ -284,7 +347,7 @@ function do11x5business(_doc) {
         else {
             //console.log('中奖号为：' + zhong.join(',') + '，' + (zhong.length == 3 ? '已中奖' : '未中奖'));
             console.log('中奖号为：' + zhong.join(',') + '，未中奖');
-            //step++;
+            step++;
 
             if (step > unitArr.length) step = 0;
         }
@@ -305,7 +368,7 @@ function autobuy(period, number, tgid, unit) {
             "BetTypeName": "",
             "Number": number,
             "Position": "",
-            "Unit": 0.1,
+            "Unit": _unit,
             "Multiple": unit * multiple,
             "ReturnRate": 0,
             "IsCompressed": false,
