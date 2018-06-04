@@ -1,0 +1,52 @@
+{
+	"manifest_version": 2,
+	"name": "淘宝运订单",
+	"version": "1.0",
+	"description": "a simple tool of taobao",
+	"icons": {
+		"32": "assets/images/icon32.png",
+		"48": "assets/images/icon48.png",
+		"72": "assets/images/icon72.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"32": "assets/images/icon32.png",
+			"48": "assets/images/icon48.png"
+		},
+		"default_title": "淘宝运订单",
+		"default_popup": "views/popup.html"
+	},
+	"background": {
+		"scripts": [
+			"assets/js/jquery-1.8.3.js",
+			"assets/js/background.js"
+		]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://buyertrade.taobao.com/trade/itemlist/list_bought_items.htm?*"
+			],
+			"js": [
+				"assets/js/jquery-1.8.3.js",
+				"assets/js/content_script.js"
+			],
+			"css": [
+				"assets/css/custom.css"
+			],
+			"run_at": "document_start"
+		}
+	],
+	"permissions": [
+		"tabs",
+		"notifications",
+		"webRequest",
+		"webRequestBlocking",
+		"storage",
+		"http://*/*",
+		"https://*/*"
+	],
+	"web_accessible_resources": [
+		"assets/js/inject.js"
+	]
+}

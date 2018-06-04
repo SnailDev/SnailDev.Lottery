@@ -1,0 +1,909 @@
+//trade.tmall.com/detail/orderDetail.htm?bizOrderId=167725394075120206
+{
+	"ad": {
+		"banner": {
+			"params": {
+				"sellerId": "9009c65d8382274b55a5e4de18536a22",
+				"categoryId": "50022517"
+			}
+		},
+		"p4pAdvert": {
+			"params": {
+				"p4p": "true"
+			}
+		},
+		"salePromotion": {
+			"params": {
+				"aldCfgAppId": "03236",
+				"itemIds": "566663840277",
+				"aldCfgName": "vieworder_a"
+			}
+		}
+	},
+	"amount": {
+		"count": [
+			[{
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "￥238.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "商品总价",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "￥0.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "运费(快递)",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "￥0.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"mmstat": "https://gm.mmstat.com/tmalljy.2.7?pos=titleLink",
+							"text": "运费险(卖家赠送)",
+							"type": "link",
+							"url": "//baoxian.taobao.com/order_detail.html?biz_type=5001&related_order_id=167725394075120206"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"color": "#333333",
+								"fontSize": "14px",
+								"fontWeight": "600",
+								"width": "120px"
+							},
+							"text": "￥238.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"css": {
+								"color": "#333333",
+								"fontSize": "14px",
+								"fontWeight": "600"
+							},
+							"text": "订单总价",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}],
+			[{
+				"content": [{
+					"data": {
+						"rmb": {
+							"css": {
+								"color": "#DD2727",
+								"fontSize": "14px",
+								"fontWeight": "600",
+								"width": "64px"
+							},
+							"text": "￥",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"css": {
+								"color": "#333333",
+								"fontSize": "14px",
+								"fontWeight": "600"
+							},
+							"text": "实付款",
+							"type": "label"
+						},
+						"dotPrefixMoney": {
+							"css": {
+								"color": "#DD2727",
+								"fontSize": "18px",
+								"fontWeight": "600"
+							},
+							"text": "238",
+							"type": "label"
+						},
+						"dotSufixMoney": {
+							"css": {
+								"color": "#DD2727",
+								"fontSize": "14px",
+								"fontWeight": "600"
+							},
+							"text": ".00",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "rmb", "dotPrefixMoney", "dotSufixMoney"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}]
+		],
+		"promotion": [{
+			"content": [{
+				"data": {
+					"money": {
+						"css": {
+							"width": "120px"
+						},
+						"text": "返积分119点",
+						"type": "label"
+					}
+				},
+				"layout": {
+					"row1": {
+						"children": ["money"]
+					},
+					"root": {
+						"children": ["row1"]
+					}
+				},
+				"root": "root",
+				"type": "mixture"
+			}],
+			"key": ""
+		}]
+	},
+	"basic": {
+		"lists": [{
+			"content": [{
+				"text": "王小红,18321391579,上海 上海市 闵行区 梅陇镇 老沪闵路1111弄晶欣坊1号楼402室 ,000000",
+				"type": "label"
+			}],
+			"key": "收货地址"
+		}, {
+			"content": [{
+				"text": "-",
+				"type": "label"
+			}],
+			"key": "买家留言"
+		}, {
+			"content": [{
+				"text": "167725394075120206",
+				"type": "label"
+			}, {
+				"direction": "left",
+				"moreList": [{
+					"content": [{
+						"text": "2018052921001001100523767093",
+						"type": "label"
+					}],
+					"key": "支付宝交易号"
+				}, {
+					"content": [{
+						"text": "2018-05-29 17:26:00",
+						"type": "label"
+					}],
+					"key": "成交时间"
+				}, {
+					"content": [{
+						"text": "2018-05-29 17:26:22",
+						"type": "label"
+					}],
+					"key": "付款时间"
+				}, {
+					"content": [{
+						"text": "2018-05-29 19:08:15",
+						"type": "label"
+					}],
+					"key": "发货时间"
+				}, {
+					"content": [{
+						"text": "2018-06-02 21:36:31",
+						"type": "label"
+					}],
+					"key": "完结时间"
+				}],
+				"noHover": false,
+				"text": "更多",
+				"type": "more"
+			}],
+			"key": "订单编号"
+		}, {
+			"content": [{
+				"text": "<span class='short-dd-nick' title='亲琦旗舰店'>亲琦旗舰店<span class='J_WangWang' data-nick='亲琦旗舰店' data-icon='small' data-item='0:167725394075120206' data-encode='true' data-display='inline'></span></span>",
+				"type": "html"
+			}, {
+				"direction": "left",
+				"moreList": [{
+					"content": [{
+						"text": "南昌奇遇商贸有限公司",
+						"type": "label"
+					}],
+					"key": "真实姓名"
+				}, {
+					"content": [{
+						"text": "南昌市",
+						"type": "label"
+					}],
+					"key": "城市"
+				}, {
+					"content": [{
+						"text": "15151953196",
+						"type": "label"
+					}],
+					"key": "联系电话"
+				}],
+				"noHover": false,
+				"text": "更多",
+				"type": "more"
+			}],
+			"key": "商家"
+		}],
+		"log": {},
+		"title": "订单信息"
+	},
+	"orders": {
+		"id": 167725394075120206,
+		"list": [{
+			"logistic": {
+				"content": [{
+					"companyName": "邮政快递包裹",
+					"mailNo": "9892795324925",
+					"text": "包裹1",
+					"type": "logistic",
+					"url": "//detail.i56.taobao.com/call/query_trace_un_login.do?tradeId=167725394075120206&dimension=TRADE_ID&appName=TMALL_BUY&digest=Rj/uq7MQKT7UWcw3wnQ4WA==&data-mail-no=9892795324925&data-company-name=邮政快递包裹"
+				}],
+				"key": ""
+			},
+			"status": [{
+				"statusInfo": [{
+					"text": "交易成功",
+					"type": "label"
+				}],
+				"subOrders": [{
+					"itemInfo": {
+						"itemUrl": "//trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=167725394075120206",
+						"pic": "//img.alicdn.com/bao/uploaded/i2/2120915870/TB251LMnDJYBeNjy1zeXXahzVXa_!!2120915870.jpg",
+						"serviceIcons": [{
+							"linkTitle": "七天退换",
+							"linkUrl": "//pages.tmall.com/wow/seller/act/seven-day",
+							"name": "七天退换",
+							"title": "七天退换",
+							"type": 3,
+							"url": "//img.alicdn.com/tps/i3/T1Vyl6FCBlXXaSQP_X-16-16.png"
+						}, {
+							"linkTitle": "如实描述",
+							"linkUrl": "//www.taobao.com/go/act/315/xfzbz_rsms.php?ad_id=&am_id=130011830696bce9eda3&cm_id=&pm_id=",
+							"name": "如实描述",
+							"title": "如实描述",
+							"type": 3,
+							"url": "//img.alicdn.com/tps/TB1PDB6IVXXXXaVaXXXXXXXXXXX.png"
+						}, {
+							"linkTitle": "正品保证",
+							"linkUrl": "//www.tmall.com/wow/portal/act/bzj?spm=a220o.1000855.0.0.qUbfVM",
+							"name": "正品保证",
+							"title": "正品保证",
+							"type": 3,
+							"url": "//img.alicdn.com/tps/i2/T1SyeXFpliXXaSQP_X-16-16.png"
+						}],
+						"skuText": [{
+							"content": [{
+								"text": "经典款银灰色【舒适透气 四季可穿】送防辐射手机套",
+								"type": "label"
+							}],
+							"key": "颜色分类"
+						}, {
+							"content": [{
+								"text": "L",
+								"type": "label"
+							}],
+							"key": "尺码"
+						}],
+						"snapUrl": "//trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=167725394075120206",
+						"title": "孕妇防辐射服孕妇装正品内穿肚兜衣服女四季怀孕期上班放射服夏季"
+					},
+					"priceInfo": [{
+						"text": "238.00",
+						"type": "label"
+					}],
+					"quantity": "1"
+				}]
+			}]
+		}]
+	},
+	"other": {
+		"content": []
+	},
+	"overStatus": {
+		"explain": [],
+		"operate": [{
+			"content": [{
+				"action": "b4",
+				"id": "ADD_BUYER_MEMO",
+				"pointUrl": "//go.mmstat.com/jsclick?logtyp=2&orderdetail=viewdetail",
+				"text": "备忘",
+				"type": "operation",
+				"url": "//trade.taobao.com/trade/memo/update_buy_memo.htm?biz_order_id=167725394075120206&buyer_id=673120602&return_url=//trade.tmall.com/detail/orderDetail.htm?biz_order_id=167725394075120206"
+			}],
+			"key": "您可以"
+		}],
+		"prompt": [{
+			"content": [{
+				"companyName": "邮政快递包裹",
+				"mailNo": "9892795324925",
+				"type": "logistic",
+				"url": "//detail.i56.taobao.com/call/query_trace_un_login.do?tradeId=167725394075120206&dimension=TRADE_ID&appName=TMALL_BUY&digest=Rj/uq7MQKT7UWcw3wnQ4WA=="
+			}],
+			"key": "物流"
+		}],
+		"status": {
+			"content": [{
+				"text": "<h3>订单状态: 已评价</h3>",
+				"type": "html"
+			}],
+			"iconUrl": "//img.alicdn.com/tps/i1/T1e.aoXuXdXXa94Hfd-32-32.png"
+		}
+	},
+	"stepbar": {
+		"current": 4,
+		"options": [{
+			"content": "拍下商品",
+			"time": "2018-05-29 17:26:00"
+		}, {
+			"content": "付款到支付宝",
+			"time": "2018-05-29 17:26:22"
+		}, {
+			"content": "卖家发货",
+			"time": "2018-05-29 19:08:15"
+		}, {
+			"content": "确认收货",
+			"time": "2018-06-02 21:36:31"
+		}, {
+			"content": "评价"
+		}]
+	},
+	"top": {
+		"crumbs": {
+			"content": [{
+				"action": "b4",
+				"text": "首页",
+				"type": "operation",
+				"url": "//www.tmall.com"
+			}, {
+				"action": "b4",
+				"text": "我的淘宝",
+				"type": "operation",
+				"url": "//i.taobao.com/myTaobao.htm?nekot=1528093927915"
+			}, {
+				"action": "b4",
+				"text": "已买到的宝贝",
+				"type": "operation",
+				"url": "//trade.taobao.com/trade/itemlist/listBoughtItems.htm?nekot=1528093927915"
+			}],
+			"key": "您的位置"
+		},
+		"hotline": {
+			"content": [{
+				"text": "4008 608 608",
+				"type": "label"
+			}],
+			"key": "天猫热线"
+		}
+	}
+}
+
+//trade.tmall.hk/detail/orderDetail.htm?bizOrderId=164045103871120206
+{
+	"ad": {
+		"banner": {
+			"params": {
+				"sellerId": "97816acaeaff78ecf792bd3bf5932e2e",
+				"categoryId": "35"
+			}
+		}
+	},
+	"amount": {
+		"count": [
+			[{
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "￥1598.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "商品总价",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "-￥20.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "店铺优惠",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "-￥200.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "奶粉购物券",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "￥0.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "运费",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"width": "120px"
+							},
+							"text": "￥0.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"text": "税费(售价已包含)",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}, {
+				"content": [{
+					"data": {
+						"money": {
+							"css": {
+								"color": "#333333",
+								"fontSize": "14px",
+								"fontWeight": "600",
+								"width": "120px"
+							},
+							"text": "￥1378.00",
+							"type": "label"
+						},
+						"colon": {
+							"text": "：",
+							"type": "label"
+						},
+						"titleLink": {
+							"css": {
+								"color": "#333333",
+								"fontSize": "14px",
+								"fontWeight": "600"
+							},
+							"text": "订单总价",
+							"type": "label"
+						}
+					},
+					"layout": {
+						"row1": {
+							"children": ["titleLink", "colon", "money"]
+						},
+						"root": {
+							"children": ["row1"]
+						}
+					},
+					"root": "root",
+					"type": "mixture"
+				}],
+				"key": ""
+			}]
+		],
+		"promotion": []
+	},
+	"basic": {
+		"lists": [{
+			"content": [{
+				"text": "王小红,18321391579,上海 上海市 闵行区 梅陇镇 老沪闵路1111弄晶欣坊1号楼402室 ,000000",
+				"type": "label"
+			}],
+			"key": "收货地址"
+		}, {
+			"content": [{
+				"text": "-",
+				"type": "label"
+			}],
+			"key": "买家留言"
+		}, {
+			"content": [{
+				"text": "164045103871120206",
+				"type": "label"
+			}, {
+				"direction": "left",
+				"moreList": [{
+					"content": [{
+						"text": "2018052221001001100245252355",
+						"type": "label"
+					}],
+					"key": "支付宝交易号"
+				}, {
+					"content": [{
+						"text": "2018-05-22 23:13:25",
+						"type": "label"
+					}],
+					"key": "成交时间"
+				}, {
+					"content": [{
+						"text": "2018-05-22 23:13:37",
+						"type": "label"
+					}],
+					"key": "完结时间"
+				}],
+				"noHover": false,
+				"text": "更多",
+				"type": "more"
+			}],
+			"key": "订单编号"
+		}, {
+			"content": [{
+				"text": "<span class='short-dd-nick' title='windeln官方海外旗舰店'>windeln官方海外旗舰店<span class='J_WangWang' data-nick='windeln官方海外旗舰店' data-icon='small' data-item='0:164045103871120206' data-encode='true' data-display='inline'></span></span>",
+				"type": "html"
+			}, {
+				"direction": "left",
+				"moreList": [{
+					"content": [{
+						"text": "WINDELN.DE AG",
+						"type": "label"
+					}],
+					"key": "真实姓名"
+				}, {
+					"content": [{
+						"text": "海外",
+						"type": "label"
+					}],
+					"key": "城市"
+				}, {
+					"content": [{
+						"text": "",
+						"type": "label"
+					}],
+					"key": "联系电话"
+				}],
+				"noHover": false,
+				"text": "更多",
+				"type": "more"
+			}],
+			"key": "商家"
+		}],
+		"log": {},
+		"title": "订单信息"
+	},
+	"orders": {
+		"id": 164045103871120206,
+		"list": [{
+			"status": [{
+				"statusInfo": [{
+					"text": "已取消",
+					"type": "label"
+				}, {
+					"action": "b4",
+					"iconUrl": "//assets.alicdn.com/app/trade/img/view_reason.png",
+					"style": "t0",
+					"title": "取消原因:我不想买了",
+					"type": "operation"
+				}],
+				"subOrders": [{
+					"itemInfo": {
+						"itemUrl": "//trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=164045103871120206",
+						"pic": "//img.alicdn.com/bao/uploaded/i3/2909707878/TB2MWjqsf5TBuNjSspcXXbnGFXa_!!2909707878-0-item_pic.jpg",
+						"serviceIcons": [{
+							"linkTitle": "520价",
+							"name": "[正式]招商活动id:19456PC端活动Icon",
+							"type": 3,
+							"url": "//img.alicdn.com/bao/uploaded/TB1UcAIr1ySBuNjy1zdwu0PxFXa.png"
+						}, {
+							"linkTitle": "环球必达订单",
+							"linkUrl": "//rule.tmall.hk/rule/rule_detail.htm?spm=0.0.0.0.7JlwQl&id=2683&tag=self",
+							"name": "环球必达订单展示",
+							"title": "此商品承诺在约定的时间内送达",
+							"type": 3,
+							"url": "//gtms04.alicdn.com/tps/i4/TB1FfXQIFXXXXaNXpXXWzzUFXXX-16-16.jpg"
+						}, {
+							"linkTitle": "天猫国际",
+							"linkUrl": "//www.tmall.hk/",
+							"name": "天猫国际订单",
+							"type": 3,
+							"url": "//img.alicdn.com/tps/TB1yyDFKFXXXXczXFXXXXXXXXXX-50-16.png"
+						}, {
+							"linkTitle": "跨境申报",
+							"linkUrl": "//www.tmall.hk",
+							"name": "订单-天猫国际-跨境",
+							"title": "跨境申报订单",
+							"type": 3,
+							"url": "//img.alicdn.com/tps/i1/TB1Xj3eMXXXXXbBXXXXAz6UFXXX-16-16.png"
+						}, {
+							"linkUrl": "//ju.taobao.com/tg/home.htm?item_id=534668830199",
+							"title": "聚划算",
+							"type": 3,
+							"url": "//gtd.alicdn.com/tps/i1/T1rJ5TXaNiXXXXXXXX-16-16.png"
+						}],
+						"snapUrl": "//trade.taobao.com/trade/detail/tradeSnap.htm?tradeID=164045103871120206",
+						"title": "【520活动价】【德国直邮】Aptamil爱他美白金版2段较大婴儿配方牛奶粉4盒w家"
+					},
+					"priceInfo": [{
+						"text": "799.00",
+						"type": "label"
+					}],
+					"quantity": "2"
+				}]
+			}]
+		}]
+	},
+	"other": {
+		"content": []
+	},
+	"overStatus": {
+		"explain": [],
+		"operate": [{
+			"content": [{
+				"action": "b4",
+				"id": "ADD_BUYER_MEMO",
+				"pointUrl": "//go.mmstat.com/jsclick?logtyp=2&orderdetail=viewdetail",
+				"text": "备忘",
+				"type": "operation",
+				"url": "//trade.taobao.com/trade/memo/update_buy_memo.htm?biz_order_id=164045103871120206&buyer_id=673120602&return_url=//trade.tmall.hk/detail/orderDetail.htm?biz_order_id=164045103871120206"
+			}],
+			"key": "您可以"
+		}],
+		"prompt": [{
+			"content": [{
+				"text": "买家取消订单",
+				"type": "label"
+			}],
+			"key": "关闭类型"
+		}, {
+			"content": [{
+				"text": "我不想买了",
+				"type": "label"
+			}],
+			"key": "原因"
+		}, {
+			"content": [{
+				"text": "预计06月23日送达",
+				"type": "label"
+			}],
+			"key": "物流"
+		}],
+		"status": {
+			"content": [{
+				"text": "<h3>订单状态: 交易关闭</h3>",
+				"type": "html"
+			}],
+			"iconUrl": "//img.alicdn.com/tps/i4/T1VVShXqtcXXamt9jd-34-34.png"
+		}
+	},
+	"stepbar": {
+		"current": 0,
+		"options": []
+	},
+	"top": {
+		"crumbs": {
+			"content": [{
+				"action": "b4",
+				"text": "首页",
+				"type": "operation",
+				"url": "//www.tmall.com"
+			}, {
+				"action": "b4",
+				"text": "我的淘宝",
+				"type": "operation",
+				"url": "//i.taobao.com/myTaobao.htm?nekot=1528094480723"
+			}, {
+				"action": "b4",
+				"text": "已买到的宝贝",
+				"type": "operation",
+				"url": "//trade.taobao.com/trade/itemlist/listBoughtItems.htm?nekot=1528094480723"
+			}],
+			"key": "您的位置"
+		},
+		"hotline": {
+			"content": [],
+			"key": ""
+		}
+	}
+}
+
+//buyertrade.taobao.com/trade/detail/trade_item_detail.htm?bizOrderId=154074925574120206 需要转换
+//trade.taobao.com/trade/detail/trade_order_detail.htm?biz_order_id=154074925574120206
+var data = JSON.parse('{\"deliveryInfo\":{\"logisticsName\":\"\u5929\u5929\u5FEB\u9012\",\"sellerNick\":\"\u9759\u7684\u75AF\u72C201\",\"tspInfo\":{},\"address\":\"\u8D75\u660E\uFF0C15821753692\uFF0C\u4E0A\u6D77 \u4E0A\u6D77\u5E02 \u95F5\u884C\u533A \u6885\u9647\u9547 \u8001\u6CAA\u95F5\u8DEF1111\u5F04\uFF08\u6676\u6B23\u574A\uFF091\u53F7402 \uFF0C201100\",\"showLogistics\":true,\"shipType\":\"\u5FEB\u9012\",\"logisticsNum\":\"580411292506\",\"showTSP\":false,\"asyncLogisticsUrl\":\"\/\/detail.i56.taobao.com\/call\/queryTrace.do?dimension=TRADE_ID&tradeId=154074925574120206\"},\"mainOrder\":{\"seller\":{\"wangwangType\":\"wangwang\",\"mail\":\"4***\",\"city\":\"\u4E0A\u6D77 \u4E0A\u6D77\",\"phoneNum\":\"021-54853677-\",\"shopDisable\":false,\"guestUser\":false,\"alipayAccount\":\"4***\",\"notShowSellerInfo\":false,\"nick\":\"\u9759\u7684\u75AF\u72C201\",\"opeanSearch\":false,\"name\":\"\u9EC4\u7E41\u4F1F\",\"privateMsgUrl\":\"\/\/member1.taobao.com\/message\/addPrivateMsg.htm?recipient_nickname=%BE%B2%B5%C4%B7%E8%BF%F101\",\"id\":556717459,\"alertStyle\":0},\"operations\":[],\"statusInfo\":{\"text\":\"\u5F53\u524D\u8BA2\u5355\u72B6\u6001\uFF1A\u4EA4\u6613\u5DF2\u6210\u529F\",\"type\":\"t0\"},\"totalPrice\":[{\"type\":\"line\",\"content\":[{\"type\":\"text\",\"value\":\"10.50\"}]},{\"type\":\"line\",\"content\":[]},{\"type\":\"line\",\"content\":[{\"type\":\"text\",\"value\":\"(\u5FEB\u9012: 0.00)\"}]}],\"columns\":[\"\u5B9D\u8D1D\",\"\u5B9D\u8D1D\u5C5E\u6027\",\"\u72B6\u6001\",\"\u670D\u52A1\",\"\u5355\u4EF7\",\"\u6570\u91CF\",\"\u4F18\u60E0\",\"\u5546\u54C1\u603B\u4EF7\"],\"extra\":{\"inHold\":false,\"isShowSellerService\":false},\"orderInfo\":{\"lines\":[{\"type\":\"line\",\"content\":[]},{\"type\":\"line\",\"content\":[{\"type\":\"namevalue\",\"value\":{\"name\":\"\u8BA2\u5355\u7F16\u53F7:\",\"value\":[{\"type\":\"text\",\"value\":\"154074925574120206\"}]}},{\"type\":\"namevalue\",\"value\":{\"name\":\"\u652F\u4ED8\u5B9D\u4EA4\u6613\u53F7:\",\"value\":\"2018050221001001100530151624\"}},{\"type\":\"namevalue\",\"value\":{\"name\":\"\u521B\u5EFA\u65F6\u95F4:\",\"value\":\"2018-05-02 20:13:04\"}},{\"type\":\"namevalue\",\"value\":{\"name\":\"\u53D1\u8D27\u65F6\u95F4:\",\"value\":\"2018-05-03 11:12:29\"}},{\"type\":\"namevalue\",\"value\":{\"name\":\"\u4ED8\u6B3E\u65F6\u95F4:\",\"value\":\"2018-05-02 20:13:21\"}},{\"type\":\"namevalue\",\"value\":{\"name\":\"\u6210\u4EA4\u65F6\u95F4:\",\"value\":\"2018-05-13 11:12:40\"}}]}],\"type\":\"group\"},\"id\":\"154074925574120206\",\"subOrders\":[{\"priceInfo\":\"10.50\",\"quantity\":\"1\",\"service\":[],\"extra\":{\"overSold\":false,\"alicommunOrderDirect\":false,\"needShowQuantity\":0,\"xt\":false,\"needDisplay\":false,\"payStatus\":0,\"opWeiQuan\":false,\"notSupportReturn\":false},\"tradeStatus\":[{\"type\":\"line\",\"content\":[{\"type\":\"text\",\"value\":\"\u5DF2\u786E\u8BA4\u6536\u8D27\"}]}],\"id\":154074925574120206,\"itemInfo\":{\"skuText\":[{\"type\":\"line\",\"content\":[{\"type\":\"namevalue\",\"value\":{\"name\":\"\u989C\u8272\u5206\u7C7B\uFF1A\",\"value\":\"\u2460\u666E\u901A\u7535\u70ED\u7BA1\"}}]}],\"auctionUrl\":\"\/\/trade.taobao.com\/trade\/detail\/tradeSnap.htm?trade_id=154074925574120206\",\"pic\":\"\/\/img.alicdn.com\/bao\/uploaded\/i4\/556717459\/TB2icA.kf9TBuNjy1zbXXXpepXa_!!556717459.png_sum.jpg\",\"title\":\"\u9632\u5E72\u70E7\u7535\u70ED\u6C34\u58F6\u914D\u4EF6\u96F6\u4EF6\u70E7\u6C34\u58F6\u82AF1500w\u52A0\u70ED\u7BA1\u7535\u6C34\u58F6\u53D1\u70ED\u7BA1\u7535\u70ED\u7BA11\",\"serviceIcons\":[{\"linkTitle\":\"\u4FDD\u969C\u5361\",\"linkUrl\":\"http:\/\/trade.taobao.com\/trade\/security\/security_card.htm?bizOrderId=154074925574120206\",\"type\":3,\"url\":\"\/\/img.alicdn.com\/tps\/i2\/T1S4ysXh8pXXXXXXXX-52-16.png\"}],\"skuId\":0},\"promotionInfo\":[]}],\"payInfo\":{\"showPayDetail\":false,\"cod\":false,\"sendPromotions\":[],\"actualFee\":{\"name\":\"\u8BA2\u5355\u603B\u91D1\u989D\",\"value\":\"10.50\"},\"fullPromotion\":{\"valid\":false}}},\"orderBar\":{\"nodes\":[{\"date\":\"2018-05-02 20:13:04\",\"index\":1,\"text\":\"\u62CD\u4E0B\u5B9D\u8D1D\"},{\"date\":\"2018-05-02 20:13:21\",\"index\":2,\"text\":\"\u4ED8\u6B3E\u5230\u652F\u4ED8\u5B9D\"},{\"date\":\"2018-05-03 11:12:29\",\"index\":3,\"text\":\"\u5356\u5BB6\u53D1\u8D27\"},{\"date\":\"2018-05-13 11:12:40\",\"index\":4,\"text\":\"\u786E\u8BA4\u6536\u8D27\"}],\"currentStepIndex\":0,\"currentIndex\":4},\"crumbs\":[{\"text\":\"\u9996\u9875\",\"url\":\"\/\/www.taobao.com\"},{\"text\":\"\u6211\u7684\u6DD8\u5B9D\",\"url\":\"\/\/i.taobao.com\/myTaobao.htm?nekot=1528094726480\"},{\"text\":\"\u5DF2\u4E70\u5230\u7684\u5B9D\u8D1D\",\"url\":\"\/\/trade.taobao.com\/trade\/itemlist\/listBoughtItems.htm?nekot=1528094726480\"}],\"operationsGuide\":[{\"layout\":\"li\",\"lines\":[{\"type\":\"line\",\"content\":[{\"type\":\"text\",\"value\":\"\u5982\u679C\u6CA1\u6709\u6536\u5230\u8D27\uFF0C\u6216\u6536\u5230\u8D27\u540E\u51FA\u73B0\u95EE\u9898\uFF0C\u60A8\u53EF\u4EE5\"},{\"type\":\"wangwang\",\"value\":{\"nick\":\"\u9759\u7684\u75AF\u72C201\",\"bizOrderId\":0,\"text\":\"\u8054\u7CFB\u5356\u5BB6\"}},{\"type\":\"text\",\"value\":\"\u534F\u5546\u89E3\u51B3\"}]},{\"type\":\"line\",\"content\":[{\"type\":\"text\",\"value\":\"\u5982\u679C\u5356\u5BB6\u6CA1\u6709\u5C65\u884C\u5E94\u5C3D\u7684\u627F\u8BFA\uFF0C\u60A8\u53EF\u4EE5\u201C\u6295\u8BC9\u7EF4\u6743\u201D\"}]}],\"type\":\"group\"}],\"customService\":{\"display\":\"orangeText\",\"type\":\"line\",\"content\":[{\"type\":\"text\",\"value\":\"\u6709\u7591\u95EE\u53EF\u54A8\u8BE2:\u4EBA\u5DE5\u5BA2\u670D\"}]},\"detailExtra\":{\"op\":false,\"b2c\":false,\"ccc\":false,\"tradeEnd\":false,\"outShopOrder\":false,\"wakeupOrder\":false,\"refundByTb\":false,\"success\":false,\"inRefund\":false,\"viewed_flag\":false}}');
+
+
