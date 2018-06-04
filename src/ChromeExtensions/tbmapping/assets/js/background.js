@@ -9,11 +9,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     //     });
     // }
 
-    if (request.cmd == 'getoptions') {
-        var betoptions = {};
-        if (localStorage.betoptions) {
-            betoptions = JSON.parse(localStorage.betoptions);
+    if (request.cmd == 'getorderinfo') {
+        var orderinfo = {};
+        if (localStorage.orderinfo) {
+            orderinfo = JSON.parse(localStorage.orderinfo);
         }
-        sendResponse(betoptions);
+        sendResponse(orderinfo);
+    }
+
+    if (request.cmd == 'setorderinfo') {
+        localStorage.orderinfo = JSON.stringify(request.data);
+        sendResponse(request.data);
     }
 });

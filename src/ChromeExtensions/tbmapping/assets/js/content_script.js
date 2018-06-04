@@ -13,25 +13,41 @@ function injectCustomJs(jsPath) {
     document.head.appendChild(temp);
 }
 
+var lastorder;
 // 注意，必须设置了run_at=document_start 此段代码才会生效
 document.addEventListener('DOMContentLoaded', function () {
     console.log('注入成功.');
 
 
-    $('form.container').find('div').append('<input type="text" id="mailNoInput" placeholder="输入运单号" class="search-mod__order-search-input___29Ui1" style="margin-left:30px;">');
+    $('form.container').find('div').append('<input type="text" id="mailNoInput" placeholder="输入运单号" class="search-mod__order-search-input___29Ui1" style="width:150px;margin-left:30px;">');
+    $('form.container').find('div').append('<input type="text" id="orderNoInput" placeholder="查到的订单号" class="search-mod__order-search-input___29Ui1" style="margin-left:30px;">');
     $('#mailNoInput').bind('input propertychange', function () {
         for (var i = 0; i < ordermappinginfodict.length; i++) {
-            if (ordermappinginfodict[i].mailNo == $(this).val()) { $(this).prev().prev().prev().val(ordermappinginfodict[i].orderNo); break; }
+            if (ordermappinginfodict[i].mailNo == $(this).val()) {
+                $('#orderNoInput').val(ordermappinginfodict[i].orderNo);
+                break;
+            }
+            else
+                $('#orderNoInput').val('');
         }
+    });
+
+    operorderinfo('getorderinfo', '', function (res) {
+        lastlastorder = res.lastorder || '';
+        ordermappinginfodict = res.ordermappinginfodict || [];
+
+        getproductlist('', 0, 25);
     });
 });
 
 
-function sendMessageToBackground(title, message) {
-    chrome.runtime.sendMessage({ cmd: 'notify', title: title || '恭喜恭喜', message: message || '笑死小明了' }, function (response) {
+function operorderinfo(cmd, data, callback) {
+    chrome.runtime.sendMessage({ cmd: cmd, data: data }, function (response) {
+        callback(response);
     });
 }
 
+var lastlastorder;
 function getproductlist(lastStartRow, times, totaltimes) {
     if (times == 0) console.log('正在获取订单编号和运单号对应关系');
     // https://buyertrade.taobao.com/trade/itemlist/asyncBought.htm?action=itemlist/BoughtQueryAction&event_submit_do_query=1&_input_charset=utf8
@@ -54,7 +70,17 @@ function getproductlist(lastStartRow, times, totaltimes) {
         success: function (r_data) {
             //console.log(r_data);
             var data = JSON.parse(r_data);
+            totaltimes = data.page.totalPage;
             for (var i = 0; i < data.mainOrders.length; i++) {
+                var orderNo = data.mainOrders[i].statusInfo.url.split('bizOrderId=')[1];
+                if (times == 0 && i == 0)
+                    lastorder = orderNo;
+
+                if (lastlastorder == orderNo) {
+                    times = totaltimes + 2;
+                    break;
+                }
+
                 if (data.mainOrders[i].statusInfo.text == '交易成功' && data.mainOrders[i].payInfo.postType != '(虚拟物品)') {
                     var detailUrl = data.mainOrders[i].statusInfo.url;
                     //console.log(detailUrl);
@@ -62,10 +88,20 @@ function getproductlist(lastStartRow, times, totaltimes) {
                 }
             }
 
-            if (times < totaltimes)
+            if (times < totaltimes + 1)
                 getproductlist(data.query.lastStartRow, times + 1, totaltimes);
-            else
-                console.log('订单编号和运单号对应关系获取完成');
+            else {
+                console.log('订单编号和运单号对应关系获取完成,请等待20秒...');
+                setTimeout(() => {
+                    var obj = { lastorder: lastorder, ordermappinginfodict: ordermappinginfodict };
+                    operorderinfo('setorderinfo', obj, function (res) {
+                        lastlastorder = res.lastorder;
+                        ordermappinginfodict = res.ordermappinginfodict;
+
+                        console.log('操作结束，请查询.');
+                    });
+                }, 20000);
+            }
         }
     });
 }
@@ -115,7 +151,9 @@ function getproductdetail(producturl) {
                     }
                 }
             }
-            ordermappinginfodict.push(orderinfomappinginfo);
+
+            if (orderinfomappinginfo.mailNo != "—")
+                ordermappinginfodict.push(orderinfomappinginfo);
         }
     });
 }

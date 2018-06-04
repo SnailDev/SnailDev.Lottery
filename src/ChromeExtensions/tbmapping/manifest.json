@@ -13,8 +13,7 @@
 			"32": "assets/images/icon32.png",
 			"48": "assets/images/icon48.png"
 		},
-		"default_title": "淘宝运订单",
-		"default_popup": "views/popup.html"
+		"default_title": "淘宝运订单"
 	},
 	"background": {
 		"scripts": [
