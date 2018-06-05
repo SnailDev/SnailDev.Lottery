@@ -81,11 +81,11 @@ function getproductlist(lastStartRow, times, totaltimes) {
                     break;
                 }
 
-                if (data.mainOrders[i].statusInfo.text == '交易成功' && data.mainOrders[i].payInfo.postType != '(虚拟物品)') {
+                //if (data.mainOrders[i].statusInfo.text == '交易成功' || data.mainOrders[i].statusInfo.text == '卖家已发货') {
                     var detailUrl = data.mainOrders[i].statusInfo.url;
                     //console.log(detailUrl);
                     getproductdetail(detailUrl);
-                }
+                //}
             }
 
             if (times < totaltimes + 1)
@@ -136,8 +136,13 @@ function getproductdetail(producturl) {
                     if (item.indexOf(prefix) == 0) {
                         var itemStr = item.split(splitfix)[0].replace(prefix, '');
                         if (type == 'taobao') {
-                            itemStr = itemStr.replace(/\\\"/g, '"');
-                            var itemObj = JSON.parse(itemStr);
+                            itemStr = itemStr.replace(/\\\\\\\"/g,'').replace(/\\\"/g, '"');
+                            try{
+                            	var itemObj = JSON.parse(itemStr);
+	                        }
+	                        catch{
+	                        	console.log(producturl);
+	                        }
 
                             orderinfomappinginfo.mailNo = itemObj.deliveryInfo.logisticsNum;
                         }
