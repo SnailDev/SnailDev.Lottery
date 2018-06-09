@@ -48,6 +48,7 @@ function operorderinfo(cmd, data, callback) {
 }
 
 var lastlastorder;
+var productlist;
 function getproductlist(lastStartRow, times, totaltimes) {
     if (times == 0) console.log('正在获取订单编号和运单号对应关系');
     // https://buyertrade.taobao.com/trade/itemlist/asyncBought.htm?action=itemlist/BoughtQueryAction&event_submit_do_query=1&_input_charset=utf8
@@ -82,9 +83,9 @@ function getproductlist(lastStartRow, times, totaltimes) {
                 }
 
                 //if (data.mainOrders[i].statusInfo.text == '交易成功' || data.mainOrders[i].statusInfo.text == '卖家已发货') {
-                    var detailUrl = data.mainOrders[i].statusInfo.url;
-                    //console.log(detailUrl);
-                    getproductdetail(detailUrl);
+                var detailUrl = data.mainOrders[i].statusInfo.url;
+                //console.log(detailUrl);
+                getproductdetail(detailUrl);
                 //}
             }
 
@@ -101,6 +102,13 @@ function getproductlist(lastStartRow, times, totaltimes) {
                         console.log('操作结束，请查询.');
                     });
                 }, 20000);
+
+                setTimeout(() => {
+                    try { 
+
+                    }
+                    catch{ }
+                }, 10000);
             }
         }
     });
@@ -136,20 +144,20 @@ function getproductdetail(producturl) {
                     if (item.indexOf(prefix) == 0) {
                         var itemStr = item.split(splitfix)[0].replace(prefix, '');
                         if (type == 'taobao') {
-                            itemStr = itemStr.replace(/\\\\\\\"/g,'').replace(/\\\"/g, '"');
-                            try{
-                            	var itemObj = JSON.parse(itemStr);
-	                        }
-	                        catch{
-	                        	console.log(producturl);
-	                        }
+                            itemStr = itemStr.replace(/\\\\\\\"/g, '').replace(/\\\"/g, '"');
+                            try {
+                                var itemObj = JSON.parse(itemStr);
+                            }
+                            catch{
+                                console.log(producturl);
+                            }
 
                             orderinfomappinginfo.mailNo = itemObj.deliveryInfo.logisticsNum;
                         }
                         else {
                             var itemObj = JSON.parse(itemStr);
 
-                            orderinfomappinginfo.mailNo = itemObj.orders.list[0].logistic.content[0].mailNo;
+                            orderinfomappinginfo.mailNo = itemObj.orders.list[0].logistic.content != null ? itemObj.orders.list[0].logistic.content[0].mailNo : "—";
                         }
 
                         break;

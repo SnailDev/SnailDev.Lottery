@@ -32,7 +32,7 @@ function analysisdata(result) {
                 step = 0;
         }
         else if (step == 1) {
-            if (result[index - 1]['num5'] == result[index]['num10'])
+            if (result[index - 1]['num5'] == result[index]['num5'])
                 step++;
             else
                 step = 0;
