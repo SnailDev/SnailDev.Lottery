@@ -19,7 +19,7 @@ var nextissue;
 var jihua;
 var step = 0;
 var multiple = 1;
-var _unit = 0.1;
+var _unit = 0.01;
 var maxMoney = 1500;
 var buySwitch = false;
 var isSupport = false;
@@ -165,7 +165,7 @@ function setcqbuy() {
 
 function setlgffbuy() {
     gameid = 6;
-    gametype = 102;//103;
+    gametype = 103;
 }
 
 // 上海
@@ -258,7 +258,7 @@ function docqbusiness(_doc) {
     }
 
     //jihua = getRandomArrayElements(nums, 3).sort();
-    jihua = sscnumtimetj(_doc).sort();
+    jihua = getRandomArrayElements(sscnumtimetj(_doc), 3).sort();//sscnumtimetj(_doc).sort();
     console.log(nextissue + '计划：' + jihua.join(','));
 
     return jihua.join('');
@@ -297,7 +297,7 @@ function dolgsscbusiness(_doc) {
 
     // sscnumtimetj(_doc);
     // jihua = getRandomArrayElements(nums, 3).sort();
-    jihua = sscnumtimetj(_doc).sort();
+    jihua = getRandomArrayElements(sscnumtimetj(_doc), 3).sort();//sscnumtimetj(_doc).sort();
     console.log(nextissue + '计划：' + jihua.join(','));
 
     return jihua.join('');
@@ -321,7 +321,11 @@ function sscnumtimetj(_doc) {
     tongjiArr.sort(function (a, b) { return a.times - b.times });
     console.log(tongjiArr);
 
-    return [tongjiArr[4].key, tongjiArr[tongjiArr.length - 3].key, tongjiArr[tongjiArr.length - 2].key];
+    var tongjikeys = [];
+    for (var i = 0; i < tongjiArr.length; i++) {
+        tongjikeys.push(tongjiArr[i].key);
+    }
+    return tongjikeys; //[tongjiArr[4].key, tongjiArr[tongjiArr.length - 3].key, tongjiArr[tongjiArr.length - 2].key];
 }
 
 function do11x5business(_doc) {
