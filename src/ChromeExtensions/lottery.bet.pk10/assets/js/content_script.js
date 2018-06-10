@@ -113,6 +113,9 @@ function starttimedtask() {
                     previssue = $('#prev-issue').text();
                     curissue = $('#current-issue').text();
 
+                    //更新统计
+                    tongjizuhe(new Date().Format("yyyy-MM-dd"));
+
                     console.log(curissue + '进行投注计划');
 
                     var lotteryMoney = $('#j-balance').text().substr(1);
@@ -253,6 +256,30 @@ function getoptions(callback) {
     });
 }
 
+// 对Date的扩展，将 Date 转化为指定格式的String   
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
+// 例子：   
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
+Date.prototype.Format = function (fmt) { //author: meizz   
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份   
+        "d+": this.getDate(),                    //日   
+        "h+": this.getHours(),                   //小时   
+        "m+": this.getMinutes(),                 //分   
+        "s+": this.getSeconds(),                 //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds()             //毫秒   
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
 // 注意，必须设置了run_at=document_start 此段代码才会生效
 document.addEventListener('DOMContentLoaded', function () {
     console.log('注入成功.');
@@ -264,10 +291,159 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // // 获取下注位置
     // getbuyloc(1);
+    $('body').append(
+        `<div class="container" style="display:none;">
+        <div class="clearfix top-bar">
+            <span>
+                统计日期
+                <b id="tongjidate"></b>
+            </span>
+            <span>
+                统计时间
+                <b class="box" id="tongjitime"></b>
+            </span>
+        </div>
+            <table class="table nested-table mb10 tongji">
+                <thead>
+                    <tr>
+                        <th>组合</th>
+                        <th>总盈利</th>
+                        <th>总亏损</th>
+                        <th>起始位置</th>
+                        <th>最大遗漏</th>
+                        <th>当前遗漏</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>`);
+    tongjizuhe(new Date().Format("yyyy-MM-dd"));
+    //     <tr>
+    //      <td>12345</td>
+    //      <td>12345</td>
+    //      <td>10</td>
+    //      <td>5</td>
+    //     </tr>
 
     // 开启定时任务
     starttimedtask();
 });
+
+var tongjizuheArr =
+    [
+        [1, 2, 3, 4, 5],
+        [2, 3, 4, 5, 6],
+        [3, 4, 5, 6, 7],
+        [4, 5, 6, 7, 8],
+        [5, 6, 7, 8, 9],
+        [6, 7, 8, 9, 10],
+        [7, 8, 9, 10, 1],
+        [8, 9, 10, 1, 2],
+        [9, 10, 1, 2, 3],
+        [10, 1, 2, 3, 4],
+        [10, 9, 8, 7, 6],
+        [9, 8, 7, 6, 5],
+        [8, 7, 6, 5, 4],
+        [7, 6, 5, 4, 3],
+        [6, 5, 4, 3, 2],
+        [5, 4, 3, 2, 1],
+        [4, 3, 2, 1, 10],
+        [3, 2, 1, 10, 9],
+        [2, 1, 10, 9, 8],
+        [1, 10, 9, 8, 7]
+    ];
+function tongjizuhe(date) {
+    if (date.length != 10) { console.log('日期格式有误.'); return; }
+    console.log('正在获取' + date + '开奖记录...')
+    
+    $('#tongjidate').text(date);
+    $('#tongjitime').text(new Date().Format('hh:mm:ss'));
+    
+    $.ajax({
+        type: 'GET',
+        url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
+        timeout: 30000,
+        success: function (r_data) {
+            var historys = [];
+            var trs = $(r_data).find('#history_detail tbody tr');
+            var trslength = trs.length;
+            for (var i = 0; i < trslength; i++) {
+                var that = $(trs[i]);
+                var history = {};
+
+                history.periods = Number(that.find('.td-hd').text());
+
+                that.find('span').each(function (index, numberItem) {
+                    history['number' + (index + 1)] = Number($(this).attr('class').replace('icon bj', ''));
+                });
+
+                historys.push(history);
+            }
+
+            console.log('获取成功.');
+            console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
+
+            $('.tongji tbody').html('');
+            for (var i = 0; i < tongjizuheArr.length; i++) {
+                var curfail = 0;
+                var maxfail = 0;
+
+                var index = 1;
+
+                var success = 0;
+                var fail = 0;
+                var zuheitem = tongjizuheArr[i];
+                for (var j = historys.length; j > 0; j--) {
+                    var kaijiang = Object.values(historys[j - 1]);
+
+                    if (kaijiang[handleIndex(index)] == zuheitem[0]
+                        || kaijiang[handleIndex(index + 1)] == zuheitem[1]
+                        || kaijiang[handleIndex(index + 2)] == zuheitem[2]
+                        || kaijiang[handleIndex(index + 3)] == zuheitem[3]
+                        || kaijiang[handleIndex(index + 4)] == zuheitem[4]
+                    ) {
+                        if (maxfail < curfail) maxfail = curfail;
+                        curfail = 0;
+
+                        if (kaijiang[handleIndex(index)] == zuheitem[0]) success++;
+                        if (kaijiang[handleIndex(index + 1)] == zuheitem[1]) success++;
+                        if (kaijiang[handleIndex(index + 2)] == zuheitem[2]) success++;
+                        if (kaijiang[handleIndex(index + 3)] == zuheitem[3]) success++;
+                        if (kaijiang[handleIndex(index + 4)] == zuheitem[4]) success++;
+                    }
+                    else {
+                        curfail++;
+                        fail++;
+                    }
+
+                    index++;
+                    if (index > 10) index = 1;
+                }
+
+                $('.tongji tbody').append(`
+                    <tr>
+                     <td>${zuheitem.join(',')}</td>
+                     <td>${success}</td>
+                     <td>${fail}</td>
+                     <td>${index}</td>
+                     <td>${maxfail}</td>
+                     <td>${curfail}</td>
+                    </tr>
+                `);
+            }
+
+            $('.container').eq(1).show();
+        }
+    });
+}
+
+function handleIndex(index) {
+    if (index > 10) return index % 10;
+
+    return index;
+}
 
 function sendMessageToBackground(title, message) {
     chrome.runtime.sendMessage({ cmd: 'notify', title: title || '恭喜恭喜', message: message || '笑死小明了' }, function (response) {
