@@ -20,15 +20,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     $('form.container').find('div').append('<input type="text" id="mailNoInput" placeholder="输入运单号" class="search-mod__order-search-input___29Ui1" style="width:150px;margin-left:30px;">');
-    $('form.container').find('div').append('<input type="text" id="orderNoInput" placeholder="查到的订单号" class="search-mod__order-search-input___29Ui1" style="margin-left:30px;">');
+    //$('form.container').find('div').append('<input type="text" id="orderNoInput" placeholder="查到的订单号" class="search-mod__order-search-input___29Ui1" style="margin-left:30px;">');
     $('#mailNoInput').bind('input propertychange', function () {
         for (var i = 0; i < ordermappinginfodict.length; i++) {
             if (ordermappinginfodict[i].mailNo == $(this).val()) {
-                $('#orderNoInput').val(ordermappinginfodict[i].orderNo);
+                //$('#orderNoInput').val(ordermappinginfodict[i].orderNo);
+                $('.container input').eq(0).prop('value', ordermappinginfodict[i].orderNo);
                 break;
             }
             else
-                $('#orderNoInput').val('');
+                //$('#orderNoInput').val('');
+                $('.container input').eq(0).prop('value', '');
         }
     });
 
@@ -47,10 +49,34 @@ function operorderinfo(cmd, data, callback) {
     });
 }
 
+// 对Date的扩展，将 Date 转化为指定格式的String   
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
+// 例子：   
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
+Date.prototype.Format = function (fmt) { //author: meizz   
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份   
+        "d+": this.getDate(),                    //日   
+        "h+": this.getHours(),                   //小时   
+        "m+": this.getMinutes(),                 //分   
+        "s+": this.getSeconds(),                 //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds()             //毫秒   
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
 var lastlastorder;
-var productlist;
+var buyinfo = { userName: '', productlist: [], createTime: new Date().Format('yyyy-MM-dd hh:mm:ss.S') };
 function getproductlist(lastStartRow, times, totaltimes) {
-    if (times == 0) console.log('正在获取订单编号和运单号对应关系');
+    if (times == 0) { console.log('正在获取订单编号和运单号对应关系'); buyinfo.userName = $('.site-nav-user a').text() };
     // https://buyertrade.taobao.com/trade/itemlist/asyncBought.htm?action=itemlist/BoughtQueryAction&event_submit_do_query=1&_input_charset=utf8
     // pageNum=2&pageSize=15&prePageNo=1
     // POST
@@ -87,6 +113,8 @@ function getproductlist(lastStartRow, times, totaltimes) {
                 //console.log(detailUrl);
                 getproductdetail(detailUrl);
                 //}
+
+                buyinfo.productlist.push({ productName: data.mainOrders[i].subOrders[0].itemInfo.title, producturl: data.mainOrders[i].subOrders[0].itemInfo.itemUrl, originPrice: data.mainOrders[i].subOrders[0].priceInfo.original || '', realPrice: data.mainOrders[i].subOrders[0].priceInfo.realTotal, payInfo: data.mainOrders[i].statusInfo.text });
             }
 
             if (times < totaltimes + 1)
@@ -104,7 +132,7 @@ function getproductlist(lastStartRow, times, totaltimes) {
                 }, 20000);
 
                 setTimeout(() => {
-                    try { 
+                    try {
 
                     }
                     catch{ }
