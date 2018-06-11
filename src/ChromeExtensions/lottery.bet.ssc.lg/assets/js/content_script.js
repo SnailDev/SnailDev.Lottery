@@ -27,7 +27,8 @@ var isSupport = false;
 var gameid, gametype;
 
 //var unitArr = [1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 7, 7, 7, 7];
-var unitArr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 10, 11, 12, 13, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 26];
+//var unitArr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 9, 10, 10, 11, 12, 13, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 26];
+var unitArr = [1, 2, 4, 9, 21, 48, 109, 248];
 
 function getRandomArrayElements(arr, count) {
     var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
@@ -357,7 +358,7 @@ function do11x5business(_doc) {
         }
     }
 
-    jihua = getRandomArrayElements(nums, 5).sort();
+    jihua = getRandomArrayElements(nums, 9).sort();
     console.log(nextissue + '计划：' + jihua.join(','));
 
     return jihua.join(' ');
