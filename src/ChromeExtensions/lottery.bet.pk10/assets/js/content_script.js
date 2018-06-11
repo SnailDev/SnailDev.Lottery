@@ -310,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <th>总盈利</th>
                         <th>总亏损</th>
                         <th>起始位置</th>
+                        <th>当前位置</th>
                         <th>最大遗漏</th>
                         <th>当前遗漏</th>
                     </tr>
@@ -357,10 +358,10 @@ var tongjizuheArr =
 function tongjizuhe(date) {
     if (date.length != 10) { console.log('日期格式有误.'); return; }
     console.log('正在获取' + date + '开奖记录...')
-    
+
     $('#tongjidate').text(date);
     $('#tongjitime').text(new Date().Format('hh:mm:ss'));
-    
+
     $.ajax({
         type: 'GET',
         url: '/home/History?' + 'v=' + (+new Date()) + '&date=' + date + '&lotteryId=' + lotteryId,
@@ -386,52 +387,55 @@ function tongjizuhe(date) {
             console.log('统计样本：' + historys.length + '\r\n当前开奖期号：' + historys[0].periods);
 
             $('.tongji tbody').html('');
-            for (var i = 0; i < tongjizuheArr.length; i++) {
-                var curfail = 0;
-                var maxfail = 0;
+            for (var startindex = 0; startindex < 10; startindex++) {
+                for (var i = 0; i < tongjizuheArr.length; i++) {
+                    var curfail = 0;
+                    var maxfail = 0;
 
-                var index = 1;
+                    var index = startindex + 1;
 
-                var success = 0;
-                var fail = 0;
-                var zuheitem = tongjizuheArr[i];
-                for (var j = historys.length; j > 0; j--) {
-                    var kaijiang = Object.values(historys[j - 1]);
+                    var success = 0;
+                    var fail = 0;
+                    var zuheitem = tongjizuheArr[i];
+                    for (var j = historys.length; j > 0; j--) {
+                        var kaijiang = Object.values(historys[j - 1]);
 
-                    if (kaijiang[handleIndex(index)] == zuheitem[0]
-                        || kaijiang[handleIndex(index + 1)] == zuheitem[1]
-                        || kaijiang[handleIndex(index + 2)] == zuheitem[2]
-                        || kaijiang[handleIndex(index + 3)] == zuheitem[3]
-                        || kaijiang[handleIndex(index + 4)] == zuheitem[4]
-                    ) {
-                        if (maxfail < curfail) maxfail = curfail;
-                        curfail = 0;
+                        if (kaijiang[handleIndex(index)] == zuheitem[0]
+                            || kaijiang[handleIndex(index + 1)] == zuheitem[1]
+                            || kaijiang[handleIndex(index + 2)] == zuheitem[2]
+                            || kaijiang[handleIndex(index + 3)] == zuheitem[3]
+                            || kaijiang[handleIndex(index + 4)] == zuheitem[4]
+                        ) {
+                            if (maxfail < curfail) maxfail = curfail;
+                            curfail = 0;
 
-                        if (kaijiang[handleIndex(index)] == zuheitem[0]) success++;
-                        if (kaijiang[handleIndex(index + 1)] == zuheitem[1]) success++;
-                        if (kaijiang[handleIndex(index + 2)] == zuheitem[2]) success++;
-                        if (kaijiang[handleIndex(index + 3)] == zuheitem[3]) success++;
-                        if (kaijiang[handleIndex(index + 4)] == zuheitem[4]) success++;
+                            if (kaijiang[handleIndex(index)] == zuheitem[0]) success++;
+                            if (kaijiang[handleIndex(index + 1)] == zuheitem[1]) success++;
+                            if (kaijiang[handleIndex(index + 2)] == zuheitem[2]) success++;
+                            if (kaijiang[handleIndex(index + 3)] == zuheitem[3]) success++;
+                            if (kaijiang[handleIndex(index + 4)] == zuheitem[4]) success++;
+                        }
+                        else {
+                            curfail++;
+                            fail++;
+                        }
+
+                        index++;
+                        if (index > 10) index = index % 10;
                     }
-                    else {
-                        curfail++;
-                        fail++;
-                    }
 
-                    index++;
-                    if (index > 10) index = 1;
-                }
-
-                $('.tongji tbody').append(`
+                    $('.tongji tbody').append(`
                     <tr>
                      <td>${zuheitem.join(',')}</td>
                      <td>${success}</td>
                      <td>${fail}</td>
+                     <td>${startindex + 1}</td>
                      <td>${index}</td>
                      <td>${maxfail}</td>
                      <td>${curfail}</td>
                     </tr>
                 `);
+                }
             }
 
             $('.container').eq(1).show();
