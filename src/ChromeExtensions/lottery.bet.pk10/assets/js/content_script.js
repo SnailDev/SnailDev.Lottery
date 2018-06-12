@@ -114,7 +114,7 @@ function starttimedtask() {
                     curissue = $('#current-issue').text();
 
                     // //更新统计
-                    // tongjizuhe(new Date().Format("yyyy-MM-dd"));
+                    tongjizuhe1(new Date().Format("yyyy-MM-dd"));
 
                     console.log(curissue + '进行投注计划');
 
@@ -307,6 +307,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <thead>
                     <tr>
                         <th>期号</th>
+                        <th>计算位置</th>
+                        <th>购买号码</th>
                         <th>购买位置</th>
                         <th>是否中奖</th>
                         <th>不中次数</th>
@@ -320,21 +322,12 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>`);
     $('body').append(
         `<div class="container" style="display:none;">
-            <div class="clearfix top-bar">
-                <span>
-                    统计日期
-                    <b id="tongjidate"></b>
-                </span>
-                <span>
-                    统计时间
-                    <b class="box" id="tongjitime"></b>
-                </span>
-            </div>
                 <table class="table nested-table mb10 tongji">
                     <thead>
                         <tr>
                             <th>期号</th>
                             <th>计算位置</th>
+                            <th>购买号码</th>
                             <th>购买位置</th>
                             <th>是否中奖</th>
                             <th>不中次数</th>
@@ -346,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </tbody>
                 </table>
             </div>`);
-    //tongjizuhe(new Date().Format("yyyy-MM-dd"));
+            tongjizuhe1(new Date().Format("yyyy-MM-dd"));
     //     <tr>
     //      <td>12345</td>
     //      <td>12345</td>
@@ -504,15 +497,15 @@ function tongjizuhe1(date) {
             $('.container').eq(1).find('.tongji tbody').html('');
 
             var index = 1;
-            var numbuy = historys[historys.length - 1]['num' + index] + historys[historys.length - 1]['num' + (11 - index)];
+            var numbuy = historys[historys.length - 1]['number' + index] + historys[historys.length - 1]['number' + (11 - index)];
             numbuy = numbuy > 10 ? numbuy % 10 : numbuy;
             var buyIndex = numbuy < 6 ? [1, 2, 3, 4, 5] : [6, 7, 8, 9, 10];
 
             var failcount = 0;
             var successcount = 0;
 
-            for (var j = historys.length - 1; j > 0; j--) {
-                var kaijiang = Object.values(historys[j - 1]);
+            for (var j = historys.length - 2; j > 0; j--) {
+                var kaijiang = Object.values(historys[j]);
                 var iszhongjiang;
                 if (buyIndex.indexOf(kaijiang.indexOf(numbuy)) > -1) {
                     iszhongjiang = '已中奖';
@@ -526,6 +519,7 @@ function tongjizuhe1(date) {
                     <tr>
                     <td>${historys[j].periods}</td>
                     <td>${tongjizuheArr1[index - 1]}</td>
+                    <td>${numbuy}</td>
                     <td>${buyIndex.join(',')}</td>
                     <td>${iszhongjiang}</td>
                     <td>${failcount}</td>
@@ -535,20 +529,20 @@ function tongjizuhe1(date) {
 
                 index++;
                 if (index > 5) index = 1;
-                numbuy = historys[historys.length - 1]['num' + index] + historys[historys.length - 1]['num' + (11 - index)];
+                numbuy = historys[j]['number' + index] + historys[j]['number' + (11 - index)];
                 numbuy = numbuy > 10 ? numbuy % 10 : numbuy;
                 buyIndex = numbuy < 6 ? [1, 2, 3, 4, 5] : [6, 7, 8, 9, 10];
             }
 
             $('.container').eq(2).find('.tongji tbody').html('');
             index = 5;
-            numbuy = historys[historys.length - 1]['num' + index] + historys[historys.length - 1]['num' + (11 - index)];
+            numbuy = historys[historys.length - 1]['number' + index] + historys[historys.length - 1]['number' + (11 - index)];
             numbuy = numbuy > 10 ? numbuy % 10 : numbuy;
             buyIndex = numbuy < 6 ? [1, 2, 3, 4, 5] : [6, 7, 8, 9, 10];
             failcount = 0;
             successcount = 0;
-            for (var j = historys.length - 1; j > 0; j--) {
-                var kaijiang = Object.values(historys[j - 1]);
+            for (var j = historys.length - 2; j > 0; j--) {
+                var kaijiang = Object.values(historys[j]);
                 var iszhongjiang;
                 if (buyIndex.indexOf(kaijiang.indexOf(numbuy)) > -1) {
                     iszhongjiang = '已中奖';
@@ -558,10 +552,11 @@ function tongjizuhe1(date) {
                     iszhongjiang = '未中奖';
                     failcount++;
                 }
-                $('.container').eq(1).find('.tongji tbody').append(`
+                $('.container').eq(2).find('.tongji tbody').append(`
                     <tr>
                     <td>${historys[j].periods}</td>
                     <td>${tongjizuheArr1[index - 1]}</td>
+                    <td>${numbuy}</td>
                     <td>${buyIndex.join(',')}</td>
                     <td>${iszhongjiang}</td>
                     <td>${failcount}</td>
@@ -571,7 +566,7 @@ function tongjizuhe1(date) {
 
                 index--;
                 if (index < 1) index = 5;
-                numbuy = historys[historys.length - 1]['num' + index] + historys[historys.length - 1]['num' + (11 - index)];
+                numbuy = historys[j]['number' + index] + historys[j]['number' + (11 - index)];
                 numbuy = numbuy > 10 ? numbuy % 10 : numbuy;
                 buyIndex = numbuy < 6 ? [1, 2, 3, 4, 5] : [6, 7, 8, 9, 10];
             }
