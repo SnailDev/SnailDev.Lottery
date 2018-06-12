@@ -19,8 +19,8 @@ var nextissue;
 var jihua;
 var step = 0;
 var multiple = 1;
-var _unit = 0.01;
-var maxMoney = 1500;
+var _unit = 0.001;
+var maxMoney = 150;
 var buySwitch = false;
 var isSupport = false;
 
@@ -172,55 +172,55 @@ function setlgffbuy() {
 // 上海
 function setsh11x5buy() {
     gameid = 12;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 广东
 function setgd11x5buy() {
     gameid = 10;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 山西
 function setsx11x5buy() {
     gameid = 11;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 山东
 function setsd11x5buy() {
     gameid = 13;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 新疆
 function setxj11x5buy() {
     gameid = 38;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 江苏
 function setjs11x5buy() {
     gameid = 51;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 辽宁
 function setln11x5buy() {
     gameid = 53;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 河北
 function sethb11x5buy() {
     gameid = 54;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 黑龙江
 function sethlj11x5buy() {
     gameid = 65;
-    gametype = 1049;
+    gametype = 1045;
 }
 
 // 蓝冠分分11x5
@@ -358,10 +358,24 @@ function do11x5business(_doc) {
         }
     }
 
-    jihua = getRandomArrayElements(nums, 9).sort();
+    //jihua = getRandomArrayElements(nums, 9).sort();
+
+    jihua = _11x5numtimetj(_doc, nums).sort();
     console.log(nextissue + '计划：' + jihua.join(','));
 
     return jihua.join(' ');
+}
+
+function _11x5numtimetj(_doc, nums) {
+    var dataArrs = _doc.find('.mtop-lss-i2').text().match(/.{10}/g);//.split('');//.filter(function (num) { return +num });
+
+    var curNums = dataArrs[0].match(/.{2}/g);
+    var preNums = dataArrs[1].match(/.{2}/g);
+
+    var handleNumsNo = nums.filter(v => !curNums.includes(v));
+    var handleNumsYes = handleNumsNo.filter(v => preNums.includes(v)).splice(0, 2);
+
+    return nums.filter(v => !handleNumsYes.includes(v));
 }
 
 function autobuy(period, number, tgid, unit) {
