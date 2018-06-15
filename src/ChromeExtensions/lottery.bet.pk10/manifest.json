@@ -25,7 +25,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://lot.myb205.com/Pk10",
+				"https://lot.myb206.com/Jssc",
 				"https://lot.myb206.com/Pk10"
 			],
 			"js": [
